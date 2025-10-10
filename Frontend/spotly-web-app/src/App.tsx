@@ -23,6 +23,9 @@ function App() {
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR figaro figaro figaro
+
+          Hello World!
+          Let's go to work!
         </p>
       </div>
       <p className="read-the-docs">
