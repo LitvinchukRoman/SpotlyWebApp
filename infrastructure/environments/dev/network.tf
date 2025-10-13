@@ -1,16 +1,16 @@
 resource "aws_vpc" "myvpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-  Name = "spotly-web-app-vpc"
-  Environment = "Dev"
-}
+    Name        = "spotly-web-app-vpc"
+    Environment = "Dev"
+  }
 
 }
 
 resource "aws_subnet" "public_a" {
-  vpc_id            = aws_vpc.myvpc.id
-  cidr_block        = "10.0.0.0/24"
-  availability_zone = var.aws_region + "a"
+  vpc_id                  = aws_vpc.myvpc.id
+  cidr_block              = "10.0.0.0/24"
+  availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -19,9 +19,9 @@ resource "aws_subnet" "public_a" {
 }
 
 resource "aws_subnet" "public_b" {
-  vpc_id            = aws_vpc.myvpc.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = var.aws_region + "b"
+  vpc_id                  = aws_vpc.myvpc.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -32,7 +32,7 @@ resource "aws_subnet" "public_b" {
 resource "aws_subnet" "private_a" {
   vpc_id            = aws_vpc.myvpc.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = var.aws_region + "a"
+  availability_zone = "${var.aws_region}a"
 
   tags = {
     Name = "private-subnet-a"
@@ -42,7 +42,7 @@ resource "aws_subnet" "private_a" {
 resource "aws_subnet" "private_b" {
   vpc_id            = aws_vpc.myvpc.id
   cidr_block        = "10.0.3.0/24"
-  availability_zone = var.aws_region + "b"
+  availability_zone = "${var.aws_region}b"
 
   tags = {
     Name = "private-subnet-b"

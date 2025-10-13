@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "main" {
   name       = "my-app-db-subnet-group"
-  subnet_ids = var.private_subnet_ids
+  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
 
   tags = {
     Name = "my-app-db-subnet-group"
@@ -10,13 +10,13 @@ resource "aws_db_subnet_group" "main" {
 resource "aws_security_group" "aurora_sg" {
   name        = "aurora-db-sg"
   description = "Allow inbound traffic from backend instances to Aurora"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.myvpc.id
 
   ingress {
     protocol        = "tcp"
     from_port       = 5432
     to_port         = 5432
-    security_groups = [var.ec2_security_group_id]
+    security_groups = [aws_security_group.ec2_sg.id]
   }
 
   egress {
@@ -42,27 +42,26 @@ resource "aws_secretsmanager_secret_version" "db_credentials" {
   secret_string = random_password.master.result
 }
 
-resource "aws_rds_cluster" "main" {
-  cluster_identifier      = "my-app-aurora-cluster"
-  engine                  = "aurora-postgresql"
-  engine_version          = "15.3"
-  database_name           = "myappdb"
-  master_username         = "dbadmin"
-  master_password         = random_password.master.result
-  db_subnet_group_name    = aws_db_subnet_group.main.name
-  vpc_security_group_ids  = [aws_security_group.aurora_sg.id]
-  skip_final_snapshot     = true
-  backup_retention_period = 7
+resource "aws_db_instance" "main" {
+  identifier     = "my-app-dev-db"
+  engine         = "postgres"
+  engine_version = "15.14"
+  instance_class = "db.t3.micro"
 
-  lifecycle {
-    ignore_changes = [master_password]
+  allocated_storage = 20
+  storage_type      = "gp2"
+
+  db_name                = "myappdb"
+  username               = "dbadmin"
+  password               = aws_secretsmanager_secret_version.db_credentials.secret_string
+  vpc_security_group_ids = [aws_security_group.aurora_sg.id]
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+
+  multi_az            = false
+  publicly_accessible = false
+  skip_final_snapshot = true
+
+  tags = {
+    Name = "my-app-dev-db"
   }
-}
-
-resource "aws_rds_cluster_instance" "main" {
-  identifier         = "my-app-aurora-instance-1"
-  cluster_identifier = aws_rds_cluster.main.id
-  instance_class     = "db.t3.medium"
-  engine             = aws_rds_cluster.main.engine
-  engine_version     = aws_rds_cluster.main.engine_version
 }

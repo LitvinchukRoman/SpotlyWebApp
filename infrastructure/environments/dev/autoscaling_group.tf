@@ -28,21 +28,21 @@ resource "aws_autoscaling_group" "main" {
   min_size         = 1
   max_size         = 4
 
-  vpc_zone_identifier = var.private_subnet_ids
+  vpc_zone_identifier = [aws_subnet.public_a.id, aws_subnet.public_b.id]
 
   launch_template {
     id      = aws_launch_template.main.id
     version = "$Latest"
   }
 
-  target_group_arns = [var.alb_target_group_arn]
+  target_group_arns = [aws_lb_target_group.app.arn]
 
 }
 
 resource "aws_autoscaling_policy" "cpu_scaling_policy" {
-  name                   = "cpu-scaling-policy"
-  autoscaling_group_name = aws_autoscaling_group.main.name
-  policy_type            = "TargetTrackingScaling"
+  name                      = "cpu-scaling-policy"
+  autoscaling_group_name    = aws_autoscaling_group.main.name
+  policy_type               = "TargetTrackingScaling"
   estimated_instance_warmup = 300
 
   target_tracking_configuration {

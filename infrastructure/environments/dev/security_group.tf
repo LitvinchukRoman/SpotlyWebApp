@@ -32,7 +32,7 @@ resource "aws_security_group" "load_balancer_sg" {
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-instance-sg"
   description = "Allow traffic only from the Load Balancer"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.myvpc.id
 
 
   ingress {
