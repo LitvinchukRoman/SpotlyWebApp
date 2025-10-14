@@ -1,3 +1,18 @@
+data "aws_ami" "latest_ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_launch_template" "main" {
   name_prefix   = "my-app-lt-"
   image_id      = "ami-047bb4163c506cd98"
@@ -28,7 +43,7 @@ resource "aws_autoscaling_group" "main" {
   min_size         = 1
   max_size         = 4
 
-  vpc_zone_identifier = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+  vpc_zone_identifier = [aws_subnet.private_a.id, aws_subnet.private_b.id]
 
   launch_template {
     id      = aws_launch_template.main.id

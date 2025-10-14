@@ -7,26 +7,6 @@ resource "aws_elasticache_subnet_group" "main" {
   }
 }
 
-resource "aws_security_group" "elasticache_sg" {
-  name        = "elasticache-sg"
-  description = "Allow inbound traffic from backend instances to Redis"
-  vpc_id      = aws_vpc.myvpc.id
-
-  ingress {
-    protocol        = "tcp"
-    from_port       = 6379
-    to_port         = 6379
-    security_groups = [aws_security_group.ec2_sg.id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 resource "aws_elasticache_replication_group" "main" {
   replication_group_id       = "my-app-redis-cluster"
   description                = "Redis cluster for application caching and session storage"

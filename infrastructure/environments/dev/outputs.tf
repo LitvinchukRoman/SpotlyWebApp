@@ -99,6 +99,11 @@ output "cloudfront_domain_name" {
   value       = aws_cloudfront_distribution.main.domain_name
 }
 
+output "bastion_public_ip" {
+  description = "Постійна публічна IP-адреса бастіонного хоста."
+  value       = aws_eip.bastion_eip.public_ip
+}
+
 # -----------------------------------------------------------------------------
 # Cache Outputs (ElastiCache Redis)
 # -----------------------------------------------------------------------------

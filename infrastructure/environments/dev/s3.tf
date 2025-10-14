@@ -12,7 +12,9 @@ resource "random_id" "unique_suffix" {
 }
 
 locals {
-  frontend_files = fileset("../../../frontend", "**/*")
+  # Вказуємо Terraform сканувати вміст папки `dist`
+  frontend_files_path = "../../../frontend/spotly-web-app/dist"
+  frontend_files      = fileset(local.frontend_files_path, "**/*")
 }
 
 locals {
@@ -23,17 +25,19 @@ locals {
     ".png"  = "image/png"
     ".jpg"  = "image/jpeg"
     ".ico"  = "image/x-icon"
+    ".svg"  = "image/svg+xml"
   }
 }
 
 resource "aws_s3_object" "frontend_files" {
   for_each = local.frontend_files
 
-  bucket       = aws_s3_bucket.mybucket.id
-  key          = each.key
-  source       = "../../../frontend/${each.value}"
+  bucket = aws_s3_bucket.mybucket.id
+  key    = each.key
+  source = "${local.frontend_files_path}/${each.value}"
+
   content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
-  etag         = filemd5("../../../frontend/${each.value}")
+  etag         = filemd5("${local.frontend_files_path}/${each.value}")
 }
 
 resource "aws_s3_bucket_policy" "allow_cloudfront" {
@@ -45,14 +49,14 @@ resource "aws_s3_bucket_policy" "allow_cloudfront" {
     Version = "2012-10-17",
     Statement = [
       {
-        Sid       = "AllowCloudFrontServicePrincipalReadOnly",
-        Effect    = "Allow",
+        Sid    = "AllowCloudFrontServicePrincipalReadOnly",
+        Effect = "Allow",
         Principal = {
           Service = "cloudfront.amazonaws.com"
         },
-        Action    = "s3:GetObject",
+        Action = "s3:GetObject",
 
-        Resource  = "${aws_s3_bucket.mybucket.arn}/*",
+        Resource = "${aws_s3_bucket.mybucket.arn}/*",
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = aws_cloudfront_distribution.main.arn

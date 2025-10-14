@@ -53,3 +53,77 @@ resource "aws_security_group" "ec2_sg" {
     Name = "ec2-instance-sg"
   }
 }
+
+resource "aws_security_group" "bastion_sg" {
+  name        = "bastion-sg"
+  description = "Allow SSH from specific IPs"
+  vpc_id      = aws_vpc.myvpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "elasticache_sg" {
+  name        = "elasticache-sg"
+  description = "Allow inbound traffic from backend instances to Redis"
+  vpc_id      = aws_vpc.myvpc.id
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 6379
+    to_port         = 6379
+    security_groups = [aws_security_group.ec2_sg.id]
+  }
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 6379
+    to_port         = 6379
+    security_groups = [aws_security_group.bastion_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "aurora_sg" {
+  name        = "aurora-db-sg"
+  description = "Allow inbound traffic from backend instances to Aurora"
+  vpc_id      = aws_vpc.myvpc.id
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    security_groups = [aws_security_group.ec2_sg.id]
+  }
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    security_groups = [aws_security_group.bastion_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
