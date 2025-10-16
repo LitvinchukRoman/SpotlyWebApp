@@ -2,5 +2,6 @@ django
 gunicorn
 psycopg2-binary
 python-decouple
+python-dotenv
 djangorestframework
 django-cors-headers
