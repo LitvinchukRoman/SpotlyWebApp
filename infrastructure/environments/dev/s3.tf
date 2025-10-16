@@ -40,30 +40,30 @@ resource "aws_s3_object" "frontend_files" {
   etag         = filemd5("${local.frontend_files_path}/${each.value}")
 }
 
-resource "aws_s3_bucket_policy" "allow_cloudfront" {
+resource "aws_s3_bucket_policy" "allow_cloudfront_oac" {
   bucket = aws_s3_bucket.mybucket.id
+  policy = data.aws_iam_policy_document.allow_cloudfront_oac_policy.json
+}
 
-  depends_on = [aws_cloudfront_distribution.main]
+data "aws_iam_policy_document" "allow_cloudfront_oac_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.mybucket.arn}/*"]
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Sid    = "AllowCloudFrontServicePrincipalReadOnly",
-        Effect = "Allow",
-        Principal = {
-          Service = "cloudfront.amazonaws.com"
-        },
-        Action = "s3:GetObject",
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
 
-        Resource = "${aws_s3_bucket.mybucket.arn}/*",
-        Condition = {
-          StringEquals = {
-            "AWS:SourceArn" = aws_cloudfront_distribution.main.arn
-          }
-        }
-      }
-    ]
-  })
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.main.arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket" "deployments" {
+  bucket = "spotly-web-app-deployments"
 }
 

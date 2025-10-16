@@ -104,6 +104,10 @@ output "bastion_public_ip" {
   value       = aws_eip.bastion_eip.public_ip
 }
 
+output "deployments_bucket_name" {
+  value = aws_s3_bucket.deployments.bucket
+}
+
 # -----------------------------------------------------------------------------
 # Cache Outputs (ElastiCache Redis)
 # -----------------------------------------------------------------------------

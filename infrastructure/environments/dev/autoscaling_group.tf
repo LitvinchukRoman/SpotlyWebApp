@@ -15,26 +15,37 @@ data "aws_ami" "latest_ubuntu" {
 
 resource "aws_launch_template" "main" {
   name_prefix   = "my-app-lt-"
-  image_id      = "ami-047bb4163c506cd98"
+  image_id      = data.aws_ami.latest_ubuntu.id
   instance_type = "t3.micro"
 
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
   user_data = base64encode(<<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y httpd
-              systemctl start httpd
-              systemctl enable httpd
-              echo "<h1>Hello from EC2 instance $(hostname -f)</h1>" > /var/www/html/index.html
-              echo "Server is healthy" > /var/www/html/health
+            #!/bin/bash
+            apt-get update -y
+            apt-get install -y ruby-full wget
+            
+            cd /home/ubuntu
+            wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
+            chmod +x ./install
+            ./install auto
+            
+            systemctl start codedeploy-agent
+            systemctl enable codedeploy-agent
               EOF
   )
 
-  tags = {
-    Name = "my-app-launch-template"
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "my-app-ec2"
+      CodeDeploy = "true"
+    }
   }
+
 }
+
+
 
 resource "aws_autoscaling_group" "main" {
   name_prefix = "my-app-asg-"
