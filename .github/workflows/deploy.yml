@@ -1,0 +1,38 @@
+name: Deploy Django App
+run-name: workflow-${{ github.actor }}-${{ github.sha }}
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy on self-hosted runner
+    runs-on: [self-hosted, linux, aws, x64]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Deploy backend
+        working-directory: backend
+        run: |
+          set -e
+
+          git fetch origin develop
+          git reset --hard origin/develop
+
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+          python manage.py migrate --noinput
+
+          python manage.py collectstatic --noinput
+
+          sudo systemctl restart myapp
