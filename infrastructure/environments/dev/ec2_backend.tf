@@ -6,7 +6,7 @@ resource "aws_key_pair" "admin_key_backend" {
 resource "aws_instance" "backend" {
   ami           = data.aws_ami.latest_ubuntu.id
   instance_type = "t3.micro"
-  subnet_id     = aws_subnet.private_a.id
+  subnet_id     = aws_subnet.public_b.id
 
   key_name = aws_key_pair.admin_key_backend.key_name
 
