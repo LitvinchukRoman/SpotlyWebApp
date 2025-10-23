@@ -1,0 +1,27 @@
+:export {
+  topBar: topBar;
+  topBarLogo: topBar__logo;
+}
+
+.topBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &__logo {
+    font-family: serif;
+  }
+
+  &__log {
+    display: flex;
+    flex-direction: row;
+
+    &-up {
+      color: #f1f1f1;
+      background-color: #4b4b4b;
+      border-radius: 24px;
+      height: 48px;
+      width: 91px;
+    }
+  }
+}
