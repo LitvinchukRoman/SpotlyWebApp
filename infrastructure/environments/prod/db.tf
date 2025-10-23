@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "main" {
-  name       = "spotly-app-db-subnet-group"
-  subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
+  name       = "my-app-db-subnet-group"
+  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
 
   tags = {
     Name = "my-app-db-subnet-group"
@@ -8,7 +8,7 @@ resource "aws_db_subnet_group" "main" {
 }
 
 resource "aws_secretsmanager_secret" "db_credentials" {
-  name = "my-app/db-credentials-v2"
+  name = "my-app/db-credentials"
 }
 
 resource "random_password" "master" {
@@ -23,7 +23,7 @@ resource "aws_secretsmanager_secret_version" "db_credentials" {
 }
 
 resource "aws_db_instance" "main" {
-  identifier     = "spotly-app-dev-db"
+  identifier     = "my-app-dev-db"
   engine         = "postgres"
   engine_version = "15.14"
   instance_class = "db.t3.micro"
@@ -42,6 +42,6 @@ resource "aws_db_instance" "main" {
   skip_final_snapshot = true
 
   tags = {
-    Name = "spotly-app-dev-db"
+    Name = "my-app-dev-db"
   }
 }
