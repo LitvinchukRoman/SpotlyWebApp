@@ -7,18 +7,18 @@ import useModal from './Modal/useModal';
 
 function App() {
   // const [count, setCount] = useState(0);
-  // const requires = fetch('elastic-loadbalancer.mylabstep.com');
+  const requires = fetch('elastic-loadbalancer.mylabstep.com');
 
-  // requires
-  //   .then(respons => respons.json)
-  //   .then(text => {
-  //     console.log(text);
+  requires
+    .then(respons => respons.json)
+    .then(text => {
+      console.log(text);
 
-  //     return text
-  //   })
-  //   .catch(error => {
-  //     throw error;
-  //   });
+      return text
+    })
+    .catch(error => {
+      throw error;
+    });
 
   const modalProps = useModal();
   const onOpen = modalProps.onOpen;
