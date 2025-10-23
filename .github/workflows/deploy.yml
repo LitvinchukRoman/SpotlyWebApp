@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - develop
-    #paths:
-    # - 'frontend/**'
   workflow_dispatch:
 
 jobs:
@@ -13,35 +11,32 @@ jobs:
     runs-on: [self-hosted, Linux, X64, frontend]
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        ref: develop
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: develop
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20' 
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: Frontend/spotly-web-app/package-lock.json
 
-    - name: Debug — show contents
-      run: |
-        pwd
-        ls -la
-        ls -la Frontend
+      - name: Install Dependencies
+        run: npm install
+        working-directory: Frontend/spotly-web-app
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Run Production Build
+        run: npm run build
+        working-directory: Frontend/spotly-web-app
+        env:
+          CI: true
 
-    - name: Run Production Build
-      run: npm run build
-      env:
-        CI: true
+      - name: Copy Built Files to NGINX Root
+        run: |
+          sudo rsync -av --delete dist/ /var/www/frontend_app/
+        working-directory: Frontend/spotly-web-app
 
-    - name: Copy Built Files to NGINX Root
-      run: |
-        # Копіюємо з папки збірки всередині Frontend (Frontend/dist/)
-        sudo rsync -av --delete dist/ /var/www/frontend_app/
-
-    - name: Restart NGINX Service
-      run: sudo systemctl restart nginx
+      - name: Restart NGINX Service
+        run: sudo systemctl restart nginx
