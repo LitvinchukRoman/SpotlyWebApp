@@ -1,0 +1,44 @@
+name: Frontend Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: frontend
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' 
+        cache: 'npm'
+        
+    - name: Navigate to Frontend Directory
+      run: cd frontend
+      
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Production Build
+      run: npm run build
+      working-directory: frontend
+      env:
+        CI: true
+
+    - name: Copy Built Files to NGINX Root
+      run: |
+        # Використовуємо rsync для ефективного копіювання з видаленням старих файлів
+        sudo rsync -av --delete dist/ /var/www/frontend_app/
+      working-directory: frontend
+
+    - name: Restart NGINX Service
+      run: sudo systemctl restart nginx
