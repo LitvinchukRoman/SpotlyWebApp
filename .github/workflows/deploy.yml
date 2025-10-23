@@ -16,17 +16,17 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.ref_name }}
+        ref: develop
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20' 
         cache: 'npm'
-
+        
     - name: Install Dependencies
       run: npm install
-      working-directory: Frontend
+      working-directory: Frontend 
 
     - name: Run Production Build
       run: npm run build
@@ -36,9 +36,9 @@ jobs:
 
     - name: Copy Built Files to NGINX Root
       run: |
-        # Використовуємо rsync для ефективного копіювання з видаленням старих файлів
+        # Копіюємо з папки збірки всередині Frontend (Frontend/dist/)
         sudo rsync -av --delete dist/ /var/www/frontend_app/
-      working-directory: frontend
+      working-directory: Frontend
 
     - name: Restart NGINX Service
       run: sudo systemctl restart nginx
