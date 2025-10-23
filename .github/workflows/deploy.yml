@@ -24,6 +24,12 @@ jobs:
         node-version: '20' 
         cache: 'npm'
 
+    - name: Debug — show contents
+      run: |
+        pwd
+        ls -la
+        ls -la Frontend
+
     - name: Install Dependencies
       run: npm install
 
