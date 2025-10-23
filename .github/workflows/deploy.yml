@@ -23,14 +23,12 @@ jobs:
       with:
         node-version: '20' 
         cache: 'npm'
-        
+
     - name: Install Dependencies
       run: npm install
-      working-directory: Frontend 
 
     - name: Run Production Build
       run: npm run build
-      working-directory: Frontend
       env:
         CI: true
 
@@ -38,7 +36,6 @@ jobs:
       run: |
         # Копіюємо з папки збірки всередині Frontend (Frontend/dist/)
         sudo rsync -av --delete dist/ /var/www/frontend_app/
-      working-directory: Frontend
 
     - name: Restart NGINX Service
       run: sudo systemctl restart nginx
