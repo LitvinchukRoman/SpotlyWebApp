@@ -26,10 +26,11 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
+      working-directory: Frontend
 
     - name: Run Production Build
       run: npm run build
-      working-directory: frontend
+      working-directory: Frontend
       env:
         CI: true
 
