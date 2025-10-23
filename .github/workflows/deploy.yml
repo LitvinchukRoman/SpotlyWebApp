@@ -10,7 +10,7 @@ on:
 
 jobs:
   build_and_deploy:
-    runs-on: frontend
+    runs-on: [self-hosted, Linux, X64, frontend]
 
     steps:
     - name: Checkout Code
