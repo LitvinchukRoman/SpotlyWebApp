@@ -32,12 +32,16 @@ jobs:
         working-directory: Frontend/spotly-web-app
 
       - name: Run Production Build
-        run: |
-         tsc -b && vite build
-         npm run build
+        run: npm run build
         working-directory: Frontend/spotly-web-app
         env:
-          CI: true
+            CI: true
+
+      - name: Check Build Output
+        run: |
+            echo "Build contents:"
+            ls -R dist/
+        working-directory: Frontend/spotly-web-app
 
       - name: Copy Built Files to NGINX Root
         run: |
