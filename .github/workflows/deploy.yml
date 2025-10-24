@@ -32,7 +32,9 @@ jobs:
         working-directory: Frontend/spotly-web-app
 
       - name: Run Production Build
-        run: npm run build
+        run: |
+         tsc -b && vite build
+         npm run build
         working-directory: Frontend/spotly-web-app
         env:
           CI: true
