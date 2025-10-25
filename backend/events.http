@@ -1,0 +1,12 @@
+
+POST http://localhost:8080/api/events
+Content-Type: application/json
+
+{
+  "title": "Мій перший концерт",
+  "description": "Створено через IntelliJ!"
+}
+
+
+###
+GET http://localhost:8080/api/events
