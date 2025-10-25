@@ -42,3 +42,5 @@ build/
 target/
 
 enviromets.env
+
+/environments.env
