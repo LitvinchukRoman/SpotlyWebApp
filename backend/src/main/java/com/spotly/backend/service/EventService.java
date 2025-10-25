@@ -3,8 +3,10 @@ package com.spotly.backend.service;
 import com.spotly.backend.domain.Event;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.repository.EventRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import com.spotly.backend.dto.CreateEventDto;
+import com.spotly.backend.dto.UpdateEventDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +45,36 @@ public class EventService {
                 savedEvent.getId(),
                 savedEvent.getTitle(),
                 savedEvent.getDescription()
+        );
+    }
+
+
+    public EventDto getEventById(Long id) {
+
+        Event eventFromDb = eventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
+
+        return new EventDto(
+                eventFromDb.getId(),
+                eventFromDb.getTitle(),
+                eventFromDb.getDescription()
+        );
+    }
+
+
+    public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
+        Event eventToUpdate = eventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
+
+        eventToUpdate.setTitle(updateDto.title());
+        eventToUpdate.setDescription(updateDto.description());
+
+        Event updatedEvent = eventRepository.save(eventToUpdate);
+
+        return new EventDto(
+                updatedEvent.getId(),
+                updatedEvent.getTitle(),
+                updatedEvent.getDescription()
         );
     }
 }

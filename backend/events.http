@@ -1,4 +1,4 @@
-
+### 1. Створити нову подію (POST)
 POST http://localhost:8080/api/events
 Content-Type: application/json
 
@@ -7,6 +7,22 @@ Content-Type: application/json
   "description": "Створено через IntelliJ!"
 }
 
-
-###
+### ------------------------------
+### 2. Отримати всі події (GET)
 GET http://localhost:8080/api/events
+
+### ------------------------------
+### 3. Отримати ОДНУ подію (GET by ID) - УСПІХ
+# Спочатку виконайте запит #1, щоб створити подію з id: 1
+GET http://localhost:8080/api/events/1
+
+### ------------------------------
+### 5. ОНОВИТИ подію (PUT by ID)
+# Спочатку виконайте запит #1, щоб створити подію з id: 1
+PUT http://localhost:8080/api/events/1
+Content-Type: application/json
+
+{
+  "title": "ОНОВЛЕНИЙ Концерт",
+  "description": "Опис теж оновився!"
+}

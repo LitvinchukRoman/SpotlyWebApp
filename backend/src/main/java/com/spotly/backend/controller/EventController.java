@@ -2,15 +2,10 @@ package com.spotly.backend.controller;
 
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.service.EventService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import com.spotly.backend.dto.CreateEventDto;
+import com.spotly.backend.dto.UpdateEventDto;
 
 import java.util.List;
 
@@ -39,5 +34,21 @@ public class EventController {
     public EventDto createNewEvent(@RequestBody CreateEventDto createDto) {
 
         return eventService.createEvent(createDto);
+    }
+
+
+    @GetMapping("/{id}")
+    public EventDto getEventById(@PathVariable Long id) {
+
+        return eventService.getEventById(id);
+    }
+
+
+    @PutMapping("/{id}")
+    public EventDto updateEvent(
+            @PathVariable Long id,
+            @RequestBody UpdateEventDto updateDto
+    ) {
+        return eventService.updateEvent(id, updateDto);
     }
 }
