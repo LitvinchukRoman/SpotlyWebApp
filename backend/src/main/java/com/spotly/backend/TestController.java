@@ -13,8 +13,8 @@ public class TestController {
 
     @GetMapping("/db-version")
     public String getDatabaseVersion() {
-        // Виконуємо запит до PostgreSQL
         String version = jdbcTemplate.queryForObject("SELECT version()", String.class);
         return "Database version: " + version;
     }
+
 }
