@@ -29,7 +29,7 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible }) => {
         <div className={ModalStyles.modal__optionsNetworks}>
           <button className={ModalStyles.modal__option}>
             <img
-              src="../../public/images/icons/Google.svg"
+              src="/images/icons/Google.svg"
               alt="google"
               className={ModalStyles['modal__option--icon']}
             />
