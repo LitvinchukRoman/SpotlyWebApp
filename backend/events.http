@@ -30,3 +30,16 @@ Content-Type: application/json
 ### 6. ВИДАЛИТИ подію (DELETE by ID)
 # Спочатку виконайте запит #1
 DELETE http://localhost:8080/api/events/3
+
+### Отримати всіх користувачів
+GET http://localhost:8080/api/users
+
+### ------------------------------
+### 7. Зареєструвати нового користувача
+POST http://localhost:8080/api/users/register
+Content-Type: application/json
+
+{
+  "username": "roman",
+  "password": "mySecurePassword123"
+}

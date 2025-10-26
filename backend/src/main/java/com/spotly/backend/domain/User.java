@@ -5,20 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "events")
+@Table(name = "users")
 @Getter
 @Setter
-public class Event {
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    private String description;
+    @Column(nullable = false)
+    private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
-    private User author;
+
 }

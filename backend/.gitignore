@@ -44,3 +44,4 @@ target/
 enviromets.env
 
 /environments.env
+/src/main/java/com/spotly/backend/DataInitializer.java
