@@ -48,7 +48,7 @@ const ModalRegistrait: React.FC<Props> = ({
             placeholder='Введи своє ім’я'
             name='name'
             autoComplete='true'
-            onClick={(e) => setName(e.currentTarget.value)}
+            onChange={(e) => setName(e.currentTarget.value)}
           />
         </label>
 
@@ -60,7 +60,7 @@ const ModalRegistrait: React.FC<Props> = ({
             name='surname'
             placeholder='Введи своє прізвище'
             autoComplete='true'
-            onClick={(e) => setSurname(e.currentTarget.value)}
+            onChange={(e) => setSurname(e.currentTarget.value)}
           />
         </label>
 
@@ -72,7 +72,7 @@ const ModalRegistrait: React.FC<Props> = ({
             name='email'
             placeholder='Введи email'
             autoComplete='true'
-            onClick={(e) => setRegEmail(e.currentTarget.value)}
+            onChange={(e) => setRegEmail(e.currentTarget.value)}
           />
         </label>
 
@@ -85,7 +85,7 @@ const ModalRegistrait: React.FC<Props> = ({
               name='passord'
               placeholder='Введи пароль'
               autoComplete='true'
-              onClick={(e) => setRegPassword(e.currentTarget.value)}
+              onChange={(e) => setRegPassword(e.currentTarget.value)}
             />
 
             <span className={ModalStyles.modal__passwordToggleIcon}>

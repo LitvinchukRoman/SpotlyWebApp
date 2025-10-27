@@ -111,7 +111,7 @@ const ModalLogin: React.FC<Props> = ({
                 type="email"
                 placeholder='Введи email'
                 name='email'
-                onClick={(e) => setLoginEmail(e.currentTarget.value)}
+                onChange={(e) => setLoginEmail(e.currentTarget.value)}
               />
             </label>
 
@@ -123,7 +123,7 @@ const ModalLogin: React.FC<Props> = ({
                   className={ModalStyles.modal__input}
                   placeholder='Введи пароль'
                   name='passord'
-                  onClick={(e) => setLoginPassword(e.currentTarget.value)}
+                  onChange={(e) => setLoginPassword(e.currentTarget.value)}
                 />
 
                 <span className={ModalStyles.modal__passwordToggleIcon}>
@@ -144,11 +144,14 @@ const ModalLogin: React.FC<Props> = ({
               </div>
             </label>
 
-            <button className={`
-                    ${ModalStyles.modal__option}
-                    ${ModalStyles['modal__option--email']}
-                  `}
-              type="button">Увійти</button>
+            <button
+              className={`
+                ${ModalStyles.modal__option}
+                ${ModalStyles['modal__option--email']}
+              `}
+              type="button"
+              onClick={onClose}
+            >Увійти</button>
           </form>
 
           <div className={`${ModalStyles.modal__text} ${ModalStyles['modal__text--question']}`}>Забув пароль?</div>
