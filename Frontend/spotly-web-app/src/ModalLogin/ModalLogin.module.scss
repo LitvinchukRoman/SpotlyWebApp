@@ -245,39 +245,4 @@
   &__isAccount {
     margin-bottom: 60px;
   }
-
-  &__topBar {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 24px;
-    margin-inline: 24px;
-  }
-
-  &__footer {
-    margin-inline: 32px;
-    display: inline;
-    position: relative;
-    text-align: center;
-    font-size: 14px;
-    margin-bottom: 64px;
-    
-    &--level {
-      &-0 {
-        display: flex;
-      }
-
-      display: flex;
-      align-items: center;
-      width: 416px;
-    }
-  }
-
-  &__letsRegistrait--2 {
-    white-space: nowrap;
-    top: 12px;
-  }
-
-  &__letsRegistrait--3 {
-    white-space: nowrap;
-  }
 }
