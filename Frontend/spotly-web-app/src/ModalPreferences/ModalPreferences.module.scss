@@ -10,7 +10,6 @@
   overflow: auto;
   
   &__window {
-    opacity: none;
     overflow: auto;
     background-color: #fff;
     width: 860px;
@@ -48,25 +47,52 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 16px;
+    position: relative;
   }
 
   &__desicion {
     padding: 16px;
     border: 1px solid #464649;
     color: #464649;
+    background-color: #fff;
     font-family: 'Nunino Sans', sans-serif;
     font-weight: 500;
     font-size: 17px;
     line-height: 150%;
     letter-spacing: 0;
+    width: fit-content;
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;
     gap: 4px;
 
     &:hover {
-     border: 1px solid #464649;
+      border: 1px solid #464649;
       background-color: #f0f0f5;
+    }
+
+    &--sport {
+      position: absolute;
+      right: -5px;
+    }
+
+    &--active {
+      background-color: #f45a48;
+      outline: none;
+      border: none;
+      color: #fff;
+
+      &:hover {
+        background-color: #f45a48;
+        outline: none;
+        border: none;
+      }
+    }
+
+    &--disabled {
+      color: #b6b6bc;
+      border: 1px solid #b6b6bc;
     }
   }
 
