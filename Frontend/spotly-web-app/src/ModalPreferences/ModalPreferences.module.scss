@@ -72,10 +72,10 @@
       background-color: #f0f0f5;
     }
 
-    &--sport {
-      position: absolute;
-      right: -5px;
-    }
+    // &--sport {
+    //   position: absolute;
+    //   right: -5px;
+    // }
 
     &--active {
       background-color: #f45a48;
@@ -99,6 +99,7 @@
   &__ready {
     width: 516px;
     height: 48px;
+    color: #fff;
     background-color: #464649;
     margin: 0 auto 24px;
 

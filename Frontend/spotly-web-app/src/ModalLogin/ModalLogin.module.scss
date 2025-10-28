@@ -114,18 +114,23 @@
       color: #fff;
       background-color: #232326;
       border: none;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s,
+        box-shadow 0.3s; 
 
       &:hover {
         background-color: #2f2f32;
         border: none;
-        transition: background-color 0.3s;
+        box-shadow: 0px 4px 4px 0px rgba(23, 29, 46, 0.10);
+        transition: box-shadow 0.3s ease-in-out,
+          background-color 0.3s ease-in-out;
       }
 
       &:focus {
         background-color: #1C1C1F;
         border: none;
-        transition: background-color 0.3s;
+        box-shadow: 0px 4px 4px 0px rgba(23, 29, 46, 0.10);
+        transition: box-shadow 0.3s ease-in-out, 
+          background-color 0.3s ease-in-out;
       }
     }
 

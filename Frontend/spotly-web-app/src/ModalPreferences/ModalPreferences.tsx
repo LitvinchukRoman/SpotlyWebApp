@@ -8,9 +8,9 @@ type isModal = {
 
 enum PreferenceType {
   MUSIC = 'Музика',
-  HEALTH_WELLNESS = 'Здоров\'я & Добробут',
+  HEALTH_WELLNESS = 'Здоров\'я & Баланс',
   FAMILY_KIDS = 'Сім\'я & Діти',
-  SPORT_FITNESS = 'Спорт & Фітнес',
+  SPORT_FITNESS = 'Спорт & Рух',
   SEMINARS_TRAINING = 'Семінари & Навчання',
   ART_CULTURE = 'Мистецтво & Культура',
   BUSINESS_NETWORKING = 'Бізнес & Нетворкінг',
@@ -112,7 +112,7 @@ const ModalPreferences: React.FC<isModal> = ({ onClosePreferences }) => {
                 )}
                 alt="health"
               />
-              Здоров'я & Добробут
+              Здоров'я & Баланс
             </button>
 
             <button
@@ -161,7 +161,7 @@ const ModalPreferences: React.FC<isModal> = ({ onClosePreferences }) => {
                 )}
                 alt="sport"
               />
-              Спорт & Фітнес
+              Спорт & Рух
             </button>
 
             <button
@@ -308,7 +308,11 @@ const ModalPreferences: React.FC<isModal> = ({ onClosePreferences }) => {
             </button>
           </div>
 
-          <button className={modalStyles.modalPreferences__ready} disabled>Готово</button>
+          <button
+            className={modalStyles.modalPreferences__ready}
+            disabled={interests.length < 1 ? true : false}
+            onClick={onClosePreferences}
+          >Готово</button>
           <button className={modalStyles.modalPreferences__continue} onClick={onClosePreferences}>Пропустити</button>
         </div>
       </div>
