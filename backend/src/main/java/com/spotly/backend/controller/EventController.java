@@ -2,6 +2,7 @@ package com.spotly.backend.controller;
 
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.service.EventService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import com.spotly.backend.dto.CreateEventDto;
@@ -13,15 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/events")
 @CrossOrigin(origins = "http://localhost:3000")
+@AllArgsConstructor
 public class EventController {
 
 
     private final EventService eventService;
-
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
-
 
     @GetMapping
     public List<EventDto> getAllEvents() {

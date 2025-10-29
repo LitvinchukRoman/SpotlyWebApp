@@ -6,6 +6,7 @@ import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
@@ -14,15 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
 
-    public EventService(EventRepository eventRepository, UserRepository userRepository) {
-        this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
-    }
 
     public List<EventDto> getAllEvents() {
         List<Event> eventsFromDb = eventRepository.findAll();
