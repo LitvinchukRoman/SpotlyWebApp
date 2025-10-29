@@ -21,4 +21,8 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
+
+    private Double latitude;
+
+    private Double longitude;
 }

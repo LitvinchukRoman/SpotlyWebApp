@@ -4,5 +4,7 @@ public record EventDto(
         Long id,
         String title,
         String description,
-        String authorName
+        String authorName,
+        Double latitude,
+        Double longitude
 ) {}

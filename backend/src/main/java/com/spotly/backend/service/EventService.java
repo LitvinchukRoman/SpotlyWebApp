@@ -7,15 +7,12 @@ import com.spotly.backend.exception.AccessDeniedException;
 import com.spotly.backend.exception.ResourceNotFoundException;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,37 +27,16 @@ public class EventService {
 
     public List<EventDto> getAllEvents() {
         List<Event> eventsFromDb = eventRepository.findAll();
-
         return eventsFromDb.stream()
                 .map(event -> new EventDto(
                         event.getId(),
                         event.getTitle(),
                         event.getDescription(),
-                        event.getAuthor().getUsername()
+                        event.getAuthor().getUsername(),
+                        event.getLatitude(),
+                        event.getLongitude()
                 ))
                 .collect(Collectors.toList());
-    }
-
-    public EventDto createEvent(CreateEventDto createDto) {
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        User author = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        Event newEvent = new Event();
-        newEvent.setTitle(createDto.title());
-        newEvent.setDescription(createDto.description());
-        newEvent.setAuthor(author);
-
-        Event savedEvent = eventRepository.save(newEvent);
-
-        return new EventDto(
-                savedEvent.getId(),
-                savedEvent.getTitle(),
-                savedEvent.getDescription(),
-                savedEvent.getAuthor().getUsername()
-        );
     }
 
 
@@ -72,10 +48,35 @@ public class EventService {
                 eventFromDb.getId(),
                 eventFromDb.getTitle(),
                 eventFromDb.getDescription(),
-                eventFromDb.getAuthor().getUsername()
+                eventFromDb.getAuthor().getUsername(),
+                eventFromDb.getLatitude(),
+                eventFromDb.getLongitude()
         );
     }
 
+    public EventDto createEvent(CreateEventDto createDto) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User author = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Event newEvent = new Event();
+        newEvent.setTitle(createDto.title());
+        newEvent.setDescription(createDto.description());
+        newEvent.setAuthor(author);
+        newEvent.setLatitude(createDto.latitude());
+        newEvent.setLongitude(createDto.longitude());
+
+        Event savedEvent = eventRepository.save(newEvent);
+
+        return new EventDto(
+                savedEvent.getId(),
+                savedEvent.getTitle(),
+                savedEvent.getDescription(),
+                savedEvent.getAuthor().getUsername(),
+                savedEvent.getLatitude(),
+                savedEvent.getLongitude()
+        );
+    }
 
     public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -89,6 +90,8 @@ public class EventService {
 
         eventToUpdate.setTitle(updateDto.title());
         eventToUpdate.setDescription(updateDto.description());
+        eventToUpdate.setLatitude(updateDto.latitude());
+        eventToUpdate.setLongitude(updateDto.longitude());
 
         Event updatedEvent = eventRepository.save(eventToUpdate);
 
@@ -96,9 +99,10 @@ public class EventService {
                 updatedEvent.getId(),
                 updatedEvent.getTitle(),
                 updatedEvent.getDescription(),
-                updatedEvent.getAuthor().getUsername()
+                updatedEvent.getAuthor().getUsername(),
+                updatedEvent.getLatitude(),
+                updatedEvent.getLongitude()
         );
-
     }
 
     public void deleteEvent(Long id) {
@@ -106,7 +110,6 @@ public class EventService {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
-        // ОНОВЛЕНО: Кидаємо наш власний виняток
         if (!event.getAuthor().getUsername().equals(username)) {
             throw new AccessDeniedException("You are not authorized to delete this event");
         }
