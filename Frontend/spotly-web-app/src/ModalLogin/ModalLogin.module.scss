@@ -220,6 +220,36 @@
     }
   }
 
+  &__hintEmail {
+    display: none;
+
+    &--active {
+      color: #cc1f1f;
+      font-family: 'Nunito Sans', serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: 0;
+      display: block;
+      margin-top: 4px;
+    }
+  }
+
+  &__hintPassword {
+    display: none;
+
+    &--active {
+      color: #cc1f1f;
+      font-family: 'Nunito Sans', serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: 0;
+      display: block;
+      margin-top: 4px;
+    }
+  }
+
   &__toggleIconWrapper {
     position: relative;
   }
@@ -238,6 +268,22 @@
     padding-inline: 16px;
     box-sizing: border-box;
     margin-top: 4px;
+
+    &--error {
+      border: 1px solid #cc1f1f;
+
+      // &:focus-visible {
+      //   border: 1px solid #cc1f1f;
+      // }
+
+      // &:active {
+      //   border: 1px solid #cc1f1f;
+      // }
+
+      // &:focus {
+      //   border: 1px solid #cc1f1f;
+      // }
+    }
     
     &::placeholder {
       font-weight: 400;

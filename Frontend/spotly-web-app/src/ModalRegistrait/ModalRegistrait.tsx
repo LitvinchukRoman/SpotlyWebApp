@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import ModalStyles from './ModalRegistrait.module.scss';
+import cn from 'classnames';
 
 type Props = {
   isOpenEye: boolean;
@@ -8,7 +10,9 @@ type Props = {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   setName: (value: React.SetStateAction<string>) => void;
   setSurname: (value: React.SetStateAction<string>) => void;
+  regEmail: string;
   setRegEmail: (value: React.SetStateAction<string>) => void;
+  regPassword: string;
   setRegPassword: (value: React.SetStateAction<string>) => void;
   onOpenPreferences: () => void;
 }
@@ -22,9 +26,84 @@ const ModalRegistrait: React.FC<Props> = ({
   setName,
   setSurname,
   setRegEmail,
+  regEmail,
   setRegPassword,
+  regPassword,
   onOpenPreferences,
 }) => {
+  // const [nameError, setNameError] = useState<null | string>(null);
+  // const [surNmaeError, setSurNmaeError] = useState<null | string>(null);
+  const [emailError, setEmailError] = useState<null | string>(null);
+  const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>('Мінімум 10 символів, велика літера, цифра й спецсимвол.');
+
+  const onValidate = () => {
+    let error = false;
+
+    if (regEmail.length === 0) {
+      error = true;
+      setEmailError('Поле має бути заповнене');
+    } else {
+      setEmailError(null);
+    }
+
+    const hasNumber = /[0-9]/.test(regPassword);
+    const hasUpperCase = /\p{Lu}/u.test(regPassword);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?+]/.test(regPassword);
+
+    console.log(hasNumber);
+    console.log(hasUpperCase);
+    console.log(hasSpecialChar);
+
+    const errorText = 'Це поле заповнено не вірно. Мінімум 10 символів, велика літера, цифра й один із цих символів: !@#$%^&*()_+-=[]{};:"\\|,.<>/?';
+    const mainText = 'Мінімум 10 символів, велика літера, цифра й спецсимвол.';
+
+    if (!hasNumber) {
+      error = true;
+
+      setDescriptionErrorPass(errorText);
+    } else if (!hasUpperCase) {
+      error = true;
+
+      setDescriptionErrorPass(errorText);
+    } else if (!hasSpecialChar) {
+      error = true;
+
+      setDescriptionErrorPass(errorText);
+    } else if (regPassword.length === 0) {
+      error = true;
+
+      setDescriptionErrorPass(errorText);
+    } else {
+      setDescriptionErrorPass(mainText);
+    }
+
+    // if (!hasUpperCase) {
+    //   setDescriptionErrorPass(errorText);
+    // } else {
+    //   setDescriptionErrorPass(mainText);
+    // }
+    
+    // if (!hasSpecialChar) {
+    //   setDescriptionErrorPass(errorText);
+    // } else {
+    //   setDescriptionErrorPass(mainText);
+    // }
+
+    // if (regPassword.length === 0) {
+    //   error = true;
+    //   setDescriptionErrorPass(errorText);
+    // } else {
+    //   setDescriptionErrorPass(mainText);
+    // }
+
+    if (error) {
+      return;
+    }
+
+    onClose();
+    onOpenPreferences();
+  };
+
   return (
     <>
       <div className={ModalStyles.modal__topBar}>
@@ -74,6 +153,13 @@ const ModalRegistrait: React.FC<Props> = ({
             autoComplete='true'
             onChange={(e) => setRegEmail(e.currentTarget.value)}
           />
+
+          <div
+            className={cn(ModalStyles.modal__hintEmail, {
+            [ModalStyles['modal__hintEmail--active']]:
+              emailError
+            })}>{emailError}
+          </div>
         </label>
 
         <label className={`${ModalStyles.modal__inputWrapper} ${ModalStyles['modal__inputWrapper--describe']}`}>
@@ -105,7 +191,7 @@ const ModalRegistrait: React.FC<Props> = ({
             </span>
           </div>
         </label>
-        Мінімум 10 символів, велика літера, цифра й спецсимвол.
+        {descriptionErrorPass}
 
         <button
           type="submit"
@@ -113,9 +199,7 @@ const ModalRegistrait: React.FC<Props> = ({
                   ${ModalStyles.modal__option} 
                   ${ModalStyles['modal__option--email']} 
                   ${ModalStyles['modal__option--enter']}`}
-          onClick={() => {
-            onOpenPreferences();
-          }}
+          onClick={onValidate}
         >
           Зареєструватися
         </button>
