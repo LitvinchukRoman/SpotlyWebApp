@@ -1,25 +1,105 @@
-### 1. Створити нову подію (POST)
-POST http://localhost:8080/api/events
+### ===================================================
+### АВТОРИЗАЦІЯ (ПУБЛІЧНІ ЕНДПОІНТИ)
+### ===================================================
+
+# Змінна для вашого імені (щоб легко змінити, якщо "roman" вже існує)
+@username = TestUser
+@password = password123
+@bearer_token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0VXNlciIsImlhdCI6MTc2MTc3MjYxMCwiZXhwIjoxNzYxODU5MDEwfQ.cH4bxPS4ilR1YfQjqtNpPKLEbcHpv9fgldz3D-DFzeUIi6oOOaJrhFX5vPDhzpQrCM-beQpO77IIU6SUut5VXA
+
+### 1. Зареєструвати нового користувача
+# (Працює без токена)
+POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
-  "title": "Подія для видалення",
-  "description": "Зараз ми її видалимо"
+  "username": "{{username}}",
+  "password": "{{password}}"
 }
 
 ### ------------------------------
-### 2. Отримати всі події (GET)
+### 2. УСПІШНИЙ ЛОГІН (Найважливіший запит!)
+# Виконайте цей запит ПЕРШИМ.
+# Він залогінить вас і збереже "браслет" (JWT) у змінну {{bearer_token}}
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+###
+# "Магія" IntelliJ:
+# Ми "ловимо" токен з відповіді і зберігаємо його.
+#> {%
+#    client.global.set("bearer_token", response.body.jwtToken);
+#    client.log("Token saved: " + response.body.jwtToken);
+#%}
+
+### ------------------------------
+### 3. НЕУСПІШНИЙ ЛОГІН (неправильний пароль)
+# (Працює без токена)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "wrong-password-!@#"
+}
+
+
+### ===================================================
+### КОРИСТУВАЧІ (ЗАХИЩЕНІ ЕНДПОІНТИ)
+### ===================================================
+
+### 4. Отримати всіх користувачів
+# Цей запит АВТОМАТИЧНО використає токен,
+# який ми зберегли у кроці #2.
+GET http://localhost:8080/api/users
+Authorization: Bearer {{bearer_token}}
+
+
+### ===================================================
+### ПОДІЇ (ЗАХИЩЕНІ ЕНДПОІНТИ)
+### ===================================================
+
+### 5. Отримати всі події (GET)
+# (Використовує токен)
 GET http://localhost:8080/api/events
+Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
-### 3. Отримати ОДНУ подію (GET by ID) - УСПІХ
-# Спочатку виконайте запит #1
+### 6. Створити нову подію (POST)
+# (Використовує токен. Створить подію з автором 'roman')
+POST http://localhost:8080/api/events
+Content-Type: application/json
+Authorization: Bearer {{bearer_token}}
+
+{
+  "title": "Подія, створена 'roman'-ом",
+  "description": "Мій токен працює!"
+}
+
+### ------------------------------
+### 7. Отримати ОДНУ подію (GET by ID)
+# (Використовує токен)
+# (Працює, бо 'DataInitializer' створив подію з id: 1)
 GET http://localhost:8080/api/events/1
+Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
-### 5. ОНОВИТИ подію (PUT by ID)
+### 8. ОНОВИТИ подію (PUT by ID)
+# (Використовує токен)
+# (Працює, бо 'DataInitializer' створив подію з id: 1,
+# і наш 'TestUser' (id=1) є її автором)
+#
+# !!! ЩОБ ЦЕЙ ТЕСТ СПРАЦЮВАВ:
+# 1. Залогіньтесь як "TestUser" (змініть username і password зверху)
+# 2. Виконайте запит #2 (Логін)
+# 3. Виконайте цей запит
 PUT http://localhost:8080/api/events/1
 Content-Type: application/json
+Authorization: Bearer {{bearer_token}}
 
 {
   "title": "ОНОВЛЕНИЙ Концерт",
@@ -27,51 +107,14 @@ Content-Type: application/json
 }
 
 ### ------------------------------
-### 6. ВИДАЛИТИ подію (DELETE by ID)
-# Спочатку виконайте запит #1
+### 9. ВИДАЛИТИ подію (DELETE by ID)
+# (Використовує токен)
+# (Працює, бо 'DataInitializer' створив подію з id: 3)
+#
+# !!! ЩОБ ЦЕЙ ТЕСТ СПРАЦЮВАВ (перевірка безпеки):
+# 1. Залогіньтесь як "TestUser" (змініть username і password зверху)
+# 2. Виконайте запит #2 (Логін)
+# 3. Виконайте цей запит - він ВИДАЛИТЬ подію.
+# 4. Спробуйте залогінитись як "roman" і виконати це - ви отримаєте 403 FORBIDDEN.
 DELETE http://localhost:8080/api/events/3
-
-### Отримати всіх користувачів
-GET http://localhost:8080/api/users
-
-### ------------------------------
-### 7. Зареєструвати нового користувача
-POST http://localhost:8080/api/users/register
-Content-Type: application/json
-
-{
-  "username": "roman",
-  "password": "mySecurePassword123"
-}
-
-
-### ------------------------------
-### 8. Отримати всіх користувачів (ЩЕ ПРАЦЮЄ, бо ми не закрили)
-GET http://localhost:8080/api/users
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb21hbiIsImlhdCI6MTc2MTczMzkzMiwiZXhwIjoxNzYxODIwMzMyfQ.CJbOI1vCO6G5JuVHaPNJPUlz2dA7_BygsdQZkXVSlKBeMl1TaF8XgYJbFsZ9JgcvWv7NXNcXOH5U1UBv6NA0sg
-
-### ------------------------------
-### 9. УСПІШНИЙ ЛОГІН
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "username": "roman",
-  "password": "mySecurePassword123"
-}
-
-### ------------------------------
-### 10. НЕУСПІШНИЙ ЛОГІН (неправильний пароль)
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "username": "roman",
-  "password": "wrong-password"
-}
-
-### ------------------------------
-### 11. ПЕРЕВІРКА БЕЗПЕКИ (має впасти з помилкою 401 або 403)
-# Ми налаштували SecurityConfig, щоб він закрив усі
-# ендпоінти, окрім register і login
-GET http://localhost:8080/api/events
+Authorization: Bearer {{bearer_token}}

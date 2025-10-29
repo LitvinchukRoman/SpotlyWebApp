@@ -3,6 +3,8 @@ package com.spotly.backend.service;
 import com.spotly.backend.domain.Event;
 import com.spotly.backend.domain.User;
 import com.spotly.backend.dto.EventDto;
+import com.spotly.backend.exception.AccessDeniedException;
+import com.spotly.backend.exception.ResourceNotFoundException;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -64,7 +66,7 @@ public class EventService {
 
     public EventDto getEventById(Long id) {
         Event eventFromDb = eventRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
         return new EventDto(
                 eventFromDb.getId(),
@@ -79,12 +81,12 @@ public class EventService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Event eventToUpdate = eventRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
-
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
         if (!eventToUpdate.getAuthor().getUsername().equals(username)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+            throw new AccessDeniedException("You are not authorized to update this event");
         }
+
         eventToUpdate.setTitle(updateDto.title());
         eventToUpdate.setDescription(updateDto.description());
 
@@ -102,10 +104,11 @@ public class EventService {
     public void deleteEvent(Long id) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Event event = eventRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
+        // ОНОВЛЕНО: Кидаємо наш власний виняток
         if (!event.getAuthor().getUsername().equals(username)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+            throw new AccessDeniedException("You are not authorized to delete this event");
         }
 
         eventRepository.deleteById(id);
