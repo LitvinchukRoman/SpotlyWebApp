@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import ModalStyles from './ModalLogin.module.scss';
+import cn from 'classnames';
 
 type Props = {
   enterAccount: boolean;
@@ -7,10 +9,12 @@ type Props = {
   onRegistrait: () => void;
   handleScrollToTop: () => void;
   onClose: () => void;
-  setLoginEmail: (value: React.SetStateAction<string>) => void;
   onEnter: () => void;
-  setLoginPassword: (value: React.SetStateAction<string>) => void;
 
+  loginEmail: string;
+  setLoginEmail: (value: React.SetStateAction<string>) => void;
+  loginPassword: string;
+  setLoginPassword: (value: React.SetStateAction<string>) => void;
   error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   isLoading: boolean;
@@ -20,13 +24,39 @@ type Props = {
 const ModalLogin: React.FC<Props> = ({
   enterAccount,
   isOpenEye,
-  onOpenEye, onRegistrait,
+  onOpenEye,
+  onRegistrait,
   handleScrollToTop,
   onClose,
-  setLoginEmail,
   onEnter,
+  loginEmail,
+  setLoginEmail,
+  loginPassword,
   setLoginPassword,
 }) => {
+  const [emailError, setEmailError] = useState<null | string>(null);
+  const [passwordError, setPasswordError] = useState<null | string>(null);
+
+  const onValidate = () => {
+    let error = false;
+
+    if (loginEmail.length === 0) {
+      error = true;
+      setEmailError('Поле має бути заповнене');
+    }
+
+    if (loginPassword.length === 0) {
+      error = true;
+      setPasswordError('Поле має бути заповнене');
+    }
+
+    if (error) {
+      return;
+    }
+
+    onClose();
+  };
+
   return (
     <>
       <button className={ModalStyles.modal__iconButton} onClick={onClose}>
@@ -107,12 +137,21 @@ const ModalLogin: React.FC<Props> = ({
             <label className={ModalStyles.modal__inputWrapper}>
               Email
               <input
-                className={ModalStyles.modal__input}
+                className={cn(ModalStyles.modal__input, {
+                  [ModalStyles['modal__input--error']]:
+                    emailError,
+                })}
                 type="email"
                 placeholder='Введи email'
                 name='email'
                 onChange={(e) => setLoginEmail(e.currentTarget.value)}
               />
+              <div className={cn(ModalStyles.modal__hintEmail, {
+                [ModalStyles['modal__hintEmail--active']]:
+                  emailError
+              })}>
+                {emailError}
+              </div>
             </label>
 
             <label className={ModalStyles['modal__inputWrapper--second']}>
@@ -120,7 +159,10 @@ const ModalLogin: React.FC<Props> = ({
               <div className={ModalStyles.modal__toggleIconWrapper}>
                 <input
                   type={isOpenEye ? 'text' : 'password'}
-                  className={ModalStyles.modal__input}
+                  className={cn(ModalStyles.modal__input, {
+                    [ModalStyles['modal__input--error']]:
+                      emailError,
+                  })}
                   placeholder='Введи пароль'
                   name='passord'
                   onChange={(e) => setLoginPassword(e.currentTarget.value)}
@@ -142,6 +184,10 @@ const ModalLogin: React.FC<Props> = ({
                   )}
                 </span>
               </div>
+              <div className={cn(ModalStyles.modal__hintPassword, {
+                [ModalStyles['modal__hintPassword--active']]:
+                  passwordError
+              })}>Поле має бути заповнене</div>
             </label>
 
             <button
@@ -150,11 +196,12 @@ const ModalLogin: React.FC<Props> = ({
                 ${ModalStyles['modal__option--email']}
               `}
               type="button"
-              onClick={onClose}
+              onClick={onValidate}
             >Увійти</button>
           </form>
 
-          <div className={`${ModalStyles.modal__text} ${ModalStyles['modal__text--question']}`}>Забув пароль?</div>
+          <div className={`${ModalStyles.modal__text} ${ModalStyles['modal__text--question']}`}>Забув пароль?
+          </div>
 
           <div className={`${ModalStyles.modal__text} ${ModalStyles.modal__isAccount}`}>
             Ще не маєш акаунту?&nbsp;

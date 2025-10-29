@@ -125,6 +125,21 @@
     }
   } 
 
+  &__hintEmail {
+    display: none;
+
+    &--active {
+      color: #cc1f1f;
+      font-family: 'Nunito Sans', serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: 0;
+      display: block;
+      margin-top: 4px;
+    }
+  }
+
   &__isAccount {
     margin-bottom: 60px;
   }
