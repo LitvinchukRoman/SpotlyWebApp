@@ -7,9 +7,13 @@ import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +40,11 @@ public class EventService {
     }
 
     public EventDto createEvent(CreateEventDto createDto) {
-        // TODO: Виправити це, коли буде логін
 
-        User author = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Test User not found"));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User author = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Event newEvent = new Event();
         newEvent.setTitle(createDto.title());
@@ -71,9 +76,15 @@ public class EventService {
 
 
     public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         Event eventToUpdate = eventRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
 
+
+        if (!eventToUpdate.getAuthor().getUsername().equals(username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+        }
         eventToUpdate.setTitle(updateDto.title());
         eventToUpdate.setDescription(updateDto.description());
 
@@ -85,13 +96,16 @@ public class EventService {
                 updatedEvent.getDescription(),
                 updatedEvent.getAuthor().getUsername()
         );
+
     }
 
-
     public void deleteEvent(Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
 
-        if (!eventRepository.existsById(id)) {
-            throw new EntityNotFoundException("Event not found with id: " + id);
+        if (!event.getAuthor().getUsername().equals(username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
         }
 
         eventRepository.deleteById(id);
