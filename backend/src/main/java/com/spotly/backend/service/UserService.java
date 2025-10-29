@@ -5,8 +5,10 @@ import com.spotly.backend.dto.CreateUserDto;
 import com.spotly.backend.dto.UserDto;
 import com.spotly.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +23,9 @@ public class UserService {
 
     public UserDto registerUser(CreateUserDto createDto) {
 
-        // TODO: Додати перевірку, чи юзер з таким 'username' вже існує
+        if (userRepository.findByUsername(createDto.username()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is already taken!");
+        }
 
         String hashedPassword = passwordEncoder.encode(createDto.password());
 
