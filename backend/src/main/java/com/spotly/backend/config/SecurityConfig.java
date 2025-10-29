@@ -1,6 +1,6 @@
 package com.spotly.backend.config;
 
-import com.spotly.backend.security.JwtAuthenticationFilter; // 1. Імпортуємо наш фільтр
+import com.spotly.backend.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // 2. Імпортуємо
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +36,6 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        // Правила доступу ті самі
                         .requestMatchers("/api/users/register", "/api/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
