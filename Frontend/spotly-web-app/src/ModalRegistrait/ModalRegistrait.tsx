@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ModalStyles from './ModalRegistrait.module.scss';
 import cn from 'classnames';
+import validator from 'validator';
 
 type Props = {
   isOpenEye: boolean;
@@ -8,7 +9,9 @@ type Props = {
   onRegistrait: () => void;
   onClose: () => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
+  name: string;
   setName: (value: React.SetStateAction<string>) => void;
+  surname: string;
   setSurname: (value: React.SetStateAction<string>) => void;
   regEmail: string;
   setRegEmail: (value: React.SetStateAction<string>) => void;
@@ -23,7 +26,9 @@ const ModalRegistrait: React.FC<Props> = ({
   onRegistrait,
   onClose,
   handleSubmit,
+  name,
   setName,
+  surname,
   setSurname,
   setRegEmail,
   regEmail,
@@ -31,28 +36,37 @@ const ModalRegistrait: React.FC<Props> = ({
   regPassword,
   onOpenPreferences,
 }) => {
-  // const [nameError, setNameError] = useState<null | string>(null);
-  // const [surNmaeError, setSurNmaeError] = useState<null | string>(null);
+  const [nameError, setNameError] = useState<null | string>(null);
+  const [surnameError, setSurnameError] = useState<null | string>(null);
   const [emailError, setEmailError] = useState<null | string>(null);
   const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>('Мінімум 10 символів, велика літера, цифра й спецсимвол.');
 
-  const onValidate = () => {
-    let error = false;
+  const validEmail = (email: string, setEmailError: (value: React.SetStateAction<string | null>) => void): boolean => {
+    const isEmailValid = validator.isEmail(email);
 
     if (regEmail.length === 0) {
-      error = true;
       setEmailError('Поле має бути заповнене');
+    } else if (!isEmailValid) {
+      setEmailError(`Невалідний email введено: ${email}. Будь ласка, введіть дійсну адресу у форматі: name@example.com.`);
     } else {
       setEmailError(null);
     }
 
+    return isEmailValid;
+  };
+
+  const onValidate = () => {
+    let error = false;
+
+    const isValidEmail = validEmail(regEmail, setEmailError);
+
+    console.log(isValidEmail);
+
+    error = isValidEmail;
+
     const hasNumber = /[0-9]/.test(regPassword);
     const hasUpperCase = /\p{Lu}/u.test(regPassword);
     const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?+]/.test(regPassword);
-
-    console.log(hasNumber);
-    console.log(hasUpperCase);
-    console.log(hasSpecialChar);
 
     const errorText = 'Це поле заповнено не вірно. Мінімум 10 символів, велика літера, цифра й один із цих символів: !@#$%^&*()_+-=[]{};:"\\|,.<>/?';
     const mainText = 'Мінімум 10 символів, велика літера, цифра й спецсимвол.';
@@ -77,24 +91,21 @@ const ModalRegistrait: React.FC<Props> = ({
       setDescriptionErrorPass(mainText);
     }
 
-    // if (!hasUpperCase) {
-    //   setDescriptionErrorPass(errorText);
-    // } else {
-    //   setDescriptionErrorPass(mainText);
-    // }
-    
-    // if (!hasSpecialChar) {
-    //   setDescriptionErrorPass(errorText);
-    // } else {
-    //   setDescriptionErrorPass(mainText);
-    // }
+    if (name.length === 0) {
+      error = true;
 
-    // if (regPassword.length === 0) {
-    //   error = true;
-    //   setDescriptionErrorPass(errorText);
-    // } else {
-    //   setDescriptionErrorPass(mainText);
-    // }
+      setNameError('Поле має бути заповнене');
+    } else {
+      setNameError(null);
+    }
+
+    if (surname.length === 0) {
+      error = true;
+
+      setSurnameError('Поле має бути заповнене');
+    } else {
+      setSurnameError(null);
+    }
 
     if (error) {
       return;
@@ -123,42 +134,71 @@ const ModalRegistrait: React.FC<Props> = ({
           Ім'я
           <input
             type="text"
-            className={ModalStyles.modal__input}
+            className={cn(ModalStyles.modal__input, {
+              [ModalStyles['modal__input--error']]:
+                nameError,
+            })}
             placeholder='Введи своє ім’я'
             name='name'
             autoComplete='true'
             onChange={(e) => setName(e.currentTarget.value)}
+            value={name}
           />
+
+          <div
+            className={cn(ModalStyles.modal__hint, {
+              [ModalStyles['modal__hint--active']]:
+                nameError
+            })}>
+            {nameError}
+          </div>
         </label>
 
         <label className={ModalStyles.modal__inputWrapper}>
           Прізвище
           <input
             type="text"
-            className={ModalStyles.modal__input}
+            className={cn(ModalStyles.modal__input, {
+              [ModalStyles['modal__input--error']]:
+                surnameError
+            })}
             name='surname'
             placeholder='Введи своє прізвище'
             autoComplete='true'
             onChange={(e) => setSurname(e.currentTarget.value)}
+            value={surname}
           />
+
+          <div
+            className={cn(ModalStyles.modal__hint, {
+              [ModalStyles['modal__hint--active']]:
+                surnameError
+            })}>
+            {surnameError}
+          </div>
         </label>
 
         <label className={ModalStyles.modal__inputWrapper}>
           Email
           <input
             type="email"
-            className={ModalStyles.modal__input}
+            className={cn(ModalStyles.modal__input, {
+              [ModalStyles['modal__input--error']]:
+                emailError
+            })}
             name='email'
             placeholder='Введи email'
             autoComplete='true'
             onChange={(e) => setRegEmail(e.currentTarget.value)}
+            value={regEmail}
           />
 
           <div
-            className={cn(ModalStyles.modal__hintEmail, {
-            [ModalStyles['modal__hintEmail--active']]:
-              emailError
-            })}>{emailError}
+            className={cn(ModalStyles.modal__hint, {
+              [ModalStyles['modal__hint--active']]:
+                emailError
+            })}>
+            {emailError}
           </div>
         </label>
 
@@ -167,11 +207,15 @@ const ModalRegistrait: React.FC<Props> = ({
           <div className={ModalStyles.modal__toggleIconWrapper}>
             <input
               type={isOpenEye ? 'text' : 'password'}
-              className={ModalStyles.modal__input}
+              className={cn(ModalStyles.modal__input, {
+                [ModalStyles['modal__input--error']]:
+                  descriptionErrorPass.length > 90,
+              })}
               name='passord'
               placeholder='Введи пароль'
               autoComplete='true'
               onChange={(e) => setRegPassword(e.currentTarget.value)}
+              value={regPassword}
             />
 
             <span className={ModalStyles.modal__passwordToggleIcon}>
@@ -191,14 +235,20 @@ const ModalRegistrait: React.FC<Props> = ({
             </span>
           </div>
         </label>
-        {descriptionErrorPass}
+
+        <div className={cn(ModalStyles.modal__descriptionErrorPass, {
+          [ModalStyles['modal__descriptionErrorPass--active']]:
+            descriptionErrorPass
+        })}>
+          {descriptionErrorPass}
+        </div>
 
         <button
           type="submit"
           className={`
-                  ${ModalStyles.modal__option} 
-                  ${ModalStyles['modal__option--email']} 
-                  ${ModalStyles['modal__option--enter']}`}
+            ${ModalStyles.modal__option} 
+            ${ModalStyles['modal__option--email']} 
+            ${ModalStyles['modal__option--enter']}`}
           onClick={onValidate}
         >
           Зареєструватися

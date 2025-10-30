@@ -121,11 +121,21 @@
     }
 
     &:focus {
+      outline: none;
       border: 1px solid #232326;
+    }
+
+    &--error {
+      border: 1px solid #cc1f1f;
+
+      &:focus {
+        outline: none;
+        border: 1px solid #cc1f1f;
+      }
     }
   } 
 
-  &__hintEmail {
+  &__hint {
     display: none;
 
     &--active {

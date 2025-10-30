@@ -269,20 +269,18 @@
     box-sizing: border-box;
     margin-top: 4px;
 
+    &:focus {
+      outline: none;
+      border: 1px solid #232326;
+    }
+
     &--error {
       border: 1px solid #cc1f1f;
 
-      // &:focus-visible {
-      //   border: 1px solid #cc1f1f;
-      // }
-
-      // &:active {
-      //   border: 1px solid #cc1f1f;
-      // }
-
-      // &:focus {
-      //   border: 1px solid #cc1f1f;
-      // }
+      &:focus {
+        outline: none;
+        border: 1px solid #cc1f1f;
+      }
     }
     
     &::placeholder {
