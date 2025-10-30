@@ -45,7 +45,7 @@ jobs:
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: spring-boot-app
+          name: spring-boot-jar
           path: ./app
 
       - name: Copy JAR to remote server
