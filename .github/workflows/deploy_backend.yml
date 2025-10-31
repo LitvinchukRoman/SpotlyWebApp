@@ -20,9 +20,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            git pull -b develop https://github.com/${{ github.repository }}
-
-            cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp/backend
+            git pull https://github.com/${{ github.repository }}
+            cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
+            git switch develop
+            cd /backend
             
             echo "Exporting environment variables..."
             export DB_URL='${{ secrets.DB_URL }}'
