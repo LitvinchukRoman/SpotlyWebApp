@@ -43,6 +43,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            mkdir -p /home/ubuntu/app
             cd /home/${{ secrets.SSH_USER }}/app
             
             echo "Pulling latest Docker image..."
