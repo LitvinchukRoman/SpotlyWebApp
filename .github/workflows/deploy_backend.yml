@@ -23,7 +23,7 @@ jobs:
             cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
             git pull 
             git switch develop
-            cd /backend
+            cd backend
             
             echo "Exporting environment variables..."
             export DB_URL='${{ secrets.DB_URL }}'
