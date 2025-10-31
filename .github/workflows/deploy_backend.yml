@@ -36,6 +36,10 @@ jobs:
     runs-on: [ self-hosted, Linux, X64, frontend ]
     needs: build
     steps:
+      -
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -43,12 +47,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            mkdir -p /home/ubuntu/app
-            cd /home/${{ secrets.SSH_USER }}/app
-            
-            echo "Pulling latest Docker image..."
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker pull ${{ secrets.DOCKER_USERNAME }}/spotly-backend:${{ github.sha }}
+            cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp/backend
             
             echo "Exporting environment variables..."
             export DB_URL='${{ secrets.DB_URL }}'
