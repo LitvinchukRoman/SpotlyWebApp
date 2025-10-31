@@ -46,6 +46,13 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            
+            if [ ! -d SpotlyWebApp ]; then
+              git clone -b develop https://github.com/${{ github.repository }}
+            else
+              git pull -b develop https://github.com/${{ github.repository }}
+            fi
+
             cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp/backend
             
             echo "Exporting environment variables..."
