@@ -68,6 +68,14 @@ resource "aws_security_group" "private_sg" {
   }
 
   ingress {
+    description = "api"
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    security_groups = [aws_security_group.public_sg.id]
+  }
+
+  ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
@@ -107,6 +115,14 @@ resource "aws_security_group" "monitoring_sg" {
     to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "api"
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    security_groups = [aws_security_group.public_sg.id]
   }
 
   egress {

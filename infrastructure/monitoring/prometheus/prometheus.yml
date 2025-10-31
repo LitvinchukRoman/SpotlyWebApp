@@ -18,4 +18,4 @@ alerting:
 scrape_configs:
   - job_name: 'node'
     static_configs:
-      - targets: ['ip-10-0-1-252.eu-west-1.compute.internal:9100', 'monitoring.mylabstep.com:9100']
+      - targets: ['10.0.1.252:9100', 'monitoring.mylabstep.com:9100']
