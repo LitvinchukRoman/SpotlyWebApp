@@ -51,12 +51,13 @@ jobs:
       - name: Copy JAR to remote server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          source: "app/*.jar"
-          target: "/home/${{ secrets.SSH_USER }}/app"
-          overwrite: true
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_KEY }}
+            source: "app/*.jar"
+            target: "/home/${{ secrets.SSH_USER }}/app/"
+            overwrite: true
+            strip_components: 1
 
       - name: Restart Spring Boot service
         uses: appleboy/ssh-action@v1.0.3
