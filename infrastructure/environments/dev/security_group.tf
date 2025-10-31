@@ -107,14 +107,14 @@ resource "aws_security_group" "monitoring_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.public_sg.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description = "HTTPS"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    security_groups = [aws_security_group.public_sg.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -122,7 +122,7 @@ resource "aws_security_group" "monitoring_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    security_groups = [aws_security_group.public_sg.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
