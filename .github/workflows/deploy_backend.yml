@@ -57,7 +57,7 @@ jobs:
           source: "app/*.jar"
           target: "/home/${{ secrets.SSH_USER }}/app/"
 
-       name: Restart Spring Boot service
+      - name: Restart Spring Boot service
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
