@@ -36,7 +36,6 @@ jobs:
     runs-on: [ self-hosted, Linux, X64, frontend ]
     needs: build
     steps:
-      -
       - name: Checkout code
         uses: actions/checkout@v3
 
