@@ -48,24 +48,27 @@ jobs:
           name: spring-boot-jar
           path: ./app
 
-      - name: Copy JAR to remote server
+      - name: Copy JAR to server
         uses: appleboy/scp-action@v0.1.7
         with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USER }}
-            key: ${{ secrets.SSH_KEY }}
-            source: "app/*.jar"
-            target: "/home/${{ secrets.SSH_USER }}/app/"
-            overwrite: true
-            strip_components: 1
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "app/*.jar"
+          target: "/home/${{ secrets.SSH_USER }}/app/backend.jar"
 
-      - name: Restart Spring Boot service
+      - name: Restart Spring Boot systemd service
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "Restarting Spring Boot service..."
-            sudo systemctl restart springboot
-            echo "Spring Boot service restarted successfully!"
+            echo "Reloading systemd daemon..."
+            sudo systemctl daemon-reload
+
+            echo "Restarting backend service..."
+            sudo systemctl restart springboot-backend.service
+
+            echo "Checking service status..."
+            sudo systemctl status springboot-backend.service --no-pager -l
