@@ -64,12 +64,12 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "Stopping old Spring Boot process if running..."
-            if pgrep -f "spring-boot-app"; then
-              pkill -f "spring-boot-app"
-              sleep 3
-            fi
-            echo "Starting new Spring Boot process..."
-            cd /home/${{ secrets.SSH_USER }}/app
-            nohup java -jar *.jar > app.log 2>&1 &
-            echo "Spring Boot started successfully!"
+                echo "Stopping old Spring Boot process if running..."
+                pkill -f "spring-boot-app" || true
+                sleep 3
+
+                echo "Starting new Spring Boot process..."
+                cd /home/${{ secrets.SSH_USER }}/app
+                setsid nohup java -jar *.jar > app.log 2>&1 < /dev/null &
+                disown
+                echo "Spring Boot started successfully!"
