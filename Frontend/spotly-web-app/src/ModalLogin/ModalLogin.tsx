@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ModalStyles from './ModalLogin.module.scss';
 import cn from 'classnames';
+import BlackRedEye from '../BlackRedEye/BlackRedEye';
 
 type Props = {
   enterAccount: boolean;
@@ -19,6 +20,7 @@ type Props = {
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  onOpenPreferences: () => void;
 }
 
 const ModalLogin: React.FC<Props> = ({
@@ -33,6 +35,7 @@ const ModalLogin: React.FC<Props> = ({
   setLoginEmail,
   loginPassword,
   setLoginPassword,
+  onOpenPreferences,
 }) => {
   const [emailError, setEmailError] = useState<null | string>(null);
   const [passwordError, setPasswordError] = useState<null | string>(null);
@@ -43,28 +46,29 @@ const ModalLogin: React.FC<Props> = ({
     if (loginEmail.length === 0) {
       error = true;
       setEmailError('Поле має бути заповнене');
+    } else {
+      error = false;
     }
 
     if (loginPassword.length === 0) {
       error = true;
       setPasswordError('Поле має бути заповнене');
+    } else {
+      error = false;
     }
 
     if (error) {
       return;
     }
 
+    onOpenPreferences();
     onClose();
   };
 
   return (
     <>
       <button className={ModalStyles.modal__iconButton} onClick={onClose}>
-        <img
-          className={ModalStyles.modal__icon}
-          src="./images/icons/Close.svg"
-          alt="close"
-        />
+        <div className={ModalStyles.modal__icon} />
       </button>
 
       {!enterAccount ? (
@@ -123,12 +127,22 @@ const ModalLogin: React.FC<Props> = ({
               onClick={() => {
                 onRegistrait();
                 handleScrollToTop();
-              }}>Зареєструватися через email</button>
+              }}>
+              Зареєструватися через email
+            </button>
           </div>
 
           <div className={`${ModalStyles.modal__text} ${ModalStyles.modal__isAccount}`}>
             Вже маєш акаунт?&nbsp;
-            <button className={ModalStyles.modal__letsRegistrait} onClick={onEnter}>Увійти</button>
+            <button className={ModalStyles.modal__letsLogin} onClick={onEnter}>
+              Увійти
+
+              <img
+                src="./images/icons/arrow-right-01-sharp.svg"
+                alt="continue"
+                className={ModalStyles.modal__right}
+              />
+            </button>
           </div>
         </div>
       ) : (
@@ -136,16 +150,35 @@ const ModalLogin: React.FC<Props> = ({
           <form action="post" className={ModalStyles.modal__login}>
             <label className={ModalStyles.modal__inputWrapper}>
               Email
-              <input
-                className={cn(ModalStyles.modal__input, {
-                  [ModalStyles['modal__input--error']]:
-                    emailError,
-                })}
-                type="email"
-                placeholder='Введи email'
-                name='email'
-                onChange={(e) => setLoginEmail(e.currentTarget.value)}
-              />
+              <div className={ModalStyles.modal__toggleIconWrapper}>
+                <input
+                  className={cn(ModalStyles.modal__input, {
+                    [ModalStyles['modal__input--error']]:
+                      emailError,
+                  })}
+                  type="email"
+                  placeholder='Введи email'
+                  name='email'
+                  onChange={(e) => setLoginEmail(e.currentTarget.value)}
+                />
+
+                <span className={ModalStyles.modal__passwordToggleIcon}>
+                  {emailError ? (
+                    <img
+                      src="./public/images/Alert-red.svg"
+                      alt="red eye"
+                      onClick={onOpenEye}
+                    />
+
+                  ) : (
+                    <img
+                      src="./public/images/Alert.svg"
+                      alt="red eye"
+                      onClick={onOpenEye}
+                    />
+                  )}
+                </span>
+              </div>
               <div className={cn(ModalStyles.modal__hintEmail, {
                 [ModalStyles['modal__hintEmail--active']]:
                   emailError
@@ -154,7 +187,7 @@ const ModalLogin: React.FC<Props> = ({
               </div>
             </label>
 
-            <label className={ModalStyles['modal__inputWrapper--second']}>
+            <label className={cn(ModalStyles['modal__inputWrapper--second'], ModalStyles.modal__inputWrapper)}>
               Пароль
               <div className={ModalStyles.modal__toggleIconWrapper}>
                 <input
@@ -169,19 +202,10 @@ const ModalLogin: React.FC<Props> = ({
                 />
 
                 <span className={ModalStyles.modal__passwordToggleIcon}>
-                  {!isOpenEye ? (
-                    <img
-                      src="./images/icons/eye_closed.svg"
-                      alt="eye"
-                      onClick={onOpenEye}
-                    />
-                  ) : (
-                    <img
-                      src="./images/icons/Eye_opened.svg"
-                      alt="eye"
-                      onClick={onOpenEye}
-                    />
-                  )}
+                  <BlackRedEye
+                    isOpenEye={isOpenEye} onOpenEye={onOpenEye}
+                    isError={!!passwordError}
+                  />
                 </span>
               </div>
               <div className={cn(ModalStyles.modal__hintPassword, {
@@ -197,7 +221,9 @@ const ModalLogin: React.FC<Props> = ({
               `}
               type="button"
               onClick={onValidate}
-            >Увійти</button>
+            >
+              Увійти
+            </button>
           </form>
 
           <div className={`${ModalStyles.modal__text} ${ModalStyles['modal__text--question']}`}>Забув пароль?
@@ -212,6 +238,11 @@ const ModalLogin: React.FC<Props> = ({
                 handleScrollToTop();
               }}>
               Зареєструватися
+              <img
+                src="./public/images/icons/arrow-right-01-sharp.svg"
+                alt="continue"
+                className={ModalStyles.modal__right}
+              />
             </button>
           </div>
         </div>

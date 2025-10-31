@@ -122,6 +122,7 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
             setError={setError}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            onOpenPreferences={onOpenPreferences}
           />
         ) : (
             <ModalRegistrait

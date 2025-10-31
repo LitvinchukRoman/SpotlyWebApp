@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ModalStyles from './ModalRegistrait.module.scss';
 import cn from 'classnames';
 import validator from 'validator';
+import BlackRedEye from '../BlackRedEye/BlackRedEye';
 
 type Props = {
   isOpenEye: boolean;
@@ -59,11 +60,6 @@ const ModalRegistrait: React.FC<Props> = ({
     let error = false;
 
     const isValidEmail = validEmail(regEmail, setEmailError);
-
-    console.log(isValidEmail);
-
-    error = isValidEmail;
-
     const hasNumber = /[0-9]/.test(regPassword);
     const hasUpperCase = /\p{Lu}/u.test(regPassword);
     const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?+]/.test(regPassword);
@@ -107,6 +103,11 @@ const ModalRegistrait: React.FC<Props> = ({
       setSurnameError(null);
     }
 
+    error = !isValidEmail;
+
+    console.log(error);
+    console.log(isValidEmail);
+
     if (error) {
       return;
     }
@@ -118,12 +119,12 @@ const ModalRegistrait: React.FC<Props> = ({
   return (
     <>
       <div className={ModalStyles.modal__topBar}>
-        <button onClick={onRegistrait}>
-          <img src="./images/icons/arrow-left.svg" alt="back" />
+        <button onClick={onRegistrait} className={ModalStyles.modal__iconButton}>
+          <div className={ModalStyles.modal__icon} />
         </button>
 
         <button>
-          <img src="./images/icons/Close.svg" alt="close" onClick={onClose} />
+          <div className={ModalStyles.modal__close} onClick={onClose} />
         </button>
       </div>
       <h3 className={ModalStyles.modal__text}>Майже готово!</h3>
@@ -132,18 +133,36 @@ const ModalRegistrait: React.FC<Props> = ({
       <form onSubmit={handleSubmit} className={ModalStyles.modal__login}>
         <label className={ModalStyles.modal__inputWrapper}>
           Ім'я
-          <input
-            type="text"
-            className={cn(ModalStyles.modal__input, {
-              [ModalStyles['modal__input--error']]:
-                nameError,
-            })}
-            placeholder='Введи своє ім’я'
-            name='name'
-            autoComplete='true'
-            onChange={(e) => setName(e.currentTarget.value)}
-            value={name}
-          />
+          <div className={ModalStyles.modal__toggleIconWrapper}>
+            <input
+              type="text"
+              className={cn(ModalStyles.modal__input, {
+                [ModalStyles['modal__input--error']]:
+                  nameError,
+              })}
+              placeholder='Введи своє ім’я'
+              name='name'
+              autoComplete='true'
+              onChange={(e) => setName(e.currentTarget.value)}
+              value={name}
+            />
+
+            <span className={ModalStyles.modal__passwordToggleIcon}>
+              {emailError ? (
+                <img
+                  src="./public/images/Alert-red.svg"
+                  alt="red eye"
+                  onClick={onOpenEye}
+                />
+              ) : (
+                <img
+                  src="./public/images/Alert.svg"
+                  alt="red eye"
+                  onClick={onOpenEye}
+                />
+              )}
+            </span>
+          </div>
 
           <div
             className={cn(ModalStyles.modal__hint, {
@@ -156,18 +175,36 @@ const ModalRegistrait: React.FC<Props> = ({
 
         <label className={ModalStyles.modal__inputWrapper}>
           Прізвище
-          <input
-            type="text"
-            className={cn(ModalStyles.modal__input, {
-              [ModalStyles['modal__input--error']]:
-                surnameError
-            })}
-            name='surname'
-            placeholder='Введи своє прізвище'
-            autoComplete='true'
-            onChange={(e) => setSurname(e.currentTarget.value)}
-            value={surname}
-          />
+          <div className={ModalStyles.modal__toggleIconWrapper}>
+            <input
+              type="text"
+              className={cn(ModalStyles.modal__input, {
+                [ModalStyles['modal__input--error']]:
+                  surnameError
+              })}
+              name='surname'
+              placeholder='Введи своє прізвище'
+              autoComplete='true'
+              onChange={(e) => setSurname(e.currentTarget.value)}
+              value={surname}
+            />
+
+            <span className={ModalStyles.modal__passwordToggleIcon}>
+              {emailError ? (
+                <img
+                  src="./public/images/Alert-red.svg"
+                  alt="red eye"
+                  onClick={onOpenEye}
+                />
+              ) : (
+                <img
+                  src="./public/images/Alert.svg"
+                  alt="red eye"
+                  onClick={onOpenEye}
+                />
+              )}
+            </span>
+          </div>
 
           <div
             className={cn(ModalStyles.modal__hint, {
@@ -180,18 +217,38 @@ const ModalRegistrait: React.FC<Props> = ({
 
         <label className={ModalStyles.modal__inputWrapper}>
           Email
-          <input
-            type="email"
-            className={cn(ModalStyles.modal__input, {
-              [ModalStyles['modal__input--error']]:
-                emailError
-            })}
-            name='email'
-            placeholder='Введи email'
-            autoComplete='true'
-            onChange={(e) => setRegEmail(e.currentTarget.value)}
-            value={regEmail}
-          />
+
+          <div className={ModalStyles.modal__toggleIconWrapper}>
+            <input
+              type="email"
+              className={cn(ModalStyles.modal__input, {
+                [ModalStyles['modal__input--error']]:
+                  emailError
+              })}
+              name='email'
+              placeholder='Введи email'
+              autoComplete='true'
+              onChange={(e) => setRegEmail(e.currentTarget.value)}
+              value={regEmail}
+            />
+
+            <span className={ModalStyles.modal__passwordToggleIcon}>
+              {emailError ? (
+                <img
+                  src="./public/images/Alert-red.svg"
+                  alt="red eye"
+                  onClick={onOpenEye}
+                />
+
+              ) : (
+                <img
+                  src="./public/images/Alert.svg"
+                  alt="red eye"
+                  onClick={onOpenEye}
+                />
+              )}
+            </span>
+          </div>
 
           <div
             className={cn(ModalStyles.modal__hint, {
@@ -219,26 +276,18 @@ const ModalRegistrait: React.FC<Props> = ({
             />
 
             <span className={ModalStyles.modal__passwordToggleIcon}>
-              {!isOpenEye ? (
-                <img
-                  src="./images/icons/eye_closed.svg"
-                  alt="eye"
-                  onClick={onOpenEye}
-                />
-              ) : (
-                <img
-                  src="./images/icons/Eye_opened.svg"
-                  alt="eye"
-                  onClick={onOpenEye}
-                />
-              )}
+              <BlackRedEye
+                isOpenEye={isOpenEye}
+                onOpenEye={onOpenEye}
+                isError={descriptionErrorPass.length > 90}
+              />
             </span>
           </div>
         </label>
 
         <div className={cn(ModalStyles.modal__descriptionErrorPass, {
           [ModalStyles['modal__descriptionErrorPass--active']]:
-            descriptionErrorPass
+            descriptionErrorPass.length > 90
         })}>
           {descriptionErrorPass}
         </div>
