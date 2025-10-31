@@ -1,0 +1,72 @@
+version: '3'
+services:
+  # https://github.com/prometheus/prometheus
+  prometheus:
+    image: prom/prometheus:v2.45.3
+    command:
+      - '--storage.tsdb.retention.time=90d'
+      - '--storage.tsdb.path=/prometheus'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.external-url=http://prom.mylabstep.com:9090'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    networks:
+      - prom-net
+
+  # https://github.com/grafana/grafana
+  grafana:
+    image: grafana/grafana:10.3.3
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    env_file:
+      - ./grafana/config.env
+    networks:
+      - prom-net
+
+  # https://github.com/prometheus/alertmanager
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    restart: always
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+      - alertmanager_data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+      - '--web.external-url=http://alertmanager.mylabstep.com:9093'
+      - '--data.retention=120h'
+    networks:
+      - prom-net
+
+  # https://github.com/prometheus/node_exporter
+  node_exporter:
+    image: prom/node-exporter:v1.7.0
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - '/:/host:ro,rslave'
+    ports:
+      - "9100:9100"
+    networks:
+      - prom-net
+
+networks:
+  prom-net:
+    driver: "bridge"
+
+volumes:
+  grafana_data:
+    driver: "local"
+  prometheus_data:
+    driver: "local"
+  alertmanager_data:
+    driver: "local"

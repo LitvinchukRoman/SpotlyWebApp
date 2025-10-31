@@ -1,0 +1,21 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+  external_labels:
+    monitor: 'SpotlyWebApp'
+
+rule_files:
+  - 'node-exporter.yml'
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets:
+            - "alertmanager:9093"
+
+scrape_configs:
+  - job_name: 'node'
+    static_configs:
+      - targets: ['ip-10-0-1-252.eu-west-1.compute.internal:9100', 'monitoring.mylabstep.com:9100']

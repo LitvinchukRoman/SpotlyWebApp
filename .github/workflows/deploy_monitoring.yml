@@ -1,0 +1,27 @@
+name: Deploy monitoring stack
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'infrastructure/monitoring/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: monitoring.mylabstep.com
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
+            git pull 
+            git switch develop
+            cd infrastructure/monitoring
+
+            echo "Starting Docker Compose..."
+            docker compose -f docker-compose.yml up -d
