@@ -41,7 +41,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: backend-image
-          path: ./
+          path: ./backend
 
       - name: Copy image & compose to server
         uses: appleboy/scp-action@v0.1.7
