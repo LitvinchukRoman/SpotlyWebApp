@@ -58,6 +58,15 @@ resource "aws_security_group" "private_sg" {
     protocol    = "tcp"
     security_groups = [aws_security_group.public_sg.id]
   }
+
+  ingress {
+    description = "api"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   ingress {
     description = "SSH"
     from_port   = 22
