@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
-import type { ModalProps } from './useModal';
+import type { ModalProps } from "../resuable/types";
 import ModalLayout from './ModalLayout';
 
 type ModalComponentProps = PropsWithChildren<ModalProps>;

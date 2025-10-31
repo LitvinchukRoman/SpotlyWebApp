@@ -9,7 +9,7 @@ type Props = {
   modalProps: ModalProps;
 };
 
-export const TopBar: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences }) => {
+export const TopBar: React.FC<Props> = ({ onOpen }) => {
   return (
     <>
       <div className={topBarStyles.topBar}>
