@@ -1,26 +1,41 @@
-// import { useState } from 'react'
+import { useEffect } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import { useState } from 'react';
 import './App.css'
+import Header from './Header/Header';
 import Modal from './Modal/Modal';
 import useModal from './Modal/useModal';
 import ModalPreferences from './ModalPreferences/ModalPreferences';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  // const [count, setCount] = useState(0);
-  // const [isOpen, setIsOpen] = useState(false);
+const App = () => {
+  const navigate = useNavigate();
 
-  // requires
-  //   .then(respons => respons.json)
-  //   .then(text => {
-  //     console.log(text);
+  useEffect(() => {
+    // 1. Спроба отримати токен при завантаженні застосунку
+    const token = localStorage.getItem('authToken');
 
-  //     return text
-  //   })
-  //   .catch(error => {
-  //     throw error;
-  //   });
+    if (token) {
+      // 2. Якщо токен знайдено:
+      // А. Можливо, виконати перевірку його валідності на сервері
+      //    (Це ідеально, але опціонально на першому етапі).
+
+      // Б. Встановити стан аутентифікації в React Context (див. нижче).
+
+      // В. Перенаправити користувача, якщо він намагається потрапити на /login чи /register
+      if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+        navigate('/events'); // Наприклад, на головну сторінку для авторизованих
+      }
+
+    } else {
+      // 3. Якщо токен НЕ знайдено (користувач не залогінився):
+      // Переконатися, що він не може отримати доступ до захищених сторінок.
+      if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+        navigate('/login');
+      }
+    }
+  }, [navigate]);
 
   const modalProps = useModal();
 
@@ -28,22 +43,20 @@ function App() {
   const onClosePreferences = modalProps.onClosePreferences;
   const isOpenPreferences = modalProps.isModalPreferences;
 
-
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', height: '100%' }}>
-        <button className='topBar__log-up' onClick={() => {
-          onOpen();
-        }}>
-          Sign up
-        </button>
-      </div>
+      <Header
+        modalProps={modalProps}
+        onOpen={onOpen}
+        onClosePreferences={onClosePreferences}
+        isOpenPreferences={isOpenPreferences}
+      />
 
       <Modal {...modalProps} />
 
       {isOpenPreferences && <ModalPreferences onClosePreferences={onClosePreferences} />}
     </>
-  )
-}
+  );
+};
 
 export default App;

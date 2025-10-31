@@ -1,5 +1,5 @@
 import { useState, type FC, type PropsWithChildren, useRef } from 'react';
-import type { ModalProps } from './useModal';
+import type { ModalProps } from '../resuable/types';
 import ModalStyles from './Modal.module.scss'
 import ModalLogin from '../ModalLogin/ModalLogin';
 import ModalRegistrait from '../ModalRegistrait/ModalRegistrait';
@@ -22,9 +22,6 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(loginEmail);
-  console.log(loginPassword);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -39,7 +36,7 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
     await sendRegistrationData();
   };
 
-  const API_URL = 'https://yourdomain.com/api/register'; // 👈 Ваша кінцева точка реєстрації
+  const API_URL = '/api/users/register'; // 👈 Ваша кінцева точка реєстрації
 
   const sendRegistrationData = async () => {
     setIsLoading(true);

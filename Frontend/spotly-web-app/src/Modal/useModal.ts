@@ -1,13 +1,5 @@
 import { useState } from "react";
-
-export interface ModalProps {
-  visible: boolean;
-  isModalPreferences: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  onOpenPreferences: () => void;
-  onClosePreferences: () => void;
-}
+import type { ModalProps } from "../resuable/types";
 
 const useModal = (): ModalProps => {
   const [visible, setVisible] = useState(false);

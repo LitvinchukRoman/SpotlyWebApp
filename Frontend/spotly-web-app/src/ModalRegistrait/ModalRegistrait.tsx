@@ -37,10 +37,12 @@ const ModalRegistrait: React.FC<Props> = ({
   regPassword,
   onOpenPreferences,
 }) => {
+  const mainText = 'Мінімум 10 символів, велика літера, цифра й спецсимвол.';
+
   const [nameError, setNameError] = useState<null | string>(null);
   const [surnameError, setSurnameError] = useState<null | string>(null);
   const [emailError, setEmailError] = useState<null | string>(null);
-  const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>('Мінімум 10 символів, велика літера, цифра й спецсимвол.');
+  const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>(mainText);
 
   const validEmail = (email: string, setEmailError: (value: React.SetStateAction<string | null>) => void): boolean => {
     const isEmailValid = validator.isEmail(email);
@@ -65,7 +67,6 @@ const ModalRegistrait: React.FC<Props> = ({
     const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?+]/.test(regPassword);
 
     const errorText = 'Це поле заповнено не вірно. Мінімум 10 символів, велика літера, цифра й один із цих символів: !@#$%^&*()_+-=[]{};:"\\|,.<>/?';
-    const mainText = 'Мінімум 10 символів, велика літера, цифра й спецсимвол.';
 
     if (!hasNumber) {
       error = true;
@@ -84,7 +85,7 @@ const ModalRegistrait: React.FC<Props> = ({
 
       setDescriptionErrorPass(errorText);
     } else {
-      setDescriptionErrorPass(mainText);
+      setDescriptionErrorPass('Це поле заповнене добре!');
     }
 
     if (name.length === 0) {
@@ -150,13 +151,13 @@ const ModalRegistrait: React.FC<Props> = ({
             <span className={ModalStyles.modal__passwordToggleIcon}>
               {emailError ? (
                 <img
-                  src="./public/images/Alert-red.svg"
+                  src="./images/Alert-red.svg"
                   alt="red eye"
                   onClick={onOpenEye}
                 />
               ) : (
                 <img
-                  src="./public/images/Alert.svg"
+                  src="./images/Alert.svg"
                   alt="red eye"
                   onClick={onOpenEye}
                 />
@@ -192,13 +193,13 @@ const ModalRegistrait: React.FC<Props> = ({
             <span className={ModalStyles.modal__passwordToggleIcon}>
               {emailError ? (
                 <img
-                  src="./public/images/Alert-red.svg"
+                  src="./images/Alert-red.svg"
                   alt="red eye"
                   onClick={onOpenEye}
                 />
               ) : (
                 <img
-                  src="./public/images/Alert.svg"
+                  src="./images/Alert.svg"
                   alt="red eye"
                   onClick={onOpenEye}
                 />
@@ -235,14 +236,14 @@ const ModalRegistrait: React.FC<Props> = ({
             <span className={ModalStyles.modal__passwordToggleIcon}>
               {emailError ? (
                 <img
-                  src="./public/images/Alert-red.svg"
+                  src="./images/Alert-red.svg"
                   alt="red eye"
                   onClick={onOpenEye}
                 />
 
               ) : (
                 <img
-                  src="./public/images/Alert.svg"
+                  src="./images/Alert.svg"
                   alt="red eye"
                   onClick={onOpenEye}
                 />

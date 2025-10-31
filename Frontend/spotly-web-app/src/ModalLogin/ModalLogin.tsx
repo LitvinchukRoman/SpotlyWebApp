@@ -165,14 +165,14 @@ const ModalLogin: React.FC<Props> = ({
                 <span className={ModalStyles.modal__passwordToggleIcon}>
                   {emailError ? (
                     <img
-                      src="./public/images/Alert-red.svg"
+                      src="./images/Alert-red.svg"
                       alt="red eye"
                       onClick={onOpenEye}
                     />
 
                   ) : (
                     <img
-                      src="./public/images/Alert.svg"
+                      src="./images/Alert.svg"
                       alt="red eye"
                       onClick={onOpenEye}
                     />
