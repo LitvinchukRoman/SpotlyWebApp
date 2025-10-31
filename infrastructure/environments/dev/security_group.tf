@@ -89,6 +89,40 @@ resource "aws_security_group" "private_sg" {
   }
 }
 
+resource "aws_security_group" "monitoring_sg" {
+  name        = "monitoring-sg"
+  description = "Allow Prometheus, grafana ports"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description = "Grafana"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "Prometheus"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow all outbound"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
+  tags = {
+    Name = "monitoring-sg"
+  }
+}
+
 resource "aws_security_group" "elasticache_sg" {
   name        = "elasticache-sg"
   description = "Allow Redis access from private subnets or app layer"
