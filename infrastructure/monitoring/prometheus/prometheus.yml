@@ -18,4 +18,9 @@ alerting:
 scrape_configs:
   - job_name: 'node'
     static_configs:
-      - targets: ['10.0.1.252:9100', 'localhost:9100']
+      - targets: ['10.0.1.252:9100']
+        labels:
+          instance: 'backend'
+      - targets: [ 'node_exporter:9100' ]
+        labels:
+          instance: 'monitoring'
