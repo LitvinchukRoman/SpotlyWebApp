@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "app/*.jar"
-          target: "/home/${{ secrets.SSH_USER }}/app/backend.jar"
+          target: "/home/${{ secrets.SSH_USER }}/app/"
 
       - name: Restart Spring Boot systemd service
         uses: appleboy/ssh-action@v1.0.3
