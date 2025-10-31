@@ -57,19 +57,13 @@ jobs:
           source: "app/*.jar"
           target: "/home/${{ secrets.SSH_USER }}/app/"
 
-      - name: Restart Spring Boot app on server
+       name: Restart Spring Boot service
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-                echo "Stopping old Spring Boot process if running..."
-                pkill -f "spring-boot-app" || true
-                sleep 3
-
-                echo "Starting new Spring Boot process..."
-                cd /home/${{ secrets.SSH_USER }}/app
-                setsid nohup java -jar *.jar > app.log 2>&1 < /dev/null &
-                disown
-                echo "Spring Boot started successfully!"
+            echo "Restarting Spring Boot service..."
+            sudo systemctl restart springboot
+            echo "Spring Boot service restarted successfully!"
