@@ -20,8 +20,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            git pull 
             cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
+            git pull 
             git switch develop
             cd /backend
             
