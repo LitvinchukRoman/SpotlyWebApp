@@ -63,4 +63,6 @@ jobs:
             export SPRING_PROFILES_ACTIVE=dev
             
             echo "Starting Docker Compose..."
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+            docker pull litvinchukroman/spotly-backend:latest
             docker compose -f docker-compose.yml up -d
