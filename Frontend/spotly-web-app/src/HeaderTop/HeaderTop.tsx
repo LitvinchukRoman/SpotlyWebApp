@@ -1,4 +1,4 @@
-// import CitySearchSelect from '../CitySearchSelect/CitySearchSelect';
+import CitySearchSelect from '../CitySearchSelect/CitySearchSelect';
 import type { ModalProps } from '../resuable/types';
 // import { TopBar } from '../TopBar/TopBar';
 import headerStyles from './HeaderTop.module.scss';
@@ -37,7 +37,7 @@ const HeaderTop: React.FC<Props> = ( /*{ onOpen, onClosePreferences, isOpenPrefe
           />
 
           <div className={headerStyles.header__seekTownsWraper}>
-            {/* <CitySearchSelect /> */}
+            <CitySearchSelect />
           </div>
 
           <button>
