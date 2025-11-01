@@ -11,7 +11,7 @@ type Props = {
 }
 
 const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, surname, e }: Props) => {
-  console.log('фугкція useRegistrait спрацювала');
+  console.log('функція useRegistrait спрацювала');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
     const userData = { name, surname, regEmail, regPassword };
 
     try {
-      console.log('Реєстрація успішна:');
+      console.log('Запит надіслано: чекаємо не відповідь сервера.');
 
       const response = await fetch(API_URL, {
         method: 'POST', // Обов'язково використовуйте POST для створення ресурсу
@@ -58,6 +58,8 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
       const data = await response.json();
 
       // Зберігаємо токен (якщо є) і закриваємо модальне вікно
+
+      console.log('якщо ви це бачите реєстрація пройшоа успішно', data);
 
       if (data.token) {
 
