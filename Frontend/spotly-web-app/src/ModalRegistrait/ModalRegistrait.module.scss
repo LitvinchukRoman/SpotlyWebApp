@@ -196,14 +196,14 @@
     width: 40px;
     height: 40px;
 
-    background-image: url('./images/close-dafault.svg');
+    background-image: url('../../public/images/close-dafault.svg');
 
     &:hover {
-      background-image: url('./images/close-hover.svg');
+      background-image: url('../../public/images/close-hover.svg');
     }
 
     &:active {
-      background-image: url('./images/close-active.svg')
+      background-image: url('../../public/images/close-active.svg')
     }
   }
 

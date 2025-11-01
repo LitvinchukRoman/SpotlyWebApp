@@ -34,17 +34,17 @@
     width: 40px;
     height: 40px;
     border: none;
-    background-image: url('./images/close-dafault.svg');
+    background-image: url('../../public/images/close-active.svg');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
 
     &:hover {
-      background-image: url('./images/close-hover.svg');
+      background-image: url('../../public/images/close-hover.svg');
     }
 
     &:active {
-      background-image: url('./images/close-active.svg')
+      background-image: url('../../public/images/close-active.svg')
     }
   }
 
