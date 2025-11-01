@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import ModalStyles from './ModalRegistrait.module.scss';
 import cn from 'classnames';
-import validator from 'validator';
 import BlackRedEye from '../BlackRedEye/BlackRedEye';
+import useValidate from './useValidate';
 
 type Props = {
   isOpenEye: boolean;
   onOpenEye: () => void;
   onRegistrait: () => void;
   onClose: () => void;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  // handleSubmit: (e: React.FormEvent) => Promise<void>;
   name: string;
   setName: (value: React.SetStateAction<string>) => void;
   surname: string;
@@ -26,7 +26,6 @@ const ModalRegistrait: React.FC<Props> = ({
   onOpenEye,
   onRegistrait,
   onClose,
-  handleSubmit,
   name,
   setName,
   surname,
@@ -44,78 +43,31 @@ const ModalRegistrait: React.FC<Props> = ({
   const [emailError, setEmailError] = useState<null | string>(null);
   const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>(mainText);
 
-  const validEmail = (email: string, setEmailError: (value: React.SetStateAction<string | null>) => void): boolean => {
-    const isEmailValid = validator.isEmail(email);
+  const handleRegistration = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    if (regEmail.length === 0) {
-      setEmailError('Поле має бути заповнене');
-    } else if (!isEmailValid) {
-      setEmailError(`Невалідний email введено: ${email}. Будь ласка, введіть дійсну адресу у форматі: name@example.com.`);
-    } else {
-      setEmailError(null);
-    }
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const isValidate = useValidate(
+      {
+        name,
+        regEmail,
+        setEmailError,
+        regPassword,
+        setDescriptionErrorPass,
+        setNameError,
+        surname,
+        setSurnameError,
+        onClose,
+        onOpenPreferences,
+      }
+    );
 
-    return isEmailValid;
-  };
+    console.log('функція handleRegistration запущена.')
 
-  const onValidate = () => {
-    let error = false;
-
-    const isValidEmail = validEmail(regEmail, setEmailError);
-    const hasNumber = /[0-9]/.test(regPassword);
-    const hasUpperCase = /\p{Lu}/u.test(regPassword);
-    const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?+]/.test(regPassword);
-
-    const errorText = 'Це поле заповнено не вірно. Мінімум 10 символів, велика літера, цифра й один із цих символів: !@#$%^&*()_+-=[]{};:"\\|,.<>/?';
-
-    if (!hasNumber) {
-      error = true;
-
-      setDescriptionErrorPass(errorText);
-    } else if (!hasUpperCase) {
-      error = true;
-
-      setDescriptionErrorPass(errorText);
-    } else if (!hasSpecialChar) {
-      error = true;
-
-      setDescriptionErrorPass(errorText);
-    } else if (regPassword.length === 0) {
-      error = true;
-
-      setDescriptionErrorPass(errorText);
-    } else {
-      setDescriptionErrorPass('Це поле заповнене добре!');
-    }
-
-    if (name.length === 0) {
-      error = true;
-
-      setNameError('Поле має бути заповнене');
-    } else {
-      setNameError(null);
-    }
-
-    if (surname.length === 0) {
-      error = true;
-
-      setSurnameError('Поле має бути заповнене');
-    } else {
-      setSurnameError(null);
-    }
-
-    error = !isValidEmail;
-
-    console.log(error);
-    console.log(isValidEmail);
-
-    if (error) {
+    if (!isValidate) {
       return;
     }
-
-    onClose();
-    onOpenPreferences();
-  };
+  }
 
   return (
     <>
@@ -131,7 +83,7 @@ const ModalRegistrait: React.FC<Props> = ({
       <h3 className={ModalStyles.modal__text}>Майже готово!</h3>
       <div className={ModalStyles.modal__text}>Залишилось кілька деталей</div>
 
-      <form onSubmit={handleSubmit} className={ModalStyles.modal__login}>
+      <form onSubmit={handleRegistration} className={ModalStyles.modal__login}>
         <label className={ModalStyles.modal__inputWrapper}>
           Ім'я
           <div className={ModalStyles.modal__toggleIconWrapper}>
@@ -291,7 +243,6 @@ const ModalRegistrait: React.FC<Props> = ({
             ${ModalStyles.modal__option} 
             ${ModalStyles['modal__option--email']} 
             ${ModalStyles['modal__option--enter']}`}
-          onClick={onValidate}
         >
           Зареєструватися
         </button>
