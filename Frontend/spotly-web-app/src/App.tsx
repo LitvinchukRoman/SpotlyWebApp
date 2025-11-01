@@ -14,7 +14,7 @@ const App = () => {
 
     if (token) {
       if (window.location.pathname === '/login' || window.location.pathname === '/register') {
-        navigate('/events'); // Наприклад, на головну сторінку для авторизованих
+        navigate('/events');
       }
 
     } else {
