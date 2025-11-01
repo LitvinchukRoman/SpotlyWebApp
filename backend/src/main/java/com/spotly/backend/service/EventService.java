@@ -32,7 +32,7 @@ public class EventService {
                         event.getId(),
                         event.getTitle(),
                         event.getDescription(),
-                        event.getAuthor().getUsername(),
+                        event.getAuthor().getEmail(),
                         event.getLatitude(),
                         event.getLongitude()
                 ))
@@ -48,15 +48,15 @@ public class EventService {
                 eventFromDb.getId(),
                 eventFromDb.getTitle(),
                 eventFromDb.getDescription(),
-                eventFromDb.getAuthor().getUsername(),
+                eventFromDb.getAuthor().getEmail(),
                 eventFromDb.getLatitude(),
                 eventFromDb.getLongitude()
         );
     }
 
     public EventDto createEvent(CreateEventDto createDto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User author = userRepository.findByUsername(username)
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User author = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Event newEvent = new Event();
@@ -72,19 +72,19 @@ public class EventService {
                 savedEvent.getId(),
                 savedEvent.getTitle(),
                 savedEvent.getDescription(),
-                savedEvent.getAuthor().getUsername(),
+                savedEvent.getAuthor().getEmail(),
                 savedEvent.getLatitude(),
                 savedEvent.getLongitude()
         );
     }
 
     public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Event eventToUpdate = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
-        if (!eventToUpdate.getAuthor().getUsername().equals(username)) {
+        if (!eventToUpdate.getAuthor().getEmail().equals(email)) {
             throw new AccessDeniedException("You are not authorized to update this event");
         }
 
@@ -99,18 +99,18 @@ public class EventService {
                 updatedEvent.getId(),
                 updatedEvent.getTitle(),
                 updatedEvent.getDescription(),
-                updatedEvent.getAuthor().getUsername(),
+                updatedEvent.getAuthor().getEmail(),
                 updatedEvent.getLatitude(),
                 updatedEvent.getLongitude()
         );
     }
 
     public void deleteEvent(Long id) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
-        if (!event.getAuthor().getUsername().equals(username)) {
+        if (!event.getAuthor().getEmail().equals(email)) {
             throw new AccessDeniedException("You are not authorized to delete this event");
         }
 

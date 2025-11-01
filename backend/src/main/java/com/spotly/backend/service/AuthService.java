@@ -20,7 +20,7 @@ public class AuthService {
     public LoginResponseDto login(LoginRequestDto request) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(),
+                new UsernamePasswordAuthenticationToken(request.email(),
                         request.password())
         );
 

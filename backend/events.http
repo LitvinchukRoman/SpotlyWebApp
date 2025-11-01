@@ -2,48 +2,51 @@
 ### АВТОРИЗАЦІЯ (ПУБЛІЧНІ ЕНДПОІНТИ)
 ### ===================================================
 
-# Змінна для вашого імені (щоб легко змінити, якщо "roman" вже існує)
-@username = TestUser
+# Змінні для тестування
+@email = test@example.com
 @password = password123
-@bearer_token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0VXNlciIsImlhdCI6MTc2MTc3MjYxMCwiZXhwIjoxNzYxODU5MDEwfQ.cH4bxPS4ilR1YfQjqtNpPKLEbcHpv9fgldz3D-DFzeUIi6oOOaJrhFX5vPDhzpQrCM-beQpO77IIU6SUut5VXA
+
+# ⚠️ Токен буде заповнено автоматично після виконання запиту #2 (Логін)
+# Якщо автоматичне збереження не працює, скопіюйте токен з відповіді запиту #2
+# та вставте його сюди:
+@bearer_token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyMDI4ODk4LCJleHAiOjE3NjIxMTUyOTh9.prF9OGzm_TZj4U4_KMc87xad7i-tH6pc_-I1E0P3nyNP83cwsA78WbspevCEeNMZwbXCQ5I72__U4NnNALRtfw
 
 ### 1. Зареєструвати нового користувача
-# (Працює без токена)
 POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
-  "username": "{{username}}",
-  "password": "{{password}}"
+  "email": "31",
+  "password": "255"
 }
 
 ### ------------------------------
-### 2. УСПІШНИЙ ЛОГІН (Найважливіший запит!)
-# Виконайте цей запит ПЕРШИМ.
-# Він залогінить вас і збереже "браслет" (JWT) у змінну {{bearer_token}}
+### 2. УСПІШНИЙ ЛОГІН (ЗАПУСТІТЬ ЦЕЙ ЗАПИТ ПЕРШИМ!)
+# Цей запит отримає токен для подальших запитів
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "{{username}}",
+  "email": "{{email}}",
   "password": "{{password}}"
 }
-###
-# "Магія" IntelliJ:
-# Ми "ловимо" токен з відповіді і зберігаємо його.
-#> {%
-#    client.global.set("bearer_token", response.body.jwtToken);
-#    client.log("Token saved: " + response.body.jwtToken);
-#%}
+
+> {%
+    if (response.status === 200 && response.body.jwtToken) {
+        client.global.set("bearer_token", response.body.jwtToken);
+        client.log("✅ Token saved: " + response.body.jwtToken);
+    } else {
+        client.log("❌ Login failed. Status: " + response.status);
+    }
+%}
 
 ### ------------------------------
 ### 3. НЕУСПІШНИЙ ЛОГІН (неправильний пароль)
-# (Працює без токена)
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "{{username}}",
+  "email": "{{email}}",
   "password": "wrong-password-!@#"
 }
 
@@ -53,8 +56,7 @@ Content-Type: application/json
 ### ===================================================
 
 ### 4. Отримати всіх користувачів
-# Цей запит АВТОМАТИЧНО використає токен,
-# який ми зберегли у кроці #2.
+# ⚠️ ВАЖЛИВО: Спочатку виконайте запит #2 (Логін), щоб отримати токен!
 GET http://localhost:8080/api/users
 Authorization: Bearer {{bearer_token}}
 
@@ -64,57 +66,43 @@ Authorization: Bearer {{bearer_token}}
 ### ===================================================
 
 ### 5. Отримати всі події (GET)
-# (Використовує токен)
 GET http://localhost:8080/api/events
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
 ### 6. Створити нову подію (POST)
-# (Використовує токен. Створить подію з автором 'roman')
 POST http://localhost:8080/api/events
 Content-Type: application/json
 Authorization: Bearer {{bearer_token}}
 
 {
-  "title": "Подія, створена 'roman'-ом",
-  "description": "Мій токен працює!"
+  "title": "Подія, створена '{{email}}'-ом",
+  "description": "Мій токен працює!",
+  "latitude": 50.4501,
+  "longitude": 30.5234
 }
 
 ### ------------------------------
 ### 7. Отримати ОДНУ подію (GET by ID)
-# (Використовує токен)
-# (Працює, бо 'DataInitializer' створив подію з id: 1)
-GET http://localhost:8080/api/events/1
+GET http://localhost:8080/api/events/4
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
 ### 8. ОНОВИТИ подію (PUT by ID)
-# (Використовує токен)
-# (Працює, бо 'DataInitializer' створив подію з id: 1,
-# і наш 'TestUser' (id=1) є її автором)
-#
-# !!! ЩОБ ЦЕЙ ТЕСТ СПРАЦЮВАВ:
-# 1. Залогіньтесь як "TestUser" (змініть username і password зверху)
-# 2. Виконайте запит #2 (Логін)
-# 3. Виконайте цей запит
+# ⚠️ ВАЖЛИВО: Цей запит працює тільки якщо ви створили подію або вона належить вашому користувачу
 PUT http://localhost:8080/api/events/1
 Content-Type: application/json
 Authorization: Bearer {{bearer_token}}
 
 {
   "title": "ОНОВЛЕНИЙ Концерт",
-  "description": "Опис теж оновився!"
+  "description": "Опис теж оновився!",
+  "latitude": 50.4505,
+  "longitude": 30.5235
 }
 
 ### ------------------------------
 ### 9. ВИДАЛИТИ подію (DELETE by ID)
-# (Використовує токен)
-# (Працює, бо 'DataInitializer' створив подію з id: 3)
-#
-# !!! ЩОБ ЦЕЙ ТЕСТ СПРАЦЮВАВ (перевірка безпеки):
-# 1. Залогіньтесь як "TestUser" (змініть username і password зверху)
-# 2. Виконайте запит #2 (Логін)
-# 3. Виконайте цей запит - він ВИДАЛИТЬ подію.
-# 4. Спробуйте залогінитись як "roman" і виконати це - ви отримаєте 403 FORBIDDEN.
-DELETE http://localhost:8080/api/events/3
+# ⚠️ ВАЖЛИВО: Цей запит працює тільки якщо подія належить вашому користувачу
+DELETE http://localhost:8080/api/events/4
 Authorization: Bearer {{bearer_token}}

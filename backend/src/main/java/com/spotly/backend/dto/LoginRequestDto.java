@@ -1,6 +1,6 @@
 package com.spotly.backend.dto;
 
 public record LoginRequestDto(
-    String username,
+    String email,
     String password
 ) {}
