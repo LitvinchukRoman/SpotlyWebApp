@@ -34,17 +34,17 @@
     width: 40px;
     height: 40px;
     border: none;
-    background-image: url('./images/Variant=Additional\,\ State=Default\,\ Size=Small.svg');
+    background-image: url('./images/close-dafault.svg');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
 
     &:hover {
-      background-image: url('./images/Variant=Additional\,\ State=Hover\,\ Size=Small.svg');
+      background-image: url('./images/close-hover.svg');
     }
 
     &:active {
-      background-image: url('./images/Variant=Additional\,\ State=Pressed\,\ Size=Small.svg')
+      background-image: url('./images/close-active.svg')
     }
   }
 

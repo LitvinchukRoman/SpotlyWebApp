@@ -2,7 +2,8 @@ import { useState } from 'react';
 import ModalStyles from './ModalRegistrait.module.scss';
 import cn from 'classnames';
 import BlackRedEye from '../BlackRedEye/BlackRedEye';
-import useValidate from './useValidate';
+import handleRegistration from './handleRegistration';
+import React from 'react';
 
 type Props = {
   isOpenEye: boolean;
@@ -19,6 +20,8 @@ type Props = {
   regPassword: string;
   setRegPassword: (value: React.SetStateAction<string>) => void;
   onOpenPreferences: () => void;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalRegistrait: React.FC<Props> = ({
@@ -35,6 +38,8 @@ const ModalRegistrait: React.FC<Props> = ({
   setRegPassword,
   regPassword,
   onOpenPreferences,
+  setError,
+  setIsLoading,
 }) => {
   const mainText = 'Мінімум 10 символів, велика літера, цифра й спецсимвол.';
 
@@ -43,31 +48,34 @@ const ModalRegistrait: React.FC<Props> = ({
   const [emailError, setEmailError] = useState<null | string>(null);
   const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>(mainText);
 
-  const handleRegistration = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleRegistration = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const isValidate = useValidate(
-      {
-        name,
-        regEmail,
-        setEmailError,
-        regPassword,
-        setDescriptionErrorPass,
-        setNameError,
-        surname,
-        setSurnameError,
-        onClose,
-        onOpenPreferences,
-      }
-    );
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   const isValidate = useValidate(
+  //     {
+  //       name,
+  //       regEmail,
+  //       setEmailError,
+  //       regPassword,
+  //       setDescriptionErrorPass,
+  //       setNameError,
+  //       surname,
+  //       setSurnameError,
+  //       onClose,
+  //       onOpenPreferences,
+  //     }
+  //   );
 
-    console.log('функція handleRegistration запущена.')
+  //   console.log('функція handleRegistration запущена.')
 
-    if (!isValidate) {
-      return;
-    }
-  }
+  //   if (!isValidate) {
+  //     return;
+  //   }
+
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //     useRegistrait({ setError, name, regEmail, regPassword, setIsLoading, surname, e });
+  // }
 
   return (
     <>
@@ -83,7 +91,22 @@ const ModalRegistrait: React.FC<Props> = ({
       <h3 className={ModalStyles.modal__text}>Майже готово!</h3>
       <div className={ModalStyles.modal__text}>Залишилось кілька деталей</div>
 
-      <form onSubmit={handleRegistration} className={ModalStyles.modal__login}>
+      <form
+        onSubmit={(e: React.FormEvent) => handleRegistration({
+          setError,
+          name,
+          regEmail,
+          setEmailError,
+          regPassword,
+          setIsLoading,
+          surname,
+          e,
+          setDescriptionErrorPass,
+          setNameError,
+          setSurnameError,
+          onClose,
+          onOpenPreferences
+        })} className={ModalStyles.modal__login}>
         <label className={ModalStyles.modal__inputWrapper}>
           Ім'я
           <div className={ModalStyles.modal__toggleIconWrapper}>

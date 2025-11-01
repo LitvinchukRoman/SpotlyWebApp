@@ -49,6 +49,8 @@ const useValidate = ({
 
     const errorText = 'Це поле заповнено не вірно. Мінімум 10 символів, велика літера, цифра й один із цих символів: !@#$%^&*()_+-=[]{};:"\\|,.<>/?';
 
+    error = !isValidEmail;
+
     if (!hasNumber) {
       error = true;
 
@@ -85,10 +87,7 @@ const useValidate = ({
       setSurnameError(null);
     }
 
-    error = !isValidEmail;
-
-    // console.log(error);
-    // console.log(isValidEmail);
+    console.log(`${error} -- error`);
 
     if (error) {
       console.log(false);

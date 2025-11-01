@@ -81,6 +81,8 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
               setRegPassword={setRegPassword}
               regPassword={regPassword}
               onOpenPreferences={onOpenPreferences}
+              setError={setError}
+              setIsLoading={setIsLoading}
             />
         )}
       </div>

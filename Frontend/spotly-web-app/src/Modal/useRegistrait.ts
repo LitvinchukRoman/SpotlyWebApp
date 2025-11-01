@@ -11,6 +11,8 @@ type Props = {
 }
 
 const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, surname, e }: Props) => {
+  console.log('фугкція useRegistrait спрацювала');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -25,13 +27,16 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
     await sendRegistrationData();
   };
 
-  const API_URL = '/api/users/register'; // 👈 Ваша кінцева точка реєстрації
+  const BASE_URL = 'http://10.0.1.252:8080/api';
+  const API_URL = `${BASE_URL}/users/register`; // 👈 Ваша кінцева точка реєстрації
 
   const sendRegistrationData = async () => {
     setIsLoading(true);
     const userData = { name, surname, regEmail, regPassword };
 
     try {
+      console.log('Реєстрація успішна:');
+
       const response = await fetch(API_URL, {
         method: 'POST', // Обов'язково використовуйте POST для створення ресурсу
         headers: {
@@ -39,6 +44,8 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
         },
         body: JSON.stringify(userData), // Конвертуємо об'єкт у JSON-рядок
       });
+
+      console.log(response);
 
       // 💡 4. Обробка відповіді
       if (!response.ok) {
@@ -51,8 +58,8 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
       const data = await response.json();
 
       // Зберігаємо токен (якщо є) і закриваємо модальне вікно
+
       if (data.token) {
-        console.log('Реєстрація успішна:', data, data.jwtToken);
 
         localStorage.setItem('authToken', data.token);
       }
