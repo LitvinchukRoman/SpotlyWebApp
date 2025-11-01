@@ -4,7 +4,7 @@ import Modal from './Modal/Modal';
 import useModal from './Modal/useModal';
 import ModalPreferences from './ModalPreferences/ModalPreferences';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+import HeaderTop from './HeaderTop/HeaderTop';
 
 const App = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <>
-      <Header
+      <HeaderTop
         modalProps={modalProps}
         onOpen={onOpen}
         onClosePreferences={onClosePreferences}

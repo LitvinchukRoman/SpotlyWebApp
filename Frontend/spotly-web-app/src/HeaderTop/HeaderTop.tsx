@@ -1,7 +1,7 @@
 // import CitySearchSelect from '../CitySearchSelect/CitySearchSelect';
 import type { ModalProps } from '../resuable/types';
-import { TopBar } from '../TopBar/TopBar';
-import headerStyles from './Header.module.scss';
+// import { TopBar } from '../TopBar/TopBar';
+import headerStyles from './HeaderTop.module.scss';
 
 type Props = {
   onOpen: () => void;
@@ -10,16 +10,16 @@ type Props = {
   modalProps: ModalProps;
 };
 
-const Header: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences, modalProps }) => {
+const HeaderTop: React.FC<Props> = ( /*{ onOpen, onClosePreferences, isOpenPreferences, modalProps } */) => {
   return (
     <>
       <div className={headerStyles.header}>
-        <TopBar
+        {/* <TopBar
           onOpen={onOpen}
           onClosePreferences={onClosePreferences}
           isOpenPreferences={isOpenPreferences}
           modalProps={modalProps}
-        />
+        /> */}
 
         <h1 className={headerStyles.header__title}>Досі не знаєш, що робити сьогодні?</h1>
 
@@ -80,4 +80,4 @@ const Header: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences
   );
 };
 
-export default Header;
+export default HeaderTop;
