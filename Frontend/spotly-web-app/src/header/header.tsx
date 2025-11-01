@@ -45,7 +45,7 @@ const Header: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences
           </button>
         </div>
 
-        <div className={headerStyles.header__decisions}>
+        {/* <div className={headerStyles.header__decisions}>
           <button className={headerStyles.header__singleDecision}>
             <img src="./images/music (2).svg" alt="" className={headerStyles.header__decisionsImage} />
             Музика
@@ -74,7 +74,7 @@ const Header: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences
             <img src="./images/sport (2).svg" alt="" className={headerStyles.header__decisionsImage} />
             Спорт & Рух
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );
