@@ -46,26 +46,33 @@ const Header: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences
         </div>
 
         <div className={headerStyles.header__decisions}>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/music (2).svg" alt="" className={headerStyles.header__decisionsImage} />
+            Музика
           </button>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/breafe-case.svg" alt="" className={headerStyles.header__decisionsImage} />
+            Бізнес & Нетворкінг
           </button>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/food.svg" alt="" className={headerStyles.header__decisionsImage} />
+            Їжа & Напої
           </button>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/balance (2).svg" alt="" className={headerStyles.header__decisionsImage} />
+            Здоров’я & Баланс
           </button>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/family.svg" alt="" className={headerStyles.header__decisionsImage} />
+            Сім’я & Діти
           </button>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/art.svg" alt="" className={headerStyles.header__decisionsImage} />
+            Мистецтво & Культура
           </button>
-          <button>
-            <img src="" alt="" />
+          <button className={headerStyles.header__singleDecision}>
+            <img src="./images/sport (2).svg" alt="" className={headerStyles.header__decisionsImage} />
+            Спорт & Рух
           </button>
         </div>
       </div>

@@ -234,18 +234,10 @@ const ModalRegistrait: React.FC<Props> = ({
             />
 
             <span className={ModalStyles.modal__passwordToggleIcon}>
-              {emailError ? (
+              {emailError && (
                 <img
                   src="./images/Alert-red.svg"
                   alt="red eye"
-                  onClick={onOpenEye}
-                />
-
-              ) : (
-                <img
-                  src="./images/Alert.svg"
-                  alt="red eye"
-                  onClick={onOpenEye}
                 />
               )}
             </span>

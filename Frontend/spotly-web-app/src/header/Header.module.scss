@@ -30,6 +30,7 @@
   }
 
   &__searchBarContainer {
+    height: 64px;
     display: flex;
     align-items: center;
     border: 1px solid #dbdbe2;
@@ -38,18 +39,17 @@
     margin: auto;
     margin-top: 48px;
 
-    box-shadow: 
-    0px 4px 8px 0px rgba(23, 29, 46, 0.08),
-    0px 0px 5px 0px rgba(23, 29, 46, 0.06);
+    box-shadow:
+      0px 4px 8px 0px rgba(23, 29, 46, 0.08),
+      0px 0px 5px 0px rgba(23, 29, 46, 0.06);
   }
 
   &__seekEvents {
     height: 32px;
     border: none;
     width: 266px;
-    margin-left: 8px;
+    margin-left: 24px;
     border-right: 1px solid #b6b6bc;
-
 
     &::placeholder {
       font-family: 'Nunito Sans';
@@ -65,5 +65,27 @@
     border: none;
   }
 
-  
+  &__decisions {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin-top: 112px;
+  }
+
+  &__singleDecision {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0;
+    justify-content: center;
+  }
+
+  &__decisionsImage {
+    width: 80px;
+    height: 80px;
+    margin-inline: 39.5px;
+  }
 }

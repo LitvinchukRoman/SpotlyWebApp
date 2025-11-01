@@ -163,18 +163,10 @@ const ModalLogin: React.FC<Props> = ({
                 />
 
                 <span className={ModalStyles.modal__passwordToggleIcon}>
-                  {emailError ? (
+                  {emailError && (
                     <img
                       src="./images/Alert-red.svg"
                       alt="red eye"
-                      onClick={onOpenEye}
-                    />
-
-                  ) : (
-                    <img
-                      src="./images/Alert.svg"
-                      alt="red eye"
-                      onClick={onOpenEye}
                     />
                   )}
                 </span>
@@ -203,7 +195,8 @@ const ModalLogin: React.FC<Props> = ({
 
                 <span className={ModalStyles.modal__passwordToggleIcon}>
                   <BlackRedEye
-                    isOpenEye={isOpenEye} onOpenEye={onOpenEye}
+                    isOpenEye={isOpenEye}
+                    onOpenEye={onOpenEye}
                     isError={!!passwordError}
                   />
                 </span>
@@ -239,7 +232,7 @@ const ModalLogin: React.FC<Props> = ({
               }}>
               Зареєструватися
               <img
-                src="./public/images/icons/arrow-right-01-sharp.svg"
+                src="./images/icons/arrow-right-01-sharp.svg"
                 alt="continue"
                 className={ModalStyles.modal__right}
               />

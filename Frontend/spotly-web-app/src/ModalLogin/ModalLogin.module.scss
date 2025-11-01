@@ -34,17 +34,17 @@
     width: 40px;
     height: 40px;
     border: none;
-    background-image: url('../../public/images/Variant=Additional\,\ State=Default\,\ Size=Small.svg');
+    background-image: url('./images/Variant=Additional\,\ State=Default\,\ Size=Small.svg');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
 
     &:hover {
-      background-image: url('../../public/images/Variant=Additional\,\ State=Hover\,\ Size=Small.svg');
+      background-image: url('./images/Variant=Additional\,\ State=Hover\,\ Size=Small.svg');
     }
 
     &:active {
-      background-image: url('../../public/images/Variant=Additional\,\ State=Pressed\,\ Size=Small.svg')
+      background-image: url('./images/Variant=Additional\,\ State=Pressed\,\ Size=Small.svg')
     }
   }
 
