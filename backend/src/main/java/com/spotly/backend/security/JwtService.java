@@ -44,8 +44,7 @@ public class JwtService {
 
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = io.jsonwebtoken.io.Decoders.BASE64.decode(JWT_SECRET_KEY);
-        return io.jsonwebtoken.security.Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(JWT_SECRET_KEY.getBytes());
     }
 
 
