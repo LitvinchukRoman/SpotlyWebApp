@@ -33,6 +33,8 @@ public class EventService {
                         event.getTitle(),
                         event.getDescription(),
                         event.getAuthor().getEmail(),
+                        event.getAuthor().getId(),
+                        event.getCity(),
                         event.getLatitude(),
                         event.getLongitude()
                 ))
@@ -49,6 +51,8 @@ public class EventService {
                 eventFromDb.getTitle(),
                 eventFromDb.getDescription(),
                 eventFromDb.getAuthor().getEmail(),
+                eventFromDb.getAuthor().getId(),
+                eventFromDb.getCity(),
                 eventFromDb.getLatitude(),
                 eventFromDb.getLongitude()
         );
@@ -63,6 +67,7 @@ public class EventService {
         newEvent.setTitle(createDto.title());
         newEvent.setDescription(createDto.description());
         newEvent.setAuthor(author);
+        newEvent.setCity(createDto.city());
         newEvent.setLatitude(createDto.latitude());
         newEvent.setLongitude(createDto.longitude());
 
@@ -73,6 +78,8 @@ public class EventService {
                 savedEvent.getTitle(),
                 savedEvent.getDescription(),
                 savedEvent.getAuthor().getEmail(),
+                savedEvent.getAuthor().getId(),
+                savedEvent.getCity(),
                 savedEvent.getLatitude(),
                 savedEvent.getLongitude()
         );
@@ -90,6 +97,7 @@ public class EventService {
 
         eventToUpdate.setTitle(updateDto.title());
         eventToUpdate.setDescription(updateDto.description());
+        eventToUpdate.setCity(updateDto.city());
         eventToUpdate.setLatitude(updateDto.latitude());
         eventToUpdate.setLongitude(updateDto.longitude());
 
@@ -100,9 +108,61 @@ public class EventService {
                 updatedEvent.getTitle(),
                 updatedEvent.getDescription(),
                 updatedEvent.getAuthor().getEmail(),
+                updatedEvent.getAuthor().getId(),
+                updatedEvent.getCity(),
                 updatedEvent.getLatitude(),
                 updatedEvent.getLongitude()
         );
+    }
+
+    public List<EventDto> searchEventsByDescription(String searchText) {
+        List<Event> events = eventRepository.findByDescriptionContainingIgnoreCase(searchText);
+        return events.stream()
+                .map(event -> new EventDto(
+                        event.getId(),
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getAuthor().getEmail(),
+                        event.getAuthor().getId(),
+                        event.getCity(),
+                        event.getLatitude(),
+                        event.getLongitude()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    // Пошук подій за містом
+    public List<EventDto> searchEventsByCity(String city) {
+        List<Event> events = eventRepository.findByCityIgnoreCase(city);
+        return events.stream()
+                .map(event -> new EventDto(
+                        event.getId(),
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getAuthor().getEmail(),
+                        event.getAuthor().getId(),
+                        event.getCity(),
+                        event.getLatitude(),
+                        event.getLongitude()
+                ))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<EventDto> searchEventsByDescriptionAndCity(String searchText, String city) {
+        List<Event> events = eventRepository.findByDescriptionContainingAndCity(searchText, city);
+        return events.stream()
+                .map(event -> new EventDto(
+                        event.getId(),
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getAuthor().getEmail(),
+                        event.getAuthor().getId(),
+                        event.getCity(),
+                        event.getLatitude(),
+                        event.getLongitude()
+                ))
+                .collect(Collectors.toList());
     }
 
     public void deleteEvent(Long id) {

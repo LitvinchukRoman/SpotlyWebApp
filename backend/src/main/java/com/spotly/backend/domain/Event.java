@@ -25,4 +25,7 @@ public class Event {
     private Double latitude;
 
     private Double longitude;
+
+    @Column(nullable = false)
+    private String city;
 }

@@ -16,8 +16,8 @@ POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
-  "email": "31",
-  "password": "255"
+  "email": "{{email}}",
+  "password": "{{password}}"
 }
 
 ### ------------------------------
@@ -69,6 +69,18 @@ Authorization: Bearer {{bearer_token}}
 GET http://localhost:8080/api/events
 Authorization: Bearer {{bearer_token}}
 
+### 5a. Пошук подій за описом (текстом)
+GET http://localhost:8080/api/events?search=музика
+Authorization: Bearer {{bearer_token}}
+
+### 5b. Пошук подій за містом
+GET http://localhost:8080/api/events?city=Київ
+Authorization: Bearer {{bearer_token}}
+
+### 5c. Пошук подій за описом та містом (обидва параметри)
+GET http://localhost:8080/api/events?search=музика&city=Київ
+Authorization: Bearer {{bearer_token}}
+
 ### ------------------------------
 ### 6. Створити нову подію (POST)
 POST http://localhost:8080/api/events
@@ -78,6 +90,7 @@ Authorization: Bearer {{bearer_token}}
 {
   "title": "Подія, створена '{{email}}'-ом",
   "description": "Мій токен працює!",
+  "city": "Київ",
   "latitude": 50.4501,
   "longitude": 30.5234
 }
@@ -97,6 +110,7 @@ Authorization: Bearer {{bearer_token}}
 {
   "title": "ОНОВЛЕНИЙ Концерт",
   "description": "Опис теж оновився!",
+  "city": "Київ",
   "latitude": 50.4505,
   "longitude": 30.5235
 }
