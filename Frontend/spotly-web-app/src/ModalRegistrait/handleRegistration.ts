@@ -45,19 +45,27 @@ const handleRegistration = async ({
       setNameError,
       surname,
       setSurnameError,
-      onClose,
-      onOpenPreferences,
     }
   );
 
-  console.log('функція handleRegistration запущена.')
+  console.log('функція handleRegistration запущена.');
 
   if (!isValidate) {
     return;
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useRegistrait({ setError, name, regEmail, regPassword, setIsLoading, surname, e });
+  useRegistrait({ 
+    setError, 
+    name, 
+    regEmail, 
+    regPassword, 
+    setIsLoading, 
+    surname, 
+    e, 
+    onOpenPreferences, 
+    onClose
+  });
 }
 
 export default handleRegistration;

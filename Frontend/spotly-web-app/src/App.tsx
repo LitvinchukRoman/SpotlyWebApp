@@ -5,6 +5,7 @@ import useModal from './Modal/useModal';
 import ModalPreferences from './ModalPreferences/ModalPreferences';
 import { useNavigate } from 'react-router-dom';
 import HeaderTop from './HeaderTop/HeaderTop';
+import PopularsEvents from './PopularsEvents/PopularsEvents';
 
 const App = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const App = () => {
         isOpenPreferences={isOpenPreferences}
       />
 
+      <PopularsEvents />
       <Modal {...modalProps} />
 
       {isOpenPreferences && <ModalPreferences onClosePreferences={onClosePreferences} />}
