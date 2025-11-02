@@ -6,49 +6,20 @@ on:
       - develop
     paths:
       - 'Frontend/**'
+      - '.github/workflows/deploy_frontend.yml'
   workflow_dispatch:
 
 jobs:
-  build_and_deploy:
-    runs-on: [self-hosted, Linux, X64, frontend]
-
+  deploy:
+    runs-on: [ self-hosted, Linux, X64, frontend ]
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          ref: develop
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: Frontend/spotly-web-app/package-lock.json
-
-      - name: Install Dependencies
-        run: npm install
-        working-directory: Frontend/spotly-web-app
-
-      - name: Install Sass Embedded
-        run: npm install --no-save sass-embedded
-        working-directory: Frontend/spotly-web-app
-
-      - name: Run Production Build
-        run: npm run build
-        working-directory: Frontend/spotly-web-app
-        env:
-            CI: true
-
-      - name: Check Build Output
+      - name: deploy containers
         run: |
-            echo "Build contents:"
-            ls -R dist/
-        working-directory: Frontend/spotly-web-app
+          cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
+          git pull 
+          git switch develop
+          cd Frontend
 
-      - name: Copy Built Files to NGINX Root
-        run: |
-          sudo rsync -av --delete dist/ /var/www/frontend_app/
-        working-directory: Frontend/spotly-web-app
-
-      - name: Restart NGINX Service
-        run: sudo systemctl restart nginx
+          echo "Starting Docker Compose..."
+          docker compose down
+          docker compose -f docker-compose.yml up -d
