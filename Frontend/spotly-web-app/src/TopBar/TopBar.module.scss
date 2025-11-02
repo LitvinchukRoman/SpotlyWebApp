@@ -1,11 +1,13 @@
-@import '../resuable/mixins';
+@use '../resuable/mixins.scss';
 
 .topBar {
+  @include mixins.onDesktop;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 24px;
+  padding-top: 24px;
 
   &__logo {
     font-family: 'IBM Plex Serif', sans-serif;

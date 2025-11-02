@@ -9,8 +9,7 @@ type Props = {
   setNameError: React.Dispatch<React.SetStateAction<string | null>>;
   surname: string;
   setSurnameError: React.Dispatch<React.SetStateAction<string | null>>;
-  onClose: () => void;
-  onOpenPreferences: () => void;
+
 };
 
 const useValidate = ({
@@ -22,8 +21,6 @@ const useValidate = ({
   setNameError,
   surname,
   setSurnameError,
-  onClose,
-  onOpenPreferences,
 }: Props) => {
   const validEmail = (email: string, setEmailError: (value: React.SetStateAction<string | null>) => void): boolean => {
     const isEmailValid = validator.isEmail(email);
@@ -90,13 +87,9 @@ const useValidate = ({
     console.log(`${error} -- error`);
 
     if (error) {
-      console.log(false);
       
       return false;
     }
-
-    onClose();
-    onOpenPreferences();
 
     console.log(true);
     return true;

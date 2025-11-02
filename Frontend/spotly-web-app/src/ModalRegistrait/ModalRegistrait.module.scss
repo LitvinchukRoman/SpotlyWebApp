@@ -290,4 +290,10 @@
       color: #cc1f1f;
     }
   }
+
+  &__errorRegistraition {
+    display: flex;justify-content: center;
+
+    margin-bottom: 24px;
+  }
 }

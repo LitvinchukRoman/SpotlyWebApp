@@ -4,6 +4,7 @@ import cn from 'classnames';
 import BlackRedEye from '../BlackRedEye/BlackRedEye';
 import handleRegistration from './handleRegistration';
 import React from 'react';
+import Loader from '../Loader';
 
 type Props = {
   isOpenEye: boolean;
@@ -20,7 +21,9 @@ type Props = {
   regPassword: string;
   setRegPassword: (value: React.SetStateAction<string>) => void;
   onOpenPreferences: () => void;
+  error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
+  isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -38,7 +41,9 @@ const ModalRegistrait: React.FC<Props> = ({
   setRegPassword,
   regPassword,
   onOpenPreferences,
+  error,
   setError,
+  isLoading,
   setIsLoading,
 }) => {
   const mainText = 'Мінімум 10 символів, велика літера, цифра й спецсимвол.';
@@ -47,35 +52,6 @@ const ModalRegistrait: React.FC<Props> = ({
   const [surnameError, setSurnameError] = useState<null | string>(null);
   const [emailError, setEmailError] = useState<null | string>(null);
   const [descriptionErrorPass, setDescriptionErrorPass] = useState<string>(mainText);
-
-  // const handleRegistration = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   const isValidate = useValidate(
-  //     {
-  //       name,
-  //       regEmail,
-  //       setEmailError,
-  //       regPassword,
-  //       setDescriptionErrorPass,
-  //       setNameError,
-  //       surname,
-  //       setSurnameError,
-  //       onClose,
-  //       onOpenPreferences,
-  //     }
-  //   );
-
-  //   console.log('функція handleRegistration запущена.')
-
-  //   if (!isValidate) {
-  //     return;
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     useRegistrait({ setError, name, regEmail, regPassword, setIsLoading, surname, e });
-  // }
 
   return (
     <>
@@ -297,6 +273,14 @@ const ModalRegistrait: React.FC<Props> = ({
           <button className={`${ModalStyles.modal__letsRegistrait} ${ModalStyles['modal__letsRegistrait--3']}`}>Політику щодо файлів cookie.</button>
         </div>
       </div>
+
+      {isLoading && (
+        <Loader />
+      )}
+
+      {!!error && (
+        <div className={ModalStyles.modal__errorRegistraition}>Виникла помилка при спробі реєстрації</div>
+      )}
     </>
   );
 };

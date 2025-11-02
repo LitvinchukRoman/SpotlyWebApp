@@ -28,6 +28,13 @@
     }
 
     -ms-overflow-style: none;
+
+    position: relative;
+
+    &--isLoading {
+      pointer-events: none;
+      position: relative;
+    }
   }
 
   &__icon {

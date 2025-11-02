@@ -38,7 +38,7 @@ const customStyles = {
     boxShadow: 'none',
     minHeight: '40px',
     backgroundColor: 'transparent',
-    marginLeft: '36px',
+    marginLeft: '-135px',
   }),
 
   indicatorSeparator: () => ({

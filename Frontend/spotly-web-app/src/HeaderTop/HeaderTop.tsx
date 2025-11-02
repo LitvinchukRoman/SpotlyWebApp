@@ -46,9 +46,9 @@ const HeaderTop: React.FC<Props> = ( { onOpen, onClosePreferences, isOpenPrefere
           </button>
         </div>
 
-        {/* <div className={headerStyles.header__decisions}>
+        <div className={headerStyles.header__decisions}>
           <button className={headerStyles.header__singleDecision}>
-            <img src="./images/music (2).svg" alt="" className={headerStyles.header__decisionsImage} />
+            <img src="./images/music-2.svg" alt="" className={headerStyles.header__decisionsImage} />
             Музика
           </button>
           <button className={headerStyles.header__singleDecision}>
@@ -60,7 +60,7 @@ const HeaderTop: React.FC<Props> = ( { onOpen, onClosePreferences, isOpenPrefere
             Їжа & Напої
           </button>
           <button className={headerStyles.header__singleDecision}>
-            <img src="./images/balance (2).svg" alt="" className={headerStyles.header__decisionsImage} />
+            <img src="./images/balance-2.svg" alt="" className={headerStyles.header__decisionsImage} />
             Здоров’я & Баланс
           </button>
           <button className={headerStyles.header__singleDecision}>
@@ -72,10 +72,10 @@ const HeaderTop: React.FC<Props> = ( { onOpen, onClosePreferences, isOpenPrefere
             Мистецтво & Культура
           </button>
           <button className={headerStyles.header__singleDecision}>
-            <img src="./images/sport (2).svg" alt="" className={headerStyles.header__decisionsImage} />
+            <img src="./images/sport-2.svg" alt="" className={headerStyles.header__decisionsImage} />
             Спорт & Рух
           </button>
-        </div> */}
+        </div>
       </div>
     </>
   );

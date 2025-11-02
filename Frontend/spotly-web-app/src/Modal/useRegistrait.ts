@@ -8,27 +8,32 @@ type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   surname: string;
   e: React.FormEvent<Element>
+  onOpenPreferences: () => void;
+  onClose: () => void;
 }
 
-const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, surname, e }: Props) => {
+const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, surname, e, onOpenPreferences, onClose }: Props) => {
   console.log('функція useRegistrait спрацювала');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // 💡 2. Валідація буде тут
     if (!name || !regEmail || regPassword.length < 10) {
       setError("Будь ласка, заповніть усі поля коректно.");
       return;
     }
 
-    // 💡 3. Надсилання даних
-    await sendRegistrationData();
+    const registrationData = await sendRegistrationData();
+
+    if (registrationData) {
+      onOpenPreferences();
+      onClose();
+    }
   };
 
   const BASE_URL = 'http://10.0.1.252:8080/api';
-  const API_URL = `${BASE_URL}/users/register`; // 👈 Ваша кінцева точка реєстрації
+  const API_URL = `${BASE_URL}/users/register`; 
 
   const sendRegistrationData = async () => {
     setIsLoading(true);
@@ -38,36 +43,31 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
       console.log('Запит надіслано: чекаємо не відповідь сервера.');
 
       const response = await fetch(API_URL, {
-        method: 'POST', // Обов'язково використовуйте POST для створення ресурсу
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Обов'язковий заголовок
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData), // Конвертуємо об'єкт у JSON-рядок
+        body: JSON.stringify(userData), 
       });
 
       console.log(response);
 
-      // 💡 4. Обробка відповіді
       if (!response.ok) {
-        // Якщо сервер повернув помилку 4xx або 5xx
         const errorData = await response.json();
+        console.log('Якщо ви бачите це повідомлення то !response.ok');
         throw new Error(errorData.message || 'Помилка реєстрації на сервері.');
       }
 
-      // Успішна реєстрація (сервер повертає 201 Created або 200 OK)
       const data = await response.json();
-
-      // Зберігаємо токен (якщо є) і закриваємо модальне вікно
 
       console.log('якщо ви це бачите реєстрація пройшоа успішно', data);
 
       if (data.token) {
-
         localStorage.setItem('authToken', data.token);
       }
 
+      return data;
     } catch (err) {
-      // Обробка помилок мережі або помилок, викинутих з блоку if (!response.ok)
       const message = err instanceof Error ? err.message : 'Невідома помилка мережі.';
       setError(message);
       console.log(message);

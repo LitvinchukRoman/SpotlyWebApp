@@ -3,6 +3,7 @@ import type { ModalProps } from '../resuable/types';
 import ModalStyles from './Modal.module.scss'
 import ModalLogin from '../ModalLogin/ModalLogin';
 import ModalRegistrait from '../ModalRegistrait/ModalRegistrait';
+import cn from 'classnames';
 
 type ModalLayoutProps = PropsWithChildren<ModalProps>;
 
@@ -41,7 +42,9 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
   return (
     <div className={ModalStyles.modal}>
       <div
-        className={ModalStyles.modal__window}
+        className={cn(ModalStyles.modal__window, {
+          [ModalStyles['modal__window--isLoading']]: isLoading
+        })}
         ref={modalRef}
         onClick={(e) => e.stopPropagation}
       >
@@ -81,7 +84,9 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
               setRegPassword={setRegPassword}
               regPassword={regPassword}
               onOpenPreferences={onOpenPreferences}
+              error={error}
               setError={setError}
+              isLoading={isLoading}
               setIsLoading={setIsLoading}
             />
         )}
