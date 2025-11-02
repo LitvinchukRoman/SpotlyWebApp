@@ -79,12 +79,14 @@
   }
 
   &__login {
+    padding-top: 24px;
     display: flex;
     flex-direction: column;
     margin-inline: 32px;
   }
 
   &__inputWrapper {
+    text-align: start;
     margin-bottom: 16px;
     color: #707073;
     font-size: 14px;

@@ -33,7 +33,7 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
   };
 
   const BASE_URL = 'http://10.0.1.252:8080/api';
-  const API_URL = `${BASE_URL}/users/register`; 
+  const API_URL = `${BASE_URL}/users/register`;
 
   const sendRegistrationData = async () => {
     setIsLoading(true);
@@ -53,9 +53,8 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
       console.log(response);
 
       if (!response.ok) {
-        const errorData = await response.json();
         console.log('Якщо ви бачите це повідомлення то !response.ok');
-        throw new Error(errorData.message || 'Помилка реєстрації на сервері.');
+        throw new Error(`Помилка HTTP! статус: ${response.status}`);
       }
 
       const data = await response.json();
@@ -70,7 +69,7 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Невідома помилка мережі.';
       setError(message);
-      console.log(message);
+      console.log(err);
 
     } finally {
       setIsLoading(false);

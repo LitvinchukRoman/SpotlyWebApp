@@ -2,7 +2,6 @@ import React, { useState, useEffect, } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './Context';
 
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
