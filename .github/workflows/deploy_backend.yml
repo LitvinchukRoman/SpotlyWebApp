@@ -26,11 +26,14 @@ jobs:
             cd backend
             
             echo "Exporting environment variables..."
-            export DB_URL='${{ secrets.DB_URL }}'
-            export DB_USERNAME='${{ secrets.DB_USERNAME }}'
-            export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
-            export JWT_SECRET_KEY='${{ secrets.JWT_SECRET_KEY }}'
-            export SPRING_PROFILES_ACTIVE=dev
+            cat > .env <<EOF
+              DB_URL=${{ secrets.DB_URL }}
+              DB_USERNAME=${{ secrets.DB_USERNAME }}
+              DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+              JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+              SPRING_PROFILES_ACTIVE=dev
+              EOF
             
             echo "Starting Docker Compose..."
-            docker compose -f docker-compose.yml up -d
+            docker compose down
+            docker compose up -d --build
