@@ -16,7 +16,7 @@ export default defineConfig({
       // 1. Всі запити, що починаються з /api (наприклад, /api/users/register)
       '/api': {
         // 2. Будуть перенаправлені на URL вашого Java-бекенду
-        target: 'http://10.0.1.252:8080', 
+        target: 'http://spotly.mylabstep.com:80',
         
         changeOrigin: true,
         
