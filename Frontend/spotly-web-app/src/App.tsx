@@ -17,7 +17,6 @@ const App = () => {
       if (window.location.pathname === '/login' || window.location.pathname === '/register') {
         navigate('/events');
       }
-
     } else {
       if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
         navigate('/login');

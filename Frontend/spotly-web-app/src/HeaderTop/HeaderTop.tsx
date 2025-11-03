@@ -3,6 +3,9 @@ import type { ModalProps } from '../resuable/types';
 import { TopBar } from '../TopBar/TopBar';
 // import { TopBar } from '../TopBar/TopBar';
 import headerStyles from './HeaderTop.module.scss';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import './swiper-wrapper.scss'
 
 type Props = {
   onOpen: () => void;
@@ -11,7 +14,8 @@ type Props = {
   modalProps: ModalProps;
 };
 
-const HeaderTop: React.FC<Props> = ( { onOpen, onClosePreferences, isOpenPreferences, modalProps }) => {
+const HeaderTop: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferences, modalProps }) => {
+
   return (
     <>
       <div className={headerStyles.header}>
@@ -47,34 +51,62 @@ const HeaderTop: React.FC<Props> = ( { onOpen, onClosePreferences, isOpenPrefere
         </div>
 
         <div className={headerStyles.header__decisions}>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/music-2.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Музика
-          </button>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/breafe-case.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Бізнес & Нетворкінг
-          </button>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/food.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Їжа & Напої
-          </button>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/balance-2.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Здоров’я & Баланс
-          </button>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/family.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Сім’я & Діти
-          </button>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/art.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Мистецтво & Культура
-          </button>
-          <button className={headerStyles.header__singleDecision}>
-            <img src="./images/sport-2.svg" alt="" className={headerStyles.header__decisionsImage} />
-            Спорт & Рух
-          </button>
+          <Swiper
+            spaceBetween={0}
+            slidesPerView={'auto'}
+            modules={[Navigation, Pagination]}
+            pagination={{ clickable: true }}
+            createElements={false}
+          >
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/music-2.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Музика
+              </button>
+            </SwiperSlide>
+
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/breafe-case.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Бізнес & Нетворкінг
+              </button>
+            </SwiperSlide>
+
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/food.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Їжа & Напої
+              </button>
+            </SwiperSlide>
+
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/balance-2.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Здоров’я & Баланс
+              </button>
+            </SwiperSlide>
+
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/family.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Сім’я & Діти
+              </button>
+            </SwiperSlide>
+
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/art.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Мистецтво & Культура
+              </button>
+            </SwiperSlide>
+
+            <SwiperSlide className={headerStyles.header__swiperSlide}>
+              <button className={headerStyles.header__singleDecision}>
+                <img src="./images/sport-2.svg" alt="" className={headerStyles.header__decisionsImage} />
+                Спорт & Рух
+              </button>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </div>
     </>

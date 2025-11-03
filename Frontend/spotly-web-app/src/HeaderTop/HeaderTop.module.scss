@@ -1,6 +1,10 @@
 @import '../resuable/mixins';
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
+.swiper-slide {
+  margin: 0 !important;
+}
+
 .header {
   background-image: linear-gradient(
     to bottom, 
@@ -76,6 +80,13 @@
     justify-self: center;
     gap: 32px;
     margin-top: 112px;
+  }
+
+  &__swiperSlide {
+    width: fit-content !important;
+    margin: 0 !important;
+    display: flex !important;
+    gap: 32px !important;
   }
 
   &__singleDecision {

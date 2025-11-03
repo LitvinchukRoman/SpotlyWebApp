@@ -1,9 +1,12 @@
 @use '../resuable/mixins.scss';
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 .popEvents {
   @include mixins.onDesktop;
 
   margin-top: 160px;
+  display: flex;
+  flex-direction: column;
 
   &__top {
     display: flex;
@@ -19,10 +22,27 @@
   }
 
   &__categories {
-    display: flex;
-    flex-direction: row;
+    --column-count: 2;
+    display: grid;
+    grid-template-columns: repeat(var(--column-count), 286px);
     gap: 24px;
     text-align: start;
+
+    @media (min-width: 320px) {
+      --column-count: 1;
+    }
+
+    @media (min-width: 488px) {
+      --column-count: 2;
+    }
+
+    @media (min-width: 768px) {
+      --column-count: 3;
+    }
+
+    @media (min-width: 1024px) {
+      --column-count: 4;
+    }
   }
   
   &__singleEvent {
@@ -30,8 +50,32 @@
     height: 411px;
     padding: 8px;
     border-radius: 16px;
+    position: relative;
     box-shadow:
       0px 4px 8px 0px rgba(23, 29, 46, 0.08), 
       0px 0px 5px 0px rgba(23, 29, 46, 0.06);
+  }
+
+  &__nameOfEvent {
+    font-family: 'IBM Plex Serif';
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 140%;
+    letter-spacing: 0;
+  }
+
+  &__community {
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0;
+  }
+
+  &__line {
+    background-color: #dbdbe2;
+    height: 1px;
+    width: 100%;
+    position: absolute;
   }
 }

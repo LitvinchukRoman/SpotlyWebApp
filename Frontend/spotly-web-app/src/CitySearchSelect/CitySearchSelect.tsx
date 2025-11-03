@@ -70,10 +70,14 @@ const CitySearchSelect: React.FC = () => {
           cacheOptions
           defaultOptions
           placeholder="Почніть вводити назву міста..."
-          loadOptions={loadCities} // <--- Ключова функція
+          loadOptions={loadCities}
           onChange={(selected) => console.log('Вибрано місто:', selected)}
           styles={customStyles}
           defaultValue={defaultCityOption}
+          components={{
+            DropdownIndicator: null,
+            IndicatorSeparator: () => null,
+          }}
         />
       </div>
     </>

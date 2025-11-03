@@ -12,14 +12,14 @@ type Props = {
   onClose: () => void;
 }
 
-const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, surname, e, onOpenPreferences, onClose }: Props) => {
-  console.log('функція useRegistrait спрацювала');
+const useLogin = ({ setError, regEmail, regPassword, setIsLoading, e, onOpenPreferences, onClose }: Props) => {
+  console.log('функція useLogin спрацювала');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (!name || !regEmail || regPassword.length < 10) {
+    if (!regEmail || regPassword.length < 10) {
       setError("Будь ласка, заповніть усі поля коректно.");
       return;
     }
@@ -33,11 +33,11 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
   };
 
   const BASE_URL = 'http://spotly.mylabstep.com/api'; // Змінено на публічний сервер
-  const API_URL = `${BASE_URL}/users/register`;
+  const API_URL = `${BASE_URL}/auth/login`;
 
   const sendRegistrationData = async () => {
     setIsLoading(true);
-    const userData = { name, surname, regEmail, regPassword };
+    const userData = { regEmail, regPassword };
 
     try {
       console.log('Запит надіслано: чекаємо не відповідь сервера.');
@@ -79,4 +79,4 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
   return handleSubmit(e);
 };
 
-export default useRegistrait;
+export default useLogin;
