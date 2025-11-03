@@ -5,6 +5,7 @@ on:
       - develop
     paths:
       - 'infrastructure/monitoring/**'
+      - '.github/workflows/deploy_monitoring.yml'
   workflow_dispatch:
 
 jobs:
@@ -25,4 +26,4 @@ jobs:
 
             echo "Starting Docker Compose..."
             docker compose down
-            docker compose -f docker-compose.yml up -d
+            docker compose up -d --build
