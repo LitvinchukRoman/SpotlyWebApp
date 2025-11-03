@@ -12,6 +12,11 @@ on:
 jobs:
   deploy:
     runs-on: [ self-hosted, Linux, X64, frontend ]
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
     steps:
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.3
@@ -25,15 +30,5 @@ jobs:
             git switch develop
             cd backend
             
-            echo "Exporting environment variables..."
-            cat > .env <<EOF
-            DB_URL=${{ secrets.DB_URL }}
-            DB_USERNAME=${{ secrets.DB_USERNAME }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            SPRING_PROFILES_ACTIVE=dev
-            EOF
-              
-            
             echo "Starting Docker Compose..."
-            docker compose down
-            docker compose up -d --build
+            docker compose down && docker compose up -d --build
