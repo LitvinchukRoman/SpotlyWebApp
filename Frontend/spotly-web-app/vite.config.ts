@@ -18,6 +18,14 @@ export default defineConfig({
         // 2. Будуть перенаправлені на URL вашого Java-бекенду
         target: 'http://localhost:80',
         changeOrigin: true,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        configure: (proxy, _options) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          proxy.on('proxyReq', (proxyReq, _req, _res, _options) => {
+            proxyReq.setHeader('X-Forwarded-Host', 'spotly.mylabstep.com');
+            proxyReq.setHeader('X-Forwarded-Proto', 'http');
+          });
+        },
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
