@@ -1,16 +1,16 @@
-@import '../resuable//mixins';
+@use '../resuable/mixins' as mixin;
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 .popEvents {
-  @include onPhones {
+  @include mixin.onPhones {
     margin-inline: 10px;
   }
 
-  @include onTablet {
+  @include mixin.onTablet {
     margin-inline: 40px;
   }
 
-  @include onBigScreen;
+  @include mixin.onBigScreen;
 
   margin-top: 160px;
   display: flex;

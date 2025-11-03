@@ -1,15 +1,15 @@
-@import '../resuable//mixins';
+@use '../resuable/mixins' as mixin;
 
 .topBar {
-  @include onPhones {
+  @include mixin.onPhones {
     margin-inline: 10px
   }
 
-  @include onMiddleScreen {
+  @include mixin.onMiddleScreen {
     margin-inline: 40px
   };
   
-  @include onBigScreen;
+  @include mixin.onBigScreen;
 
   display: flex;
   flex-direction: row;

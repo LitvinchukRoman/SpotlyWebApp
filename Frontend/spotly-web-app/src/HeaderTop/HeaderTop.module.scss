@@ -1,4 +1,4 @@
-@import '../resuable/mixins';
+@use '../resuable/mixins' as mixin;
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 .swiper-slide {
@@ -19,11 +19,11 @@
     letter-spacing: 0;
     text-align: center;
 
-    @include onPhones {
+    @include mixin.onPhones {
       margin-inline: 10px;
     }
 
-    @include onTablet {
+    @include mixin.onTablet {
       margin-inline: 40px;
     }
   }
@@ -90,12 +90,12 @@
     gap: 32px;
     margin-top: 112px;
 
-    @include onPhones {
+    @include mixin.onPhones {
       margin-inline: 20px;
       box-sizing: border-box;
     }
 
-    @include onTablet {
+    @include mixin.onTablet {
       margin-inline: 20px;
     }
 
@@ -120,11 +120,11 @@
     letter-spacing: 0;
     justify-content: center;
     
-    @include onPhones {
+    @include mixin.onPhones {
       width: min-content;
     }
 
-    @include onTablet {
+    @include mixin.onTablet {
       width: 159px;
     }
   }
@@ -132,12 +132,12 @@
   &__decisionsImage {
     margin: auto;
 
-    @include onPhones {
+    @include mixin.onPhones {
       width: 60px;
       height: 60px;
     }
 
-    @include onBigScreenCustom {
+    @include mixin.onBigScreenCustom {
       width: 80px;
       height: 80px;
     }
