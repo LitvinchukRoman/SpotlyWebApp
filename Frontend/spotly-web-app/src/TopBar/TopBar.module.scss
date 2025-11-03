@@ -1,7 +1,15 @@
-@use '../resuable/mixins.scss';
+@import '../resuable//mixins';
 
 .topBar {
-  @include mixins.onDesktop;
+  @include onPhones {
+    margin-inline: 10px
+  }
+
+  @include onMiddleScreen {
+    margin-inline: 40px
+  };
+  
+  @include onBigScreen;
 
   display: flex;
   flex-direction: row;

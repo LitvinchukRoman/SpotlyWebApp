@@ -57,7 +57,6 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
             handleScrollToTop={handleScrollToTop}
             onClose={onClose}
             onEnter={onEnter}
-
             setLoginEmail={setLoginEmail}
             loginEmail={loginEmail}
             setLoginPassword={setLoginPassword}
@@ -74,7 +73,6 @@ const ModalLayout: FC<ModalLayoutProps> = ({ onClose, visible, onOpenPreferences
               onOpenEye={onOpenEye}
               onRegistrait={onRegistrait}
               onClose={onClose}
-              // handleSubmit={handleSubmit}
               name={name}
               setName={setName}
               setSurname={setSurname}

@@ -8,9 +8,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  overflow: auto;
+  overflow-x:hidden;
 
   &__window {
+    z-index: 12;
     opacity: none;
     overflow: auto;
     background-color: #fff;

@@ -1,8 +1,16 @@
-@use '../resuable/mixins.scss';
+@import '../resuable//mixins';
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 .popEvents {
-  @include mixins.onDesktop;
+  @include onPhones {
+    margin-inline: 10px;
+  }
+
+  @include onTablet {
+    margin-inline: 40px;
+  }
+
+  @include onBigScreen;
 
   margin-top: 160px;
   display: flex;
@@ -13,6 +21,12 @@
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 32px;
+    margin-top: 80px;
+    width: 1280px;
+  }
+
+  &__firstTop {
+    margin-top: 0;
   }
 
   &__viewAll {
@@ -24,9 +38,10 @@
   &__categories {
     --column-count: 2;
     display: grid;
-    grid-template-columns: repeat(var(--column-count), 286px);
+    grid-template-columns: repeat(var(--column-count), 302px);
     gap: 24px;
     text-align: start;
+    width: fit-content;
 
     @media (min-width: 320px) {
       --column-count: 1;
@@ -46,7 +61,11 @@
   }
   
   &__singleEvent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 302px;
+    box-sizing: border-box;
     height: 411px;
     padding: 8px;
     border-radius: 16px;
@@ -56,12 +75,19 @@
       0px 0px 5px 0px rgba(23, 29, 46, 0.06);
   }
 
+  &__singleEventTop {
+    display: block;
+    width: 100%;
+  }
+
   &__nameOfEvent {
     font-family: 'IBM Plex Serif';
     font-weight: 600;
     font-size: 18px;
     line-height: 140%;
     letter-spacing: 0;
+    margin-top: 8px;
+    color: #232326;
   }
 
   &__community {
@@ -70,6 +96,7 @@
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0;
+    color: #707073;
   }
 
   &__line {
@@ -77,5 +104,30 @@
     height: 1px;
     width: 100%;
     position: absolute;
+    bottom: 111px;
+    right: 0;
+  }
+
+  &__data, &__place, &__price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5px;
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0;
+    color: #464649;
+  }
+
+  &__price {
+    padding-bottom: 8px;
+  }
+
+  &__singleEventBottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 }

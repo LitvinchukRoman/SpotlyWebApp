@@ -17,11 +17,19 @@
     margin: auto;
     width: fit-content;
     letter-spacing: 0;
+    text-align: center;
+
+    @include onPhones {
+      margin-inline: 10px;
+    }
+
+    @include onTablet {
+      margin-inline: 40px;
+    }
   }
 
   &__title {
-    margin-bottom: 24px;
-    margin-top: 112px;
+    margin: 112px auto 24px;
     line-height: 100%;
     font-weight: 700;
     font-size: 40px;
@@ -36,17 +44,19 @@
     line-height: 150%;
     color: #464649;
     text-align: center;
+    margin: auto;
   }
 
   &__searchBarContainer {
-    height: 64px;
     display: flex;
+    height: 64px;
     align-items: center;
     border: 1px solid #dbdbe2;
     border-radius: 32px;
     width: fit-content;
     margin: auto;
     margin-top: 48px;
+    position: relative;
 
     box-shadow:
       0px 4px 8px 0px rgba(23, 29, 46, 0.08),
@@ -77,16 +87,27 @@
   &__decisions {
     display: flex;
     flex-direction: row;
-    justify-self: center;
     gap: 32px;
     margin-top: 112px;
+
+    @include onPhones {
+      margin-inline: 20px;
+      box-sizing: border-box;
+    }
+
+    @include onTablet {
+      margin-inline: 20px;
+    }
+
   }
 
   &__swiperSlide {
     width: fit-content !important;
-    margin: 0 !important;
-    display: flex !important;
-    gap: 32px !important;
+    margin-right: 32px !important;
+
+    &--last {
+      margin-right: 0 !important;
+    }
   }
 
   &__singleDecision {
@@ -98,11 +119,37 @@
     line-height: 150%;
     letter-spacing: 0;
     justify-content: center;
+    
+    @include onPhones {
+      width: min-content;
+    }
+
+    @include onTablet {
+      width: 159px;
+    }
   }
 
   &__decisionsImage {
-    width: 80px;
-    height: 80px;
-    margin-inline: 39.5px;
+    margin: auto;
+
+    @include onPhones {
+      width: 60px;
+      height: 60px;
+    }
+
+    @include onBigScreenCustom {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  &__seekArrowDown {
+    position: absolute;
+    left: 375px;
+  }
+
+  &__location {
+    position: absolute;
+    left: 309px;
   }
 }

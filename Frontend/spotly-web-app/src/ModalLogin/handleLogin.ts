@@ -1,69 +1,64 @@
 import useLogin from "./useLogin";
-import useValidate from "../ModalRegistrait/useValidate";
 
 type Props = {
+  loginEmail: string;
+  loginPassword: string;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
-  name: string;
-  regEmail: string;
-  setEmailError: React.Dispatch<React.SetStateAction<string | null>>;
-  regPassword: string;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  surname: string;
   e: React.FormEvent<Element>;
-  setDescriptionErrorPass: React.Dispatch<React.SetStateAction<string>>;
-  setNameError: React.Dispatch<React.SetStateAction<string | null>>;
-  setSurnameError: React.Dispatch<React.SetStateAction<string | null>>;
   onClose: () => void;
   onOpenPreferences: () => void;
+
+  // emailError: string | null;
+  // setEmailError: React.Dispatch<React.SetStateAction<string | null>>;
+  // passwordError: string | null;
+  // setPasswordError: React.Dispatch<React.SetStateAction<string | null>>;
+  // setDescriptionErrorPass: React.Dispatch<React.SetStateAction<string>>;
+  // setNameError: React.Dispatch<React.SetStateAction<string | null>>;
+  // setSurnameError: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const handleLogin = async ({
+  // emailError,
+  // setEmailError,
+  // passwordError,
+  // setPasswordError,
+  loginEmail,
+  loginPassword,
   setError,
-  name,
-  regEmail,
-  setEmailError,
-  regPassword,
   setIsLoading,
-  surname,
   e,
-  setDescriptionErrorPass,
-  setNameError,
-  setSurnameError,
   onClose,
-  onOpenPreferences
+  onOpenPreferences,
 }: Props) => {
   e.preventDefault();
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const isValidate = useValidate(
-    {
-      name,
-      regEmail,
-      setEmailError,
-      regPassword,
-      setDescriptionErrorPass,
-      setNameError,
-      surname,
-      setSurnameError,
-    }
-  );
+  // const isValidate = useLoginValidate(
+  //   {
+  //     loginEmail,
+  //     loginPassword,
+  //     setError,
+  //     emailError,
+  //     setEmailError,
+  //     passwordError,
+  //     setPasswordError
+  //   }
+  // );
 
   console.log('функція handleRegistration запущена.');
 
-  if (!isValidate) {
-    return;
-  }
+  // if (!isValidate) {
+  //   return;
+  // }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useLogin({ 
-    setError, 
-    name, 
-    regEmail, 
-    regPassword, 
-    setIsLoading, 
-    surname, 
+    loginEmail,
+    loginPassword,
     e, 
+    setIsLoading,
     onOpenPreferences, 
+    setError,
     onClose
   });
 }

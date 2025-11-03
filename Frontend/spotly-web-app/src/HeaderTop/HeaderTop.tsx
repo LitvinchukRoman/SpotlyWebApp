@@ -1,11 +1,16 @@
 import CitySearchSelect from '../CitySearchSelect/CitySearchSelect';
 import type { ModalProps } from '../resuable/types';
+import cn from 'classnames';
 import { TopBar } from '../TopBar/TopBar';
 // import { TopBar } from '../TopBar/TopBar';
 import headerStyles from './HeaderTop.module.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import './swiper-wrapper.scss'
+// import './swiper-wrapper.scss';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 type Props = {
   onOpen: () => void;
@@ -48,15 +53,24 @@ const HeaderTop: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferen
           <button>
             <img src="./images/button-seek-for.svg" alt="seek for" />
           </button>
+
+          <img 
+            src="./images/icons/arrow-down-bkack-1.svg" 
+            alt="img"
+            className={headerStyles.header__seekArrowDown}
+          />
+
+          <img 
+            src="../../public/images/icons/location-black.svg" 
+            alt=""
+            className={headerStyles.header__location}/>
         </div>
 
         <div className={headerStyles.header__decisions}>
           <Swiper
-            spaceBetween={0}
+            spaceBetween={'12'}
             slidesPerView={'auto'}
             modules={[Navigation, Pagination]}
-            pagination={{ clickable: true }}
-            createElements={false}
           >
             <SwiperSlide className={headerStyles.header__swiperSlide}>
               <button className={headerStyles.header__singleDecision}>
@@ -100,7 +114,7 @@ const HeaderTop: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferen
               </button>
             </SwiperSlide>
 
-            <SwiperSlide className={headerStyles.header__swiperSlide}>
+            <SwiperSlide className={cn(headerStyles.header__swiperSlide, headerStyles['header__swiperSlide--last'])}>
               <button className={headerStyles.header__singleDecision}>
                 <img src="./images/sport-2.svg" alt="" className={headerStyles.header__decisionsImage} />
                 Спорт & Рух

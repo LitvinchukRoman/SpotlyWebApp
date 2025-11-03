@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ModalStyles from './ModalLogin.module.scss';
 import cn from 'classnames';
 import BlackRedEye from '../BlackRedEye/BlackRedEye';
+import handleLogin from './handleLogin';
 
 type Props = {
   enterAccount: boolean;
@@ -35,6 +36,8 @@ const ModalLogin: React.FC<Props> = ({
   setLoginEmail,
   loginPassword,
   setLoginPassword,
+  setError,
+  setIsLoading,
   onOpenPreferences,
 }) => {
   const [emailError, setEmailError] = useState<null | string>(null);
@@ -147,7 +150,22 @@ const ModalLogin: React.FC<Props> = ({
         </div>
       ) : (
         <div>
-          <form action="post" className={ModalStyles.modal__login}>
+          <form
+            action="post"
+            className={ModalStyles.modal__login}
+            onSubmit={(e: React.FormEvent<Element>) => {
+              handleLogin({
+                loginEmail,
+                loginPassword,
+                setError,
+                setIsLoading,
+                e,
+                onClose,
+                onOpenPreferences,
+              }
+              )
+            }}
+          >
             <label className={ModalStyles.modal__inputWrapper}>
               Email
               <div className={ModalStyles.modal__toggleIconWrapper}>
@@ -238,7 +256,7 @@ const ModalLogin: React.FC<Props> = ({
               />
             </button>
           </div>
-        </div>
+        </div >
       )}
     </>
   );

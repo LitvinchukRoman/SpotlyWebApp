@@ -9,7 +9,6 @@ type Props = {
   setNameError: React.Dispatch<React.SetStateAction<string | null>>;
   surname: string;
   setSurnameError: React.Dispatch<React.SetStateAction<string | null>>;
-
 };
 
 const useValidate = ({

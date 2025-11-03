@@ -1,25 +1,25 @@
 import React from "react";
 
 type Props = {
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
-  name: string;
-  regEmail: string;
-  regPassword: string;
+  // setError: React.Dispatch<React.SetStateAction<string | null>>;
+  // setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  loginEmail: string;
+  loginPassword: string;
+  e: React.FormEvent<Element>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  surname: string;
-  e: React.FormEvent<Element>
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
   onOpenPreferences: () => void;
   onClose: () => void;
 }
 
-const useLogin = ({ setError, regEmail, regPassword, setIsLoading, e, onOpenPreferences, onClose }: Props) => {
+const useLogin = ({ loginEmail, loginPassword, e, setIsLoading, setError, onOpenPreferences, onClose }: Props) => {
   console.log('функція useLogin спрацювала');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (!regEmail || regPassword.length < 10) {
+    if (!loginEmail || loginPassword.length < 10) {
       setError("Будь ласка, заповніть усі поля коректно.");
       return;
     }
@@ -32,12 +32,12 @@ const useLogin = ({ setError, regEmail, regPassword, setIsLoading, e, onOpenPref
     }
   };
 
-  const BASE_URL = 'http://spotly.mylabstep.com/api'; // Змінено на публічний сервер
+  const BASE_URL = 'http://spotly.mylabstep.com/api';
   const API_URL = `${BASE_URL}/auth/login`;
 
   const sendRegistrationData = async () => {
     setIsLoading(true);
-    const userData = { regEmail, regPassword };
+    const userData = { loginEmail, loginPassword };
 
     try {
       console.log('Запит надіслано: чекаємо не відповідь сервера.');
