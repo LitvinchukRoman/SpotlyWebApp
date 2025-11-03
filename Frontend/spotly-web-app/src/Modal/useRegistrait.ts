@@ -32,7 +32,7 @@ const useRegistrait = ({ setError, name, regEmail, regPassword, setIsLoading, su
     }
   };
 
-  const BASE_URL = 'http://10.0.1.252:8080/api';
+  const BASE_URL = 'http://spotly.mylabstep.com/api';
   const API_URL = `${BASE_URL}/users/register`;
 
   const sendRegistrationData = async () => {
