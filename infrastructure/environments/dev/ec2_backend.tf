@@ -3,7 +3,7 @@ module "backend_ec2_instance" {
 
   name = "spotly-backend"
 
-  instance_type          = "t3.micro"
+  instance_type          = "t3.small"
   key_name               = aws_key_pair.deployer_key.key_name
   monitoring             = true
   subnet_id              = module.vpc.private_subnets[0]
