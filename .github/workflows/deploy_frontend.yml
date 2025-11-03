@@ -22,17 +22,17 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Change directory
-        run: cd Frontend/spotly-web-app
-
       - name: Install dependencies
         run: npm install
+        working-directory: Frontend/spotly-web-app
 
       - name: Run lint
         run: npm run lint
+        working-directory: Frontend/spotly-web-app
 
       - name: Run TypeScript
         run: npm run typecheck
+        working-directory: Frontend/spotly-web-app
 
   deploy:
     runs-on: [ self-hosted, Linux, X64, frontend ]
