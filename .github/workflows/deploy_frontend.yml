@@ -24,15 +24,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./frontend
+        working-directory: frontend
 
       - name: Run lint
         run: npm run lint
-        working-directory: ./frontend
+        working-directory: frontend
 
       - name: Run TypeScript
         run: npm run typecheck
-        working-directory: ./frontend
+        working-directory: frontend
 
   deploy:
     runs-on: [ self-hosted, Linux, X64, frontend ]
