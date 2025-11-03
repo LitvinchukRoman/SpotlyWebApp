@@ -4,6 +4,22 @@ resource "aws_security_group" "public_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
+    description = "node_exporter"
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "node_exporter"
+    from_port   = 8081
+    to_port     = 8081
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
@@ -71,6 +87,14 @@ resource "aws_security_group" "private_sg" {
     description = "api"
     from_port   = 9100
     to_port     = 9100
+    protocol    = "tcp"
+    security_groups = [aws_security_group.monitoring_sg.id]
+  }
+
+  ingress {
+    description = "node_exporter"
+    from_port   = 8081
+    to_port     = 8081
     protocol    = "tcp"
     security_groups = [aws_security_group.monitoring_sg.id]
   }
