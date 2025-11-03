@@ -19,20 +19,16 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           script: |
             cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
             git pull 
             git switch develop
             cd backend
-            
-            echo "Exporting environment variables..."
-            cat > .env <<EOF
-            DB_URL=${{ secrets.DB_URL }}
-            DB_USERNAME=${{ secrets.DB_USERNAME }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            SPRING_PROFILES_ACTIVE=dev
-            EOF
-              
             
             echo "Starting Docker Compose..."
             docker compose down
