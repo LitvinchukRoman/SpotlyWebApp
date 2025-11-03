@@ -31,5 +31,4 @@ jobs:
             cd backend
             
             echo "Starting Docker Compose..."
-            docker compose down
-            docker compose up -d --build
+            (docker compose down && docker compose up -d --build) & disown
