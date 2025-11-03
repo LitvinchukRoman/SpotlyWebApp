@@ -26,15 +26,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -51,15 +51,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -76,15 +76,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -101,15 +101,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__singleEventBottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -137,15 +137,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -162,15 +162,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -187,15 +187,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__data}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
@@ -212,15 +212,15 @@ const PopularsEvents = () => {
 
             <div className={eventsStyle.popEvents__bottom}>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/calendar-red.svg" alt="img" />
+                <img src="./images/calendar-red.svg" alt="img" />
                 П’ятниця, 26 жовтня, 10:00 - 12:00
               </div>
               <div className={eventsStyle.popEvents__place}>
-                <img src="../../public/images/map-red.svg" alt="img" />
+                <img src="./images/map-red.svg" alt="img" />
                 Вул. Богдана Хмельницького, 148, Київ
               </div>
               <div className={eventsStyle.popEvents__price}>
-                <img src="../../public/images/ticket-red.svg" alt="img" />
+                <img src="./images/ticket-red.svg" alt="img" />
                 Безкоштовно
               </div>
 
