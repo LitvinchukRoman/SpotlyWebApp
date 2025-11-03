@@ -5,6 +5,7 @@ on:
       - develop
     paths:
       - 'infrastructure/monitoring/**'
+      - '.github/workflows/deploy_monitoring.yml'
   workflow_dispatch:
 
 jobs:
