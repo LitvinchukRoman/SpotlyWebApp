@@ -12,6 +12,11 @@ on:
 jobs:
   deploy:
     runs-on: [ self-hosted, Linux, X64, frontend ]
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
     steps:
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.3
@@ -19,11 +24,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           script: |
             cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
             git pull 
@@ -32,4 +32,3 @@ jobs:
             
             echo "Starting Docker Compose..."
             docker compose down && docker compose up -d --build
-            sleep 15
