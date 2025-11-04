@@ -63,6 +63,7 @@ public class CustomOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
                 .queryParam("token", ourJwtToken)
                 .build().toUriString();
 
+
         response.sendRedirect(targetUrl);
     }
 }
