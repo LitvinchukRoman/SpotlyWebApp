@@ -3,7 +3,7 @@ module "monitoring_ec2_instance" {
 
   name = "spotly-monitoring"
 
-  instance_type          = "t3.micro"
+  instance_type          = "t3.small"
   key_name               = aws_key_pair.deployer_key.key_name
   monitoring             = true
   subnet_id              = module.vpc.public_subnets[0]
