@@ -6,12 +6,14 @@
 }
 
 .header {
+  
   background-image: linear-gradient(
     to bottom, 
     #e1d9ff,
     #fbfaff, 
     #ffffff,
   );
+
 
   &__title, &__subTitle {
     margin: auto;
@@ -89,16 +91,13 @@
     flex-direction: row;
     gap: 32px;
     margin-top: 112px;
+    margin: 112px auto 0;
+    max-width: 1280px;
+    // box-sizing: border-box;
+  }
 
-    @include mixin.onPhones {
-      margin-inline: 20px;
-      box-sizing: border-box;
-    }
-
-    @include mixin.onTablet {
-      margin-inline: 20px;
-    }
-
+  &__decisionsSwiper {
+    margin: 0 !important;
   }
 
   &__swiperSlide {

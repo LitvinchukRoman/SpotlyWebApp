@@ -8,7 +8,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  overflow-x:hidden;
+  overflow-x: hidden;
+  z-index: 12;
 
   &__window {
     z-index: 12;

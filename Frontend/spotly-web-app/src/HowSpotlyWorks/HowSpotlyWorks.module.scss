@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+.works {
+  margin: 160px auto 160px;
+  max-width: 1280px;
+
+  &__title {
+    font-family: 'IBM Plex Serif';
+    font-weight: 600;
+    font-style: semi-bold;
+    font-size: 28px;
+    line-height: 130%;
+    letter-spacing: 0;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+
+  &__functions {
+    max-width: 1280px;
+    display: flex;
+    flex-direction: row;
+    gap: 26.5px;
+  }
+
+  &__singleFunction {
+    border: 1px solid #ccd2d8;
+    border-radius: 16px;
+    width: 409px;
+    height: 241px;
+  }
+
+  &__functionIcon {
+    width: 64px;
+    height: 64px;
+    margin: 32px 172.5px 24px;
+  }
+
+  &__action {
+    width: fit-content;
+    margin: 0 auto 16px;
+    font-family: 'IBM Plex Serif';
+    font-weight: 500;
+    color: #232326;
+    font-style: medium;
+    font-size: 18px;
+    line-height: 140%;
+    letter-spacing: 0;
+    text-align: center;
+  }
+
+  &__describe {
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto 32px;
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    color: #464649;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0;
+  }
+
+  
+}

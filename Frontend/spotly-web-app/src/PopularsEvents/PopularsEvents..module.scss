@@ -2,27 +2,24 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 .popEvents {
-  @include mixin.onPhones {
-    margin-inline: 10px;
-  }
-
-  @include mixin.onTablet {
-    margin-inline: 40px;
-  }
-
-  @include mixin.onBigScreen;
-
-  margin-top: 160px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  
+  &__wrapper {
+    max-width: 1280px;
+    box-sizing: border-box;
+    margin: 160px auto 0;
+  }
 
   &__top {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    max-width: 1280px;
+    box-sizing: border-box;
     margin-bottom: 32px;
     margin-top: 80px;
-    width: 1280px;
   }
 
   &__firstTop {
@@ -40,8 +37,9 @@
     display: grid;
     grid-template-columns: repeat(var(--column-count), 302px);
     gap: 24px;
+    max-width: 1280px;
+    box-sizing: border-box;
     text-align: start;
-    width: fit-content;
 
     @media (min-width: 320px) {
       --column-count: 1;
@@ -77,7 +75,6 @@
 
   &__singleEventTop {
     display: block;
-    width: 100%;
   }
 
   &__nameOfEvent {

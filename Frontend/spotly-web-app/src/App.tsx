@@ -6,6 +6,10 @@ import ModalPreferences from './ModalPreferences/ModalPreferences';
 import { useNavigate } from 'react-router-dom';
 import HeaderTop from './HeaderTop/HeaderTop';
 import PopularsEvents from './PopularsEvents/PopularsEvents';
+import './App.css';
+import HowSpotlyWorks from './HowSpotlyWorks/HowSpotlyWorks';
+import JoinToUs from './JoinToUs/JoinToUs';
+import Footer from './Footer/Footer';
 
 const App = () => {
   const navigate = useNavigate();
@@ -32,17 +36,22 @@ const App = () => {
 
   return (
     <>
-      <HeaderTop
-        modalProps={modalProps}
-        onOpen={onOpen}
-        onClosePreferences={onClosePreferences}
-        isOpenPreferences={isOpenPreferences}
-      />
+      <div className="App">
+        <HeaderTop
+          modalProps={modalProps}
+          onOpen={onOpen}
+          onClosePreferences={onClosePreferences}
+          isOpenPreferences={isOpenPreferences}
+        />
 
-      <PopularsEvents />
-      <Modal {...modalProps} />
+        <Modal {...modalProps} />
+        {isOpenPreferences && <ModalPreferences onClosePreferences={onClosePreferences} />}
 
-      {isOpenPreferences && <ModalPreferences onClosePreferences={onClosePreferences} />}
+        <PopularsEvents />
+        <HowSpotlyWorks />
+        <JoinToUs onOpen={onOpen} />
+        <Footer />
+      </div>
     </>
   );
 };

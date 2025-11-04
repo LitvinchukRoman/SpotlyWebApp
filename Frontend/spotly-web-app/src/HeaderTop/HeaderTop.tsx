@@ -71,6 +71,7 @@ const HeaderTop: React.FC<Props> = ({ onOpen, onClosePreferences, isOpenPreferen
             spaceBetween={'12'}
             slidesPerView={'auto'}
             modules={[Navigation, Pagination]}
+            className={headerStyles.header__decisionsSwiper}
           >
             <SwiperSlide className={headerStyles.header__swiperSlide}>
               <button className={headerStyles.header__singleDecision}>

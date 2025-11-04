@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+.joinUs {
+  padding-block: 160px;
+  background-color: #f8f7fa;
+
+  &__title, &__action, &__registrait, &__isAccount {
+    margin: 0 auto;
+  }
+
+  &__wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    margin: 0px auto 16px;
+    font-family: 'IBM Plex Serif';
+    font-weight: 600;
+    font-style: semi-bold;
+    font-size: 28px;
+    line-height: 130%;
+    letter-spacing: 0;
+    color: #232326;
+    width: fit-content;
+    text-align: center;
+  }
+
+  &__action {
+    width: fit-content;
+    text-align: center;
+    margin: 0px auto;
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    font-size: 18px;
+    font-style: regular;
+    line-height: 150%;
+    letter-spacing: 0;
+    color: #464649;
+    padding-bottom: 32px;
+  }
+
+  &__registrait {
+    color: #fff;
+    background-color: #fc674c;
+    width: 172px;
+    height: 48px;
+    border-radius: 24px;
+    display: block;
+  }
+
+  &__isAccount {
+    width: fit-content;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 24px auto 0;
+  }
+
+  &__question {
+    font-family: 'Nunito Sans';
+    font-weight: 400;
+    font-style: regular;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0;
+    color: #707073;
+  }
+
+  &__logIn {
+    font-family: 'Nunito Sans';
+    font-weight: 600;
+    font-style: semi-bold;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #232326;
+  }
+}
