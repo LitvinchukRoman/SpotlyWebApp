@@ -65,7 +65,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
             } catch (Exception e) {
-                // Користувач не знайдений або помилка завантаження
                 filterChain.doFilter(request, response);
                 return;
             }

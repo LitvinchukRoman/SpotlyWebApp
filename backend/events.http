@@ -9,7 +9,6 @@
 # ⚠️ Токен буде заповнено автоматично після виконання запиту #2 (Логін)
 # Якщо автоматичне збереження не працює, скопіюйте токен з відповіді запиту #2
 # та вставте його сюди:
-@bearer_token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzYyMDI4ODk4LCJleHAiOjE3NjIxMTUyOTh9.prF9OGzm_TZj4U4_KMc87xad7i-tH6pc_-I1E0P3nyNP83cwsA78WbspevCEeNMZwbXCQ5I72__U4NnNALRtfw
 
 ### 1. Зареєструвати нового користувача
 POST http://localhost:8080/api/users/register
