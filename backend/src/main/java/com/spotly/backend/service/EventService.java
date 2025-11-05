@@ -104,7 +104,7 @@ public class EventService {
     }
 
     public List<EventDto> searchEventsByCity(String city) {
-        List<Event> events = eventRepository.findByCityIgnoreCase(city);
+        List<Event> events = eventRepository.findByCityContainingIgnoreCase(city);
 
         return events.stream()
                 .map(this::mapEventToDto)
@@ -112,7 +112,7 @@ public class EventService {
     }
 
     public List<EventDto> searchEventsByDescriptionAndCity(String searchText, String city) {
-        List<Event> events = eventRepository.findByDescriptionContainingAndCity(searchText, city);
+        List<Event> events = eventRepository.findByDescriptionContainingAndCityContaining(searchText, city);
 
         return events.stream()
                 .map(this::mapEventToDto)
@@ -146,5 +146,23 @@ public class EventService {
                 event.getLongitude(),
                 categoryDtos
         );
+    }
+
+    public List<EventDto> getRecommendedEvents() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Set<Category> userInterests = user.getInterestedCategories();
+
+        if (userInterests == null || userInterests.isEmpty()) {
+            return List.of();
+        }
+
+        List<Event> recommendedEvents = eventRepository.findDistinctByCategoriesIn(userInterests);
+
+        return recommendedEvents.stream()
+                .map(this::mapEventToDto)
+                .collect(Collectors.toList());
     }
 }

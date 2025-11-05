@@ -128,3 +128,7 @@ Content-Type: application/json
 {
   "categoryIds": [1, 3]
 }
+
+### 11. Отримати рекомендовані події (для залогіненого юзера)
+GET http://localhost:8080/api/events/recommendations
+Authorization: Bearer {{bearer_token}}

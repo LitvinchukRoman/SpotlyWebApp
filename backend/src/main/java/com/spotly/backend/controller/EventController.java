@@ -67,4 +67,10 @@ public class EventController {
     public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
     }
+
+
+    @GetMapping("/recommendations")
+    public List<EventDto> getRecommendedEventsForUser() {
+        return eventService.getRecommendedEvents();
+    }
 }
