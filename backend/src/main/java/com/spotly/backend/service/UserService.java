@@ -5,6 +5,7 @@ import com.spotly.backend.domain.User;
 import com.spotly.backend.dto.CreateUserDto;
 import com.spotly.backend.dto.UpdateUserInterestsDto;
 import com.spotly.backend.dto.UserDto;
+import com.spotly.backend.exception.AccessDeniedException;
 import com.spotly.backend.exception.EmailAlreadyExistsException;
 import com.spotly.backend.exception.InvalidInterestSelectionException;
 import com.spotly.backend.exception.ResourceNotFoundException;
@@ -43,20 +44,30 @@ public class UserService {
 
         User savedUser = userRepository.save(newUser);
 
-        return new UserDto(savedUser.getId(), savedUser.getEmail());
+        return new UserDto(
+                savedUser.getId(),
+                savedUser.getEmail(),
+                savedUser.getFollowers().size(),
+                savedUser.getFollowing().size()
+        );
     }
 
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(user -> new UserDto(user.getId(), user.getEmail()))
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getFollowers().size(),
+                        user.getFollowing().size()
+                ))
                 .collect(Collectors.toList());
     }
 
 
     public void updateUserInterests(UpdateUserInterestsDto dto) {
 
-        if (dto.categoryIds() == null || dto.categoryIds().size() < 1 || dto.categoryIds().size() > 3) {
+        if (dto.categoryIds() == null || dto.categoryIds().isEmpty() || dto.categoryIds().size() > 3) {
             throw new InvalidInterestSelectionException("You must select between 1 and 3 interests.");
         }
 
@@ -74,5 +85,34 @@ public class UserService {
 
         user.setInterestedCategories(interests);
         userRepository.save(user);
+    }
+
+    public void followUser(Long userIdToFollow) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Current user not found"));
+
+        User userToFollow = userRepository.findById(userIdToFollow)
+                .orElseThrow(() -> new ResourceNotFoundException("User to follow not found"));
+
+        if (currentUser.getId().equals(userToFollow.getId())) {
+            throw new AccessDeniedException("You cannot follow yourself");
+        }
+
+        currentUser.getFollowing().add(userToFollow);
+        userRepository.save(currentUser);
+    }
+
+    public void unfollowUser(Long userIdToUnfollow) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Current user not found"));
+
+        User userToUnfollow = userRepository.findById(userIdToUnfollow)
+                .orElseThrow(() -> new ResourceNotFoundException("User to unfollow not found"));
+
+        currentUser.getFollowing().remove(userToUnfollow);
+        userRepository.save(currentUser);
     }
 }

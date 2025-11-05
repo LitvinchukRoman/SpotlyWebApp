@@ -34,4 +34,16 @@ public class UserController {
     public void updateCurrentUserInterests(@RequestBody UpdateUserInterestsDto interestsDto) {
         userService.updateUserInterests(interestsDto);
     }
+
+    @PostMapping("/{userId}/follow")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void followUser(@PathVariable Long userId) {
+        userService.followUser(userId);
+    }
+
+    @DeleteMapping("/{userId}/follow")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unfollowUser(@PathVariable Long userId) {
+        userService.unfollowUser(userId);
+    }
 }

@@ -29,5 +29,15 @@ public class User {
     )
     private Set<Category> interestedCategories = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_follows",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private Set<User> following = new HashSet<>();
 
+
+    @ManyToMany(mappedBy = "following")
+    private Set<User> followers = new HashSet<>();
 }
