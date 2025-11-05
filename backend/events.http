@@ -64,19 +64,22 @@ Authorization: Bearer {{bearer_token}}
 ### ПОДІЇ (ЗАХИЩЕНІ ЕНДПОІНТИ)
 ### ===================================================
 
-### 5. Отримати всі події (GET)
+### 5. Отримати ВСІ події (Випадок 1)
 GET http://localhost:8080/api/events
 Authorization: Bearer {{bearer_token}}
 
-### 5a. Пошук подій за описом (текстом)
-GET http://localhost:8080/api/events?search=музика
-Authorization: Bearer {{bearer_token}}
-
-### 5b. Пошук подій за містом
+### ------------------------------
+### 5a. Пошук за містом (Випадок 2)
 GET http://localhost:8080/api/events?city=Київ
 Authorization: Bearer {{bearer_token}}
 
-### 5c. Пошук подій за описом та містом (обидва параметри)
+### ------------------------------
+### 5b. Пошук за текстом (Випадок 3)
+GET http://localhost:8080/api/events?search=пробіжка
+Authorization: Bearer {{bearer_token}}
+
+### ------------------------------
+### 5c. Пошук за текстом І містом (Випадок 4)
 GET http://localhost:8080/api/events?search=музика&city=Київ
 Authorization: Bearer {{bearer_token}}
 
@@ -96,7 +99,7 @@ Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
 ### 7. Отримати ОДНУ подію (GET by ID)
-GET http://localhost:8080/api/events/4
+GET http://localhost:8080/api/events/3
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------

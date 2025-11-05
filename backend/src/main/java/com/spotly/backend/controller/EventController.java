@@ -21,20 +21,23 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public List<EventDto> getAllEvents(
+    public List<EventDto> getEvents(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String city
     ) {
-        if (search != null && !search.isEmpty() && city != null && !city.isEmpty()) {
+
+        if (search != null && city != null) {
             return eventService.searchEventsByDescriptionAndCity(search, city);
-        }
-        if (search != null && !search.isEmpty()) {
+
+        } else if (search != null) {
             return eventService.searchEventsByDescription(search);
-        }
-        if (city != null && !city.isEmpty()) {
+
+        } else if (city != null) {
             return eventService.searchEventsByCity(city);
+
+        } else {
+            return eventService.getAllEvents();
         }
-        return eventService.getAllEvents();
     }
 
 
