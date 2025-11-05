@@ -22,4 +22,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private Set<Event> events = new HashSet<>();
+
+    @ManyToMany(mappedBy = "interestedCategories")
+    private Set<User> interestedUsers = new HashSet<>();
 }

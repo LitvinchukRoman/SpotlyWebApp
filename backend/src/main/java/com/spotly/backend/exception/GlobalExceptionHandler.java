@@ -73,6 +73,20 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(InvalidInterestSelectionException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidInterestSelection(InvalidInterestSelectionException ex, WebRequest request) {
+        String path = request.getDescription(false).replace("uri=", "");
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), // 400
+                "Bad Request",
+                ex.getMessage(),
+                path,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
 

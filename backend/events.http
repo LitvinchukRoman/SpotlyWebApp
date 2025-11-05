@@ -119,3 +119,12 @@ Authorization: Bearer {{bearer_token}}
 # ⚠️ ВАЖЛИВО: Цей запит працює тільки якщо подія належить вашому користувачу
 DELETE http://localhost:8080/api/events/4
 Authorization: Bearer {{bearer_token}}
+
+### 10. Оновити інтереси поточного юзера
+PUT http://localhost:8080/api/users/me/interests
+Authorization: Bearer {{bearer_token}}
+Content-Type: application/json
+
+{
+  "categoryIds": [1, 3]
+}
