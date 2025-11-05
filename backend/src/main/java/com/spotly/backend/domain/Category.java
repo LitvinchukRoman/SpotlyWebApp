@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "categories")
 @Getter
@@ -17,4 +20,6 @@ public class Category {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @ManyToMany(mappedBy = "categories")
+    private Set<Event> events = new HashSet<>();
 }

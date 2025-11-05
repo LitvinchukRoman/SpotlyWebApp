@@ -1,11 +1,13 @@
 package com.spotly.backend.service;
 
+import com.spotly.backend.domain.Category;
 import com.spotly.backend.domain.Event;
 import com.spotly.backend.domain.User;
 import com.spotly.backend.dto.CategoryDto;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.exception.AccessDeniedException;
 import com.spotly.backend.exception.ResourceNotFoundException;
+import com.spotly.backend.repository.CategoryRepository;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,6 +28,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
 
     public List<EventDto> getAllEvents() {
@@ -46,6 +50,10 @@ public class EventService {
         User author = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        Set<Category> categories = new HashSet<>(
+                categoryRepository.findAllById(createDto.categoryIds())
+        );
+
         Event newEvent = new Event();
         newEvent.setTitle(createDto.title());
         newEvent.setDescription(createDto.description());
@@ -53,6 +61,7 @@ public class EventService {
         newEvent.setCity(createDto.city());
         newEvent.setLatitude(createDto.latitude());
         newEvent.setLongitude(createDto.longitude());
+        newEvent.setCategories(categories);
 
         Event savedEvent = eventRepository.save(newEvent);
 
@@ -62,6 +71,7 @@ public class EventService {
     public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
+
         Event eventToUpdate = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
 
@@ -69,11 +79,16 @@ public class EventService {
             throw new AccessDeniedException("You are not authorized to update this event");
         }
 
+        Set<Category> categories = new HashSet<>(
+                categoryRepository.findAllById(updateDto.categoryIds())
+        );
+
         eventToUpdate.setTitle(updateDto.title());
         eventToUpdate.setDescription(updateDto.description());
         eventToUpdate.setCity(updateDto.city());
         eventToUpdate.setLatitude(updateDto.latitude());
         eventToUpdate.setLongitude(updateDto.longitude());
+        eventToUpdate.setCategories(categories);
 
         Event updatedEvent = eventRepository.save(eventToUpdate);
 
