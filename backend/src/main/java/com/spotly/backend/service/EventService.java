@@ -2,6 +2,7 @@ package com.spotly.backend.service;
 
 import com.spotly.backend.domain.Event;
 import com.spotly.backend.domain.User;
+import com.spotly.backend.dto.CategoryDto;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.exception.AccessDeniedException;
 import com.spotly.backend.exception.ResourceNotFoundException;
@@ -15,6 +16,7 @@ import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,16 +30,7 @@ public class EventService {
     public List<EventDto> getAllEvents() {
         List<Event> eventsFromDb = eventRepository.findAll();
         return eventsFromDb.stream()
-                .map(event -> new EventDto(
-                        event.getId(),
-                        event.getTitle(),
-                        event.getDescription(),
-                        event.getAuthor().getEmail(),
-                        event.getAuthor().getId(),
-                        event.getCity(),
-                        event.getLatitude(),
-                        event.getLongitude()
-                ))
+                .map(this::mapEventToDto)
                 .collect(Collectors.toList());
     }
 
@@ -45,17 +38,7 @@ public class EventService {
     public EventDto getEventById(Long id) {
         Event eventFromDb = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
-
-        return new EventDto(
-                eventFromDb.getId(),
-                eventFromDb.getTitle(),
-                eventFromDb.getDescription(),
-                eventFromDb.getAuthor().getEmail(),
-                eventFromDb.getAuthor().getId(),
-                eventFromDb.getCity(),
-                eventFromDb.getLatitude(),
-                eventFromDb.getLongitude()
-        );
+        return mapEventToDto(eventFromDb);
     }
 
     public EventDto createEvent(CreateEventDto createDto) {
@@ -73,16 +56,7 @@ public class EventService {
 
         Event savedEvent = eventRepository.save(newEvent);
 
-        return new EventDto(
-                savedEvent.getId(),
-                savedEvent.getTitle(),
-                savedEvent.getDescription(),
-                savedEvent.getAuthor().getEmail(),
-                savedEvent.getAuthor().getId(),
-                savedEvent.getCity(),
-                savedEvent.getLatitude(),
-                savedEvent.getLongitude()
-        );
+        return mapEventToDto(savedEvent);
     }
 
     public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
@@ -103,65 +77,30 @@ public class EventService {
 
         Event updatedEvent = eventRepository.save(eventToUpdate);
 
-        return new EventDto(
-                updatedEvent.getId(),
-                updatedEvent.getTitle(),
-                updatedEvent.getDescription(),
-                updatedEvent.getAuthor().getEmail(),
-                updatedEvent.getAuthor().getId(),
-                updatedEvent.getCity(),
-                updatedEvent.getLatitude(),
-                updatedEvent.getLongitude()
-        );
+        return mapEventToDto(updatedEvent);
     }
 
     public List<EventDto> searchEventsByDescription(String searchText) {
         List<Event> events = eventRepository.findByDescriptionContainingIgnoreCase(searchText);
+
         return events.stream()
-                .map(event -> new EventDto(
-                        event.getId(),
-                        event.getTitle(),
-                        event.getDescription(),
-                        event.getAuthor().getEmail(),
-                        event.getAuthor().getId(),
-                        event.getCity(),
-                        event.getLatitude(),
-                        event.getLongitude()
-                ))
+                .map(this::mapEventToDto)
                 .collect(Collectors.toList());
     }
 
-    // Пошук подій за містом
     public List<EventDto> searchEventsByCity(String city) {
         List<Event> events = eventRepository.findByCityIgnoreCase(city);
+
         return events.stream()
-                .map(event -> new EventDto(
-                        event.getId(),
-                        event.getTitle(),
-                        event.getDescription(),
-                        event.getAuthor().getEmail(),
-                        event.getAuthor().getId(),
-                        event.getCity(),
-                        event.getLatitude(),
-                        event.getLongitude()
-                ))
+                .map(this::mapEventToDto)
                 .collect(Collectors.toList());
     }
-
 
     public List<EventDto> searchEventsByDescriptionAndCity(String searchText, String city) {
         List<Event> events = eventRepository.findByDescriptionContainingAndCity(searchText, city);
+
         return events.stream()
-                .map(event -> new EventDto(
-                        event.getId(),
-                        event.getTitle(),
-                        event.getDescription(),
-                        event.getAuthor().getEmail(),
-                        event.getAuthor().getId(),
-                        event.getCity(),
-                        event.getLatitude(),
-                        event.getLongitude()
-                ))
+                .map(this::mapEventToDto)
                 .collect(Collectors.toList());
     }
 
@@ -173,7 +112,24 @@ public class EventService {
         if (!event.getAuthor().getEmail().equals(email)) {
             throw new AccessDeniedException("You are not authorized to delete this event");
         }
+        eventRepository.delete(event);
+    }
 
-        eventRepository.deleteById(id);
+    private EventDto mapEventToDto(Event event) {
+        Set<CategoryDto> categoryDtos = event.getCategories().stream()
+                .map(category -> new CategoryDto(category.getId(), category.getName()))
+                .collect(Collectors.toSet());
+
+        return new EventDto(
+                event.getId(),
+                event.getTitle(),
+                event.getDescription(),
+                event.getAuthor().getEmail(),
+                event.getAuthor().getId(),
+                event.getCity(),
+                event.getLatitude(),
+                event.getLongitude(),
+                categoryDtos
+        );
     }
 }

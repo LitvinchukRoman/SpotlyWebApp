@@ -1,5 +1,7 @@
 package com.spotly.backend.dto;
 
+import java.util.Set;
+
 public record EventDto(
         Long id,
         String title,
@@ -8,5 +10,6 @@ public record EventDto(
         Long userId,
         String city,
         Double latitude,
-        Double longitude
+        Double longitude,
+        Set<CategoryDto> categories
 ) {}
