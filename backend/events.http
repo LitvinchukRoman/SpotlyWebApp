@@ -142,3 +142,7 @@ Authorization: Bearer {{bearer_token}}
 ### 12. "Roman" (id:2) фоловить "TestUser" (id:1)
 POST http://localhost:8080/api/users/1/follow
 Authorization: Bearer {{bearer_token}}
+
+### 13. Отримати "Стрічку Новин" (для 'roman')
+GET http://localhost:8080/api/events/feed
+Authorization: Bearer {{bearer_token}}

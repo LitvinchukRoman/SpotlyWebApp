@@ -76,4 +76,11 @@ public class EventController {
         eventService.deleteEvent(id);
     }
 
+
+    @GetMapping("/feed")
+    public Page<EventDto> getEventFeedForUser(Pageable pageable) {
+        return eventService.getEventFeed(pageable);
+    }
+
+
 }

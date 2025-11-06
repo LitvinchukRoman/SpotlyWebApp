@@ -153,4 +153,19 @@ public class EventService {
         Page<Event> recommendedEventsPage = eventRepository.findDistinctByCategoriesIn(userInterests, pageable);
         return recommendedEventsPage.map(this::mapEventToDto);
     }
+
+    public Page<EventDto> getEventFeed(Pageable pageable) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Set<User> followedUsers = user.getFollowing();
+
+        if (followedUsers == null || followedUsers.isEmpty()) {
+            return Page.empty();
+        }
+
+        Page<Event> eventFeedPage = eventRepository.findByAuthorIn(followedUsers, pageable);
+        return eventFeedPage.map(this::mapEventToDto);
+    }
 }
