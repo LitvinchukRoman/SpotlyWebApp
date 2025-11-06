@@ -150,3 +150,16 @@ Authorization: Bearer {{bearer_token}}
 ### 13. Отримати "Стрічку Новин" (для 'roman')
 GET http://localhost:8080/api/events/feed
 Authorization: Bearer {{bearer_token}}
+
+### 14. "Roman" (id:2) каже "Я ЙДУ!" на подію (id:1)
+POST http://localhost:8080/api/events/1/rsvp
+Authorization: Bearer {{bearer_token}}
+Content-Type: application/json
+
+{
+  "status": "GOING"
+}
+
+### 15. "Roman" (id:2) "передумав"
+DELETE http://localhost:8080/api/events/1/rsvp
+Authorization: Bearer {{bearer_token}}

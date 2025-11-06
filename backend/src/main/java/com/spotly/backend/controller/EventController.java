@@ -1,7 +1,9 @@
 package com.spotly.backend.controller;
 
 import com.spotly.backend.dto.EventDto;
+import com.spotly.backend.dto.RsvpRequestDto;
 import com.spotly.backend.service.EventService;
+import com.spotly.backend.service.RsvpService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +17,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${frontend.url}")
 @AllArgsConstructor
 public class EventController {
 
 
     private final EventService eventService;
+    private final RsvpService rsvpService;
 
     @GetMapping
     public Page<EventDto> getEvents(
@@ -80,6 +83,18 @@ public class EventController {
     @GetMapping("/feed")
     public Page<EventDto> getEventFeedForUser(Pageable pageable) {
         return eventService.getEventFeed(pageable);
+    }
+
+    @PostMapping("/{id}/rsvp")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void setEventRsvp(@PathVariable Long id, @RequestBody RsvpRequestDto rsvpDto) {
+        rsvpService.setRsvp(id, rsvpDto);
+    }
+
+    @DeleteMapping("/{id}/rsvp")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEventRsvp(@PathVariable Long id) {
+        rsvpService.deleteRsvp(id);
     }
 
 
