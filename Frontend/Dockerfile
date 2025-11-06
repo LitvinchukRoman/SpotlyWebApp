@@ -2,7 +2,7 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY spotly-web-app/package*.json ./
+COPY WebApp/package*.json ./
 
 RUN npm ci
 
