@@ -1,0 +1,49 @@
+/* === src/styles/_reset.scss === */
+
+/* 1. Забираємо відступи, падінги та встановлюємо box-sizing */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. Робимо сторінку на всю висоту */
+html,
+body {
+  height: 100%;
+}
+
+/* 4. Знімаємо стилі з посилань */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 5. Знімаємо стандартні стилі зі списків */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 6. Знімаємо рамку з кнопок і форм */
+button,
+input,
+textarea,
+select {
+  border: none;
+  outline: none;
+  background: none;
+  font: inherit;
+}
+
+/* 7. Робимо картинки адаптивними */
+img,
+picture,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

@@ -1,0 +1,83 @@
+/* === Typography System === */
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap');
+
+/* === Font families === */
+$font-serif: 'IBM Plex Serif', serif;
+$font-sans: 'Nunito Sans', sans-serif;
+
+/* === Headings === */
+h1 {
+  font-family: $font-serif;
+  font-weight: 700; // Bold
+  font-size: 40px;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-family: $font-serif;
+  font-weight: 600; // Semi Bold
+  font-size: 28px;
+  line-height: 130%;
+  letter-spacing: 0;
+}
+
+h3 {
+  font-family: $font-serif;
+  font-weight: 500; // Medium
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+/* === Buttons === */
+.btn-primary {
+  font-family: $font-sans;
+  font-weight: 700; // Bold
+  font-size: 17px;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+.btn-secondary {
+  font-family: $font-sans;
+  font-weight: 600; // Semi Bold
+  font-size: 14px;
+  line-height: normal; // Auto
+  letter-spacing: 0;
+}
+
+/* === Body Text === */
+.body-18 {
+  font-family: $font-sans;
+  font-weight: 400; // Regular
+  font-size: 18px;
+  line-height: 150%;
+  letter-spacing: 0;
+}
+
+.body-16 {
+  font-family: $font-sans;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0;
+}
+
+/* === Secondary Text === */
+.text-14 {
+  font-family: $font-sans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0;
+}
+
+.text-12 {
+  font-family: $font-sans;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0;
+}

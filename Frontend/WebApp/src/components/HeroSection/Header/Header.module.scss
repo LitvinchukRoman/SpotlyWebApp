@@ -1,0 +1,67 @@
+ .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #232326;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  .login {
+    position: relative;
+    color: #232326;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.3s ease;
+
+    /* Псевдоелемент для лінії */
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #232326;
+      transition: width 0.3s ease;
+    }
+
+    &:hover {
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &:active {
+      color: #000;
+      &::after {
+        background-color: #000;
+      }
+    } 
+  }
+
+  .register {
+    background: #232326;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background: #2f2f32;
+      box-shadow: 0px 4px 8px rgba(35, 35, 38, 0.2);
+    }
+
+    &:active {
+      background: #000;
+    }
+  }
+
+}
