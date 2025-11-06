@@ -24,15 +24,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: Frontend/spotly-web-app
+        working-directory: Frontend/WebApp
 
       - name: Run lint
         run: npm run lint
-        working-directory: Frontend/spotly-web-app
+        working-directory: Frontend/WebApp
 
       - name: Run TypeScript
         run: npm run typecheck
-        working-directory: Frontend/spotly-web-app
+        working-directory: Frontend/WebApp
 
   deploy:
     runs-on: [ self-hosted, Linux, X64, frontend ]
