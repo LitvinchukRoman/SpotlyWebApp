@@ -30,7 +30,7 @@ public class User {
     public String getFullName() {
         return firstName + " " + lastName;
     }
-    
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_interests",
@@ -50,4 +50,7 @@ public class User {
 
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<EventRsvp> rsvps = new HashSet<>();
 }
