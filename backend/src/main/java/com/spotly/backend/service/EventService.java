@@ -7,6 +7,7 @@ import com.spotly.backend.dto.CategoryDto;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.exception.AccessDeniedException;
 import com.spotly.backend.exception.ResourceNotFoundException;
+import com.spotly.backend.exception.InvalidDataException;
 import com.spotly.backend.repository.CategoryRepository;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
@@ -19,8 +20,9 @@ import org.springframework.stereotype.Service;
 import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -62,6 +64,15 @@ public class EventService {
         newEvent.setLatitude(createDto.latitude());
         newEvent.setLongitude(createDto.longitude());
         newEvent.setCategories(categories);
+        newEvent.setAddress(createDto.address());
+        newEvent.setPrice(createDto.price());
+
+        try {
+            newEvent.setStartDateTime(LocalDateTime.parse(createDto.startDateTime()));
+            newEvent.setEndDateTime(LocalDateTime.parse(createDto.endDateTime()));
+        } catch (DateTimeParseException e) {
+            throw new InvalidDataException("Invalid date format. Use ISO format, e.g., '2025-10-26T19:00:00'");
+        }
 
         Event savedEvent = eventRepository.save(newEvent);
 
@@ -89,6 +100,14 @@ public class EventService {
         eventToUpdate.setLatitude(updateDto.latitude());
         eventToUpdate.setLongitude(updateDto.longitude());
         eventToUpdate.setCategories(categories);
+        eventToUpdate.setAddress(updateDto.address());
+        eventToUpdate.setPrice(updateDto.price());
+        try {
+            eventToUpdate.setStartDateTime(LocalDateTime.parse(updateDto.startDateTime()));
+            eventToUpdate.setEndDateTime(LocalDateTime.parse(updateDto.endDateTime()));
+        } catch (DateTimeParseException e) {
+            throw new InvalidDataException("Invalid date format.");
+        }
 
         Event updatedEvent = eventRepository.save(eventToUpdate);
 
@@ -121,23 +140,7 @@ public class EventService {
         eventRepository.delete(event);
     }
 
-    private EventDto mapEventToDto(Event event) {
-        Set<CategoryDto> categoryDtos = event.getCategories().stream()
-                .map(category -> new CategoryDto(category.getId(), category.getName()))
-                .collect(Collectors.toSet());
 
-        return new EventDto(
-                event.getId(),
-                event.getTitle(),
-                event.getDescription(),
-                event.getAuthor().getEmail(),
-                event.getAuthor().getId(),
-                event.getCity(),
-                event.getLatitude(),
-                event.getLongitude(),
-                categoryDtos
-        );
-    }
 
     public Page<EventDto> getRecommendedEvents(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -167,5 +170,26 @@ public class EventService {
 
         Page<Event> eventFeedPage = eventRepository.findByAuthorIn(followedUsers, pageable);
         return eventFeedPage.map(this::mapEventToDto);
+    }
+
+    private EventDto mapEventToDto(Event event) {
+        Set<CategoryDto> categoryDtos = event.getCategories().stream()
+                .map(category -> new CategoryDto(category.getId(), category.getName()))
+                .collect(Collectors.toSet());
+
+        return new EventDto(
+                event.getId(),
+                event.getTitle(),
+                event.getDescription(),
+                event.getAuthor().getFullName(),
+                event.getCity(),
+                event.getLatitude(),
+                event.getLongitude(),
+                categoryDtos,
+                event.getAddress(),
+                event.getPrice(),
+                event.getStartDateTime().toString(),
+                event.getEndDateTime().toString()
+        );
     }
 }

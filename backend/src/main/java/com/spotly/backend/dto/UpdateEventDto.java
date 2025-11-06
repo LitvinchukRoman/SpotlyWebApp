@@ -8,5 +8,9 @@ public record UpdateEventDto(
         String city,
         Double latitude,
         Double longitude,
-        Set<Long> categoryIds
+        Set<Long> categoryIds,
+        String address,
+        Double price,
+        String startDateTime,
+        String endDateTime
 ) {}

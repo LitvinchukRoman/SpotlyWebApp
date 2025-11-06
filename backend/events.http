@@ -4,6 +4,8 @@
 
 # Змінні для тестування
 @email = roma
+@firstname = Roman
+@lastname = Petrenko
 @password = password123
 
 # ⚠️ Токен буде заповнено автоматично після виконання запиту #2 (Логін)
@@ -16,6 +18,8 @@ Content-Type: application/json
 
 {
   "email": "{{email}}",
+  "firstName": "{{firstname}}",
+   "lastName": "{{lastname}}",
   "password": "{{password}}"
 }
 

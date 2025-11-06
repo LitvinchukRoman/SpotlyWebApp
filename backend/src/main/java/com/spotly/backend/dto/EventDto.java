@@ -6,10 +6,13 @@ public record EventDto(
         Long id,
         String title,
         String description,
-        String authorName,
-        Long userId,
+        String organisatorName,
         String city,
         Double latitude,
         Double longitude,
-        Set<CategoryDto> categories
+        Set<CategoryDto> categories,
+        String address,
+        Double price,
+        String startDateTime,
+        String endDateTime
 ) {}

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,18 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
+    private LocalDateTime startDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endDateTime;
 
     private Double latitude;
 

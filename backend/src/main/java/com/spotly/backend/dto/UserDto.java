@@ -4,5 +4,7 @@ public record UserDto(
         Long id,
         String email,
         Integer followersCount,
-        Integer followingCount
+        Integer followingCount,
+        String firstName,
+        String lastName
 ) {}

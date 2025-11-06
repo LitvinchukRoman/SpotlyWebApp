@@ -41,26 +41,19 @@ public class UserService {
         User newUser = new User();
         newUser.setEmail(createDto.email());
         newUser.setPassword(hashedPassword);
+        newUser.setFirstName(createDto.firstName());
+        newUser.setLastName(createDto.lastName());
 
         User savedUser = userRepository.save(newUser);
 
-        return new UserDto(
-                savedUser.getId(),
-                savedUser.getEmail(),
-                savedUser.getFollowers().size(),
-                savedUser.getFollowing().size()
-        );
+        return mapUserToDto(savedUser);
     }
+
 
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(user -> new UserDto(
-                        user.getId(),
-                        user.getEmail(),
-                        user.getFollowers().size(),
-                        user.getFollowing().size()
-                ))
+                .map(this::mapUserToDto)
                 .collect(Collectors.toList());
     }
 
@@ -115,4 +108,16 @@ public class UserService {
         currentUser.getFollowing().remove(userToUnfollow);
         userRepository.save(currentUser);
     }
+
+    private UserDto mapUserToDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getEmail(),
+                user.getFollowers() != null ? user.getFollowers().size() : 0,
+                user.getFollowing() != null ? user.getFollowing().size() : 0,
+                user.getFirstName(),
+                user.getLastName()
+        );
+    }
+
 }
