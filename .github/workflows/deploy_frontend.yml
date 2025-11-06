@@ -11,7 +11,7 @@ on:
 
 jobs:
   validate:
-    name: Validate React/TypeScript
+    name: Validate React
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,7 +34,7 @@ jobs:
     runs-on: [ self-hosted, Linux, X64, frontend ]
     needs: validate
     steps:
-      - name: deploy containers
+      - name: Deploy frontend to server
         run: |
           cd /home/${{ secrets.SSH_USER }}/SpotlyWebApp
           git pull 
