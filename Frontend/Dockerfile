@@ -6,7 +6,7 @@ COPY WebApp/package*.json ./
 
 RUN npm ci
 
-COPY spotly-web-app .
+COPY WebApp .
 
 RUN npm run build
 
