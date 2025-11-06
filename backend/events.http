@@ -65,17 +65,19 @@ Authorization: Bearer {{bearer_token}}
 ### ===================================================
 
 ### 5. Отримати ВСІ події (Випадок 1)
+# ⚠️ ВАЖЛИВО: Отримає ТІЛЬКИ СТОРІНКУ 0 (перші 20 подій за замовчуванням)
 GET http://localhost:8080/api/events
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
-### 5a. Пошук за містом (Випадок 2)
-GET http://localhost:8080/api/events?city=Київ
+### 5a. Отримати СТОРІНКУ 1 (наступні 10 подій)
+GET http://localhost:8080/api/events?page=1&size=10
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
-### 5b. Пошук за текстом (Випадок 3)
-GET http://localhost:8080/api/events?search=пробіжка
+### 5b. Пошук з пагінацією І СОРТУВАННЯМ!
+# (Знайти в Києві, сторінка 0, 5 штук, сортувати за 'title' за спаданням)
+GET http://localhost:8080/api/events?city=Київ&page=0&size=5&sort=title,desc
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
@@ -132,8 +134,9 @@ Content-Type: application/json
   "categoryIds": [1, 3]
 }
 
-### 11. Отримати рекомендовані події (для залогіненого юзера)
-GET http://localhost:8080/api/events/recommendations
+### ------------------------------
+### 11. Рекомендації (теж з пагінацією)
+GET http://localhost:8080/api/events/recommendations?page=0&size=3
 Authorization: Bearer {{bearer_token}}
 
 ### 12. "Roman" (id:2) фоловить "TestUser" (id:1)

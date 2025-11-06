@@ -3,6 +3,8 @@ package com.spotly.backend.controller;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.service.EventService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import com.spotly.backend.dto.CreateEventDto;
@@ -21,23 +23,26 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public List<EventDto> getEvents(
+    public Page<EventDto> getEvents(
             @RequestParam(required = false) String search,
-            @RequestParam(required = false) String city
+            @RequestParam(required = false) String city,
+            Pageable pageable
     ) {
-
         if (search != null && city != null) {
-            return eventService.searchEventsByDescriptionAndCity(search, city);
-
+            return eventService.searchEventsByDescriptionAndCity(search, city, pageable);
         } else if (search != null) {
-            return eventService.searchEventsByDescription(search);
-
+            return eventService.searchEventsByDescription(search, pageable);
         } else if (city != null) {
-            return eventService.searchEventsByCity(city);
-
+            return eventService.searchEventsByCity(city, pageable);
         } else {
-            return eventService.getAllEvents();
+            return eventService.getAllEvents(pageable);
         }
+    }
+
+    // === ОНОВЛЕНО: Додано Pageable, повертає Page ===
+    @GetMapping("/recommendations")
+    public Page<EventDto> getRecommendedEventsForUser(Pageable pageable) {
+        return eventService.getRecommendedEvents(pageable);
     }
 
 
@@ -71,9 +76,4 @@ public class EventController {
         eventService.deleteEvent(id);
     }
 
-
-    @GetMapping("/recommendations")
-    public List<EventDto> getRecommendedEventsForUser() {
-        return eventService.getRecommendedEvents();
-    }
 }

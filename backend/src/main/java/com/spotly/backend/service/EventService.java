@@ -11,6 +11,8 @@ import com.spotly.backend.repository.CategoryRepository;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -31,11 +33,9 @@ public class EventService {
     private final CategoryRepository categoryRepository;
 
 
-    public List<EventDto> getAllEvents() {
-        List<Event> eventsFromDb = eventRepository.findAll();
-        return eventsFromDb.stream()
-                .map(this::mapEventToDto)
-                .collect(Collectors.toList());
+    public Page<EventDto> getAllEvents(Pageable pageable) {
+        Page<Event> eventPage = eventRepository.findAll(pageable);
+        return eventPage.map(this::mapEventToDto);
     }
 
 
@@ -95,28 +95,19 @@ public class EventService {
         return mapEventToDto(updatedEvent);
     }
 
-    public List<EventDto> searchEventsByDescription(String searchText) {
-        List<Event> events = eventRepository.findByDescriptionContainingIgnoreCase(searchText);
-
-        return events.stream()
-                .map(this::mapEventToDto)
-                .collect(Collectors.toList());
+    public Page<EventDto> searchEventsByDescription(String searchText, Pageable pageable) {
+        Page<Event> eventPage = eventRepository.findByDescriptionContainingIgnoreCase(searchText, pageable);
+        return eventPage.map(this::mapEventToDto);
     }
 
-    public List<EventDto> searchEventsByCity(String city) {
-        List<Event> events = eventRepository.findByCityContainingIgnoreCase(city);
-
-        return events.stream()
-                .map(this::mapEventToDto)
-                .collect(Collectors.toList());
+    public Page<EventDto> searchEventsByCity(String city, Pageable pageable) {
+        Page<Event> eventPage = eventRepository.findByCityContainingIgnoreCase(city, pageable);
+        return eventPage.map(this::mapEventToDto);
     }
 
-    public List<EventDto> searchEventsByDescriptionAndCity(String searchText, String city) {
-        List<Event> events = eventRepository.findByDescriptionContainingAndCityContaining(searchText, city);
-
-        return events.stream()
-                .map(this::mapEventToDto)
-                .collect(Collectors.toList());
+    public Page<EventDto> searchEventsByDescriptionAndCity(String searchText, String city, Pageable pageable) {
+        Page<Event> eventPage = eventRepository.findByDescriptionContainingAndCityContaining(searchText, city, pageable);
+        return eventPage.map(this::mapEventToDto);
     }
 
     public void deleteEvent(Long id) {
@@ -148,7 +139,7 @@ public class EventService {
         );
     }
 
-    public List<EventDto> getRecommendedEvents() {
+    public Page<EventDto> getRecommendedEvents(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -156,13 +147,10 @@ public class EventService {
         Set<Category> userInterests = user.getInterestedCategories();
 
         if (userInterests == null || userInterests.isEmpty()) {
-            return List.of();
+            return Page.empty();
         }
 
-        List<Event> recommendedEvents = eventRepository.findDistinctByCategoriesIn(userInterests);
-
-        return recommendedEvents.stream()
-                .map(this::mapEventToDto)
-                .collect(Collectors.toList());
+        Page<Event> recommendedEventsPage = eventRepository.findDistinctByCategoriesIn(userInterests, pageable);
+        return recommendedEventsPage.map(this::mapEventToDto);
     }
 }
