@@ -6,7 +6,7 @@ services:
       - '--storage.tsdb.retention.time=90d'
       - '--storage.tsdb.path=/prometheus'
       - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--web.external-url=http://prom.mylabstep.com:9090'
+      - '--web.external-url=http://monitoring.mylabstep.com:9090'
     ports:
       - "9090:9090"
     volumes:
