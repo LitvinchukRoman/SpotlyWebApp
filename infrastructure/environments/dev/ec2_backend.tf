@@ -20,3 +20,18 @@ module "backend_ec2_instance" {
   }
 
 }
+
+resource "aws_ebs_volume" "backend" {
+  availability_zone = module.backend_ec2_instance.availability_zone
+  size              = 2
+
+  tags = {
+    Name = "backend-extended"
+  }
+}
+
+resource "aws_volume_attachment" "backend" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.backend.id
+  instance_id = module.backend_ec2_instance.id
+}
