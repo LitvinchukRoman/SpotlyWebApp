@@ -57,17 +57,6 @@ services:
     networks:
       - prom-net
 
-  promtail:
-    image: grafana/promtail:2.9.8
-    volumes:
-      - /var/log:/var/log  #map the log folder.
-      - ./promtail:/etc/promtail
-      - ./logs:/var/log/app
-    restart: unless-stopped
-    command: -config.file=/etc/promtail/promtail-config.yml
-    networks:
-      - prom-net
-
   # https://github.com/prometheus/node_exporter
   node_exporter:
     image: prom/node-exporter:v1.7.0
