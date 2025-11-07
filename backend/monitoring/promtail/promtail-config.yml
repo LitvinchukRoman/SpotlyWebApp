@@ -5,7 +5,7 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-  - url: http://loki.mylabstep.com:3100/loki/api/v1/push
+  - url: http://10.0.101.33:3100/loki/api/v1/push
 
 #local machine logs
 scrape_configs:
