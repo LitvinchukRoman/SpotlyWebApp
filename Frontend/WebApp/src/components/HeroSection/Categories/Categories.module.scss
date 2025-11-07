@@ -31,7 +31,26 @@
   }
 }
 
-.categoryItem {
+.category__item {
   flex: 0 0 auto; /* не стискати елемент */
   scroll-snap-align: start;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 159px;
+  text-align: center;
+  gap: 16px;
+
+  p {
+    color: #464649;
+  }
+}
+
+.music__highlight{
+  padding: 16px 20px 16px 16px;
+}
+
+.food__highlight{
+  padding: 16px 22px 16px 30px;
 }

@@ -1,17 +1,4 @@
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 159px;
-  text-align: center;
-  gap: 16px;
-
-  p {
-    color: #464649;
-  }
-}
-
-.icon {
+.category__button {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -20,7 +7,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
   cursor: pointer;
   transition: box-shadow 0.3s;
 
@@ -41,5 +27,27 @@
       ~ p {
         color: #7048F4;
       }
+  }
+}
+
+.category__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #F8F7FA;
+  box-shadow: 0px 4px 10px 0px #171D2E1F, 0px 0px 2px 0px #171D2E0A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  z-index: 2;
+
+  img {
+    width: 16px;
+    height: 16px;
+    filter: invert(34%) sepia(87%) saturate(6447%) hue-rotate(245deg) brightness(97%) contrast(95%);
   }
 }

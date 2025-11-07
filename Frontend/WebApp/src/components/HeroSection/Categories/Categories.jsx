@@ -12,21 +12,32 @@ const categories = [
   { icon: './images/education.svg', label: 'Навчання' },
   { icon: './images/travelling.svg', label: 'Подорожі & Відпочинок' },
   { icon: './images/technologies.svg', label: 'Благодійність' },
-  { icon: './images/technologies.svg', label: 'Благодійність' },
-  { icon: './images/technologies.svg', label: 'Благодійність' },
-  { icon: './images/technologies.svg', label: 'Благодійність' },
-  { icon: './images/technologies.svg', label: 'Благодійність' },
-  { icon: './images/technologies.svg', label: 'Благодійність' },
 ];
 
 export default function Categories() {
   return (
-    <section className={styles.categories}>
-      {categories.map((cat, i) => (
-        <div className={styles.categoryItem} key={i}>
-          <CategoryButton key={i} icon={cat.icon} label={cat.label} />
-        </div>
-      ))}
-    </section>
+    <ul className={styles.categories}>
+      {categories.map((cat, i) => {
+        let extraClass = '';
+
+        if (cat.label === 'Музика') {
+          extraClass = styles.music__highlight;
+        } else if (cat.label === 'Їжа & Напої') {
+          extraClass = styles.food__highlight;
+        }
+
+        return (
+          <li key={i} className={styles.category__item}>
+            <CategoryButton
+              icon={cat.icon}
+              label={cat.label}
+              bigSize={true}
+              extraClass={extraClass} 
+            />
+            <p className="text-14">{cat.label}</p>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
