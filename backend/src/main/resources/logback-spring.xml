@@ -24,7 +24,7 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.springframework.web" level="ERROR"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
     <logger name="org.springframework.boot" level="ERROR"/>
     <logger name="com.spotly.backend" level="DEBUG"/>
 </configuration>
