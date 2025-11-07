@@ -50,7 +50,7 @@ services:
     restart: unless-stopped
     command: -config.file=/etc/promtail/promtail-config.yml
     networks:
-      - prom-net
+      - spotlynet
 
 networks:
   spotlynet:
