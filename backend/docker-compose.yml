@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   backend:
     build: .
@@ -13,6 +12,8 @@ services:
       - GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET
     restart: always
+    volumes:
+      - ./logs:/app/logs
     networks:
       - spotlynet
 
