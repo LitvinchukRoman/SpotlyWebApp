@@ -1,5 +1,7 @@
 package com.spotly.backend.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,108 +14,59 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(), // 404
-                "Not Found",
-                ex.getMessage(),
-                path,
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        log.warn("Resource not found: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.NOT_FOUND, request, "Not Found");
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleEmailExists(EmailAlreadyExistsException ex, WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), // 400
-                "Bad Request",
-                ex.getMessage(),
-                path,
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        log.warn("Email already exists: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.BAD_REQUEST, request, "Bad Request");
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.FORBIDDEN.value(), // 403
-                "Forbidden",
-                ex.getMessage(),
-                path,
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+        log.warn("Access denied: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.FORBIDDEN, request, "Forbidden");
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(), // 401
-                "Unauthorized",
-                "Invalid email or password",
-                path,
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        log.warn("Bad credentials attempt");
+        return buildResponse(new Exception("Invalid email or password"), HttpStatus.UNAUTHORIZED, request, "Unauthorized");
     }
-
 
     @ExceptionHandler(InvalidInterestSelectionException.class)
     public ResponseEntity<ErrorResponse> handleInvalidInterestSelection(InvalidInterestSelectionException ex, WebRequest request) {
-        String path = request.getDescription(false).replace("uri=", "");
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), // 400
-                "Bad Request",
-                ex.getMessage(),
-                path,
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        log.warn("Invalid interest selection: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.BAD_REQUEST, request, "Bad Request");
     }
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<ErrorResponse> handleInvalidDataException(InvalidDataException ex, WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), // 400
-                "Bad Request",
-                ex.getMessage(),
-                path,
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        log.warn("Invalid data: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.BAD_REQUEST, request, "Bad Request");
     }
-
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
+        log.error("Unhandled exception caught:", ex);
+        return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, request, "Internal Server Error");
+    }
 
+    private ResponseEntity<ErrorResponse> buildResponse(Exception ex, HttpStatus status, WebRequest request, String errorType) {
         String path = request.getDescription(false).replace("uri=", "");
-
         ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(), // 500
-                "Internal Server Error",
+                status.value(),
+                errorType,
                 ex.getMessage(),
                 path,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorResponse, status);
     }
 }
