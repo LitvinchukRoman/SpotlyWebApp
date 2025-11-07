@@ -16,4 +16,4 @@ scrape_configs:
         labels:
           job: spring-boot
           app: backend
-          __path__: /var/log/app/*.log
+          __path__: /var/log/app/spring-boot-logger.log
