@@ -14,11 +14,7 @@ module "backend_ec2_instance" {
 
   user_data = file("${path.module}/setup_script.sh")
 
-  root_block_device = {
-    volume_size           = 4
-    volume_type           = "gp3"
-    delete_on_termination = true
-  }
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 
   tags = {
     Terraform   = "true"
