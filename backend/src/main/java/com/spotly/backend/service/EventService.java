@@ -3,6 +3,7 @@ package com.spotly.backend.service;
 import com.spotly.backend.domain.Category;
 import com.spotly.backend.domain.Event;
 import com.spotly.backend.domain.User;
+import com.spotly.backend.domain.enums.RsvpStatus;
 import com.spotly.backend.dto.CategoryDto;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.exception.AccessDeniedException;
@@ -174,6 +175,22 @@ public class EventService {
 
         Page<Event> eventFeedPage = eventRepository.findByAuthorIn(followedUsers, pageable);
         return eventFeedPage.map(this::mapEventToDto);
+    }
+
+
+    public Page<EventDto> getEventsForCurrentUserByStatus(RsvpStatus status, Pageable pageable) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Page<Event> eventPage = eventRepository.findEventsByUserAndRsvpStatus(
+                currentUser,
+                status,
+                pageable
+        );
+
+        return eventPage.map(this::mapEventToDto);
     }
 
     private EventDto mapEventToDto(Event event) {

@@ -152,14 +152,22 @@ GET http://localhost:8080/api/events/feed
 Authorization: Bearer {{bearer_token}}
 
 ### 14. "Roman" (id:2) каже "Я ЙДУ!" на подію (id:1)
-POST http://localhost:8080/api/events/1/rsvp
+POST http://localhost:8080/api/events/2/rsvp
 Authorization: Bearer {{bearer_token}}
 Content-Type: application/json
 
 {
-  "status": "GOING"
+  "status": "INTERESTED"
 }
 
 ### 15. "Roman" (id:2) "передумав"
 DELETE http://localhost:8080/api/events/1/rsvp
+Authorization: Bearer {{bearer_token}}
+
+### 16. Отримати події, на які я "ЙДУ"
+GET http://localhost:8080/api/events/attending
+Authorization: Bearer {{bearer_token}}
+
+### 17. Отримати події, якими я "ЦІКАВЛЮСЬ"
+GET http://localhost:8080/api/events/interested
 Authorization: Bearer {{bearer_token}}

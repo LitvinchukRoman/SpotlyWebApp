@@ -3,6 +3,7 @@ package com.spotly.backend.repository;
 import com.spotly.backend.domain.Category;
 import com.spotly.backend.domain.Event;
 import com.spotly.backend.domain.User;
+import com.spotly.backend.domain.enums.RsvpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "(LOWER(e.description) LIKE LOWER(CONCAT('%', :searchText, '%')) OR LOWER(e.title) LIKE LOWER(CONCAT('%', :searchText, '%'))) " +
             "AND (LOWER(e.city) LIKE LOWER(CONCAT('%', :city, '%')))")
     Page<Event> findByDescriptionContainingAndCityContaining(@Param("searchText") String searchText, @Param("city") String city, Pageable pageable);
+
+
+    @Query("SELECT e FROM Event e JOIN e.rsvps r WHERE r.user = :user AND r.status = :status")
+    Page<Event> findEventsByUserAndRsvpStatus(
+            @Param("user") User user,
+            @Param("status") RsvpStatus status,
+            Pageable pageable
+    );
 
 
     Page<Event> findDistinctByCategoriesIn(Set<Category> categories, Pageable pageable);

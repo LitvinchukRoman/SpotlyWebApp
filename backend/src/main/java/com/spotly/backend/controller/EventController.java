@@ -1,5 +1,6 @@
 package com.spotly.backend.controller;
 
+import com.spotly.backend.domain.enums.RsvpStatus;
 import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.dto.RsvpRequestDto;
 import com.spotly.backend.service.EventService;
@@ -97,5 +98,13 @@ public class EventController {
         rsvpService.deleteRsvp(id);
     }
 
+    @GetMapping("/attending")
+    public Page<EventDto> getAttendingEvents(Pageable pageable) {
+        return eventService.getEventsForCurrentUserByStatus(RsvpStatus.GOING, pageable);
+    }
 
+    @GetMapping("/interested")
+    public Page<EventDto> getInterestedEvents(Pageable pageable) {
+        return eventService.getEventsForCurrentUserByStatus(RsvpStatus.INTERESTED, pageable);
+    }
 }
