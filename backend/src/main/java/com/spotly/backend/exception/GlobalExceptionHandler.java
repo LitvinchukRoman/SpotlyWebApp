@@ -58,6 +58,12 @@ public class GlobalExceptionHandler {
         return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, request, "Internal Server Error");
     }
 
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<ErrorResponse> handleFileUploadException(FileUploadException ex, WebRequest request) {
+        log.warn("File upload error: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, request, "File Upload Error");
+    }
+
     private ResponseEntity<ErrorResponse> buildResponse(Exception ex, HttpStatus status, WebRequest request, String errorType) {
         String path = request.getDescription(false).replace("uri=", "");
         ErrorResponse errorResponse = new ErrorResponse(
