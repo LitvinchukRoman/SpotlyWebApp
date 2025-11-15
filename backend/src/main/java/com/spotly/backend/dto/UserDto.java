@@ -6,5 +6,6 @@ public record UserDto(
         Integer followersCount,
         Integer followingCount,
         String firstName,
-        String lastName
+        String lastName,
+        String avatarUrl
 ) {}

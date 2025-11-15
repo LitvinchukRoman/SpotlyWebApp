@@ -27,6 +27,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String avatarUrl;
+
     public String getFullName() {
         return firstName + " " + lastName;
     }

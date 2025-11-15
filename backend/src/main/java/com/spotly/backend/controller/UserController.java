@@ -6,7 +6,9 @@ import com.spotly.backend.dto.UserDto;
 import com.spotly.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,4 +48,12 @@ public class UserController {
     public void unfollowUser(@PathVariable Long userId) {
         userService.unfollowUser(userId);
     }
+
+    @PostMapping(value = "/me/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public UserDto uploadAvatar(
+            @RequestParam("file") MultipartFile file
+    ) {
+        return userService.updateAvatar(file);
+    }
+
 }

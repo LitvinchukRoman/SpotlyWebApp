@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CategoryRepository categoryRepository;
+    private final FileUploadService fileUploadService;
 
 
     public UserDto registerUser(CreateUserDto createDto) {
@@ -116,8 +118,22 @@ public class UserService {
                 user.getFollowers() != null ? user.getFollowers().size() : 0,
                 user.getFollowing() != null ? user.getFollowing().size() : 0,
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                user.getAvatarUrl()
         );
+    }
+
+    public UserDto updateAvatar(MultipartFile file) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        String avatarUrl = fileUploadService.uploadFile(file);
+
+        currentUser.setAvatarUrl(avatarUrl);
+        User savedUser = userRepository.save(currentUser);
+
+        return mapUserToDto(savedUser);
     }
 
 }

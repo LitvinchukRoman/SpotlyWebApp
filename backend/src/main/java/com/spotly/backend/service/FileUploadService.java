@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class FileUploadService {
 
     private final S3Client s3Client;
@@ -25,6 +24,10 @@ public class FileUploadService {
 
     @Value("${aws.s3.region}")
     private String region;
+
+    public FileUploadService(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
 
 
     public String uploadFile(MultipartFile file) {
