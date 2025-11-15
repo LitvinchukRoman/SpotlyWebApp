@@ -64,6 +64,12 @@ public class GlobalExceptionHandler {
         return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, request, "File Upload Error");
     }
 
+    @ExceptionHandler(EventIsFullException.class)
+    public ResponseEntity<ErrorResponse> handleEventIsFullException(EventIsFullException ex, WebRequest request) {
+        log.warn("Event is full: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.BAD_REQUEST, request, "Bad Request");
+    }
+
     private ResponseEntity<ErrorResponse> buildResponse(Exception ex, HttpStatus status, WebRequest request, String errorType) {
         String path = request.getDescription(false).replace("uri=", "");
         ErrorResponse errorResponse = new ErrorResponse(

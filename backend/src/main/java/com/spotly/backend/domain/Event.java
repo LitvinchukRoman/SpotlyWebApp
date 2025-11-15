@@ -42,10 +42,13 @@ public class Event {
 
     private Double longitude;
 
+    private Integer participantLimit;
+
     @Column(nullable = false)
     private String city;
 
     private String imageUrl;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

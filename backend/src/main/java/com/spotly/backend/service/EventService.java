@@ -66,6 +66,7 @@ public class EventService {
         newEvent.setCategories(categories);
         newEvent.setAddress(createDto.address());
         newEvent.setPrice(createDto.price());
+        newEvent.setParticipantLimit(createDto.participantLimit());
         newEvent.setImageUrl(createDto.imageUrl());
 
         try {
@@ -103,6 +104,7 @@ public class EventService {
         eventToUpdate.setCategories(categories);
         eventToUpdate.setAddress(updateDto.address());
         eventToUpdate.setPrice(updateDto.price());
+        eventToUpdate.setParticipantLimit(updateDto.participantLimit());
         eventToUpdate.setImageUrl(updateDto.imageUrl());
         try {
             eventToUpdate.setStartDateTime(LocalDateTime.parse(updateDto.startDateTime()));
@@ -192,6 +194,7 @@ public class EventService {
                 event.getPrice(),
                 event.getStartDateTime().toString(),
                 event.getEndDateTime().toString(),
+                event.getParticipantLimit(),
                 event.getImageUrl()
         );
     }

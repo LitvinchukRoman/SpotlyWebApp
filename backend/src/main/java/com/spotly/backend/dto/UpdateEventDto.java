@@ -13,5 +13,6 @@ public record UpdateEventDto(
         Double price,
         String startDateTime,
         String endDateTime,
+        Integer participantLimit,
         String imageUrl
 ) {}

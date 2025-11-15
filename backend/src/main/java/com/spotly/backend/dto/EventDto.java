@@ -15,5 +15,6 @@ public record EventDto(
         Double price,
         String startDateTime,
         String endDateTime,
+        Integer participantLimit,
         String imageUrl
 ) {}

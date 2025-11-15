@@ -13,5 +13,6 @@ public record CreateEventDto(
         Double price,
         String startDateTime,
         String endDateTime,
+        Integer participantLimit,
         String imageUrl
 ) {}

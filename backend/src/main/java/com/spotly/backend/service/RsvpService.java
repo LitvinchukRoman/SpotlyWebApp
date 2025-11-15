@@ -6,6 +6,7 @@ import com.spotly.backend.domain.User;
 import com.spotly.backend.domain.enums.RsvpStatus;
 import com.spotly.backend.dto.RsvpRequestDto;
 import com.spotly.backend.exception.AccessDeniedException;
+import com.spotly.backend.exception.EventIsFullException;
 import com.spotly.backend.exception.ResourceNotFoundException;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.RsvpRepository;
@@ -39,6 +40,19 @@ public class RsvpService {
         }
 
         Optional<EventRsvp> existingRsvp = rsvpRepository.findByUserAndEvent(currentUser, event);
+
+        if (existingRsvp.isEmpty()) {
+            if (event.getParticipantLimit() != null) {
+
+                long currentAttendees = event.getRsvps().stream()
+                        .filter(r -> r.getStatus() == RsvpStatus.GOING)
+                        .count();
+
+                if (currentAttendees >= event.getParticipantLimit()) {
+                    throw new EventIsFullException("Sorry, this event is already full.");
+                }
+            }
+        }
 
         EventRsvp rsvp;
         if (existingRsvp.isPresent()) {
