@@ -1,7 +1,6 @@
-package com.spotly.backend.service;
+package com.spotly.backend.service.aws;
 
 import com.spotly.backend.exception.FileUploadException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +20,6 @@ public class FileUploadService {
     @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
-
     @Value("${aws.s3.region}")
     private String region;
 
@@ -31,6 +29,10 @@ public class FileUploadService {
 
 
     public String uploadFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new FileUploadException("Cannot upload empty file.");
+        }
+
         String uniqueFileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -40,9 +42,11 @@ public class FileUploadService {
                 .build();
 
         try {
+
             s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(
                     file.getInputStream(), file.getSize())
             );
+
 
             return String.format("https://%s.s3.%s.amazonaws.com/%s",
                     bucketName,

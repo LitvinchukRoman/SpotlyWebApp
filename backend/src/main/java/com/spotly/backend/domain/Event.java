@@ -45,6 +45,8 @@ public class Event {
     @Column(nullable = false)
     private String city;
 
+    private String imageUrl;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "event_categories",

@@ -11,6 +11,7 @@ import com.spotly.backend.exception.InvalidInterestSelectionException;
 import com.spotly.backend.exception.ResourceNotFoundException;
 import com.spotly.backend.repository.CategoryRepository;
 import com.spotly.backend.repository.UserRepository;
+import com.spotly.backend.service.aws.FileUploadService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;

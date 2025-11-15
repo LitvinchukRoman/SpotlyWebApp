@@ -12,5 +12,6 @@ public record UpdateEventDto(
         String address,
         Double price,
         String startDateTime,
-        String endDateTime
+        String endDateTime,
+        String imageUrl
 ) {}
