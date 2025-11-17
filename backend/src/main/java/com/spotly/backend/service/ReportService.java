@@ -12,6 +12,8 @@ import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.ReportRepository;
 import com.spotly.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,11 @@ public class ReportService {
 
         return mapReportToDto(savedReport);
 
+    }
+
+    public Page<ReportDto> getAllReports(Pageable pageable) {
+        Page<Report> reportPage = reportRepository.findAll(pageable);
+        return reportPage.map(this::mapReportToDto);
     }
 
     private ReportDto mapReportToDto(Report report) {

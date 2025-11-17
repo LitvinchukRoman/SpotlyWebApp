@@ -180,3 +180,7 @@ Content-Type: application/json
 {
   "reason": "Це фейкова подія, організатор не відповідає!"
 }
+
+### 19. "Roman" (Юзер) намагається вкрасти скарги
+GET http://localhost:8080/api/admin/reports
+Authorization: Bearer {{bearer_token}}
