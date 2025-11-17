@@ -184,3 +184,7 @@ Content-Type: application/json
 ### 19. "Roman" (Юзер) намагається вкрасти скарги
 GET http://localhost:8080/api/admin/reports
 Authorization: Bearer {{bearer_token}}
+
+### 20. Адмін (TestUser) видаляє подію Юзера (roman)
+DELETE http://localhost:8080/api/admin/events/4
+Authorization: Bearer {{bearer_token}}

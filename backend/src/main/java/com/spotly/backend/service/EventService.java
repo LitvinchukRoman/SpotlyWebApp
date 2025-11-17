@@ -145,6 +145,12 @@ public class EventService {
         eventRepository.delete(event);
     }
 
+    public void deleteEventAsAdmin(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
+        eventRepository.delete(event);
+
+    }
 
 
     public Page<EventDto> getRecommendedEvents(Pageable pageable) {
