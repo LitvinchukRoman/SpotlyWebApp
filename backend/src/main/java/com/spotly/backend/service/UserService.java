@@ -2,6 +2,7 @@ package com.spotly.backend.service;
 
 import com.spotly.backend.domain.Category;
 import com.spotly.backend.domain.User;
+import com.spotly.backend.domain.enums.UserRole;
 import com.spotly.backend.dto.CreateUserDto;
 import com.spotly.backend.dto.UpdateUserInterestsDto;
 import com.spotly.backend.dto.UserDto;
@@ -46,6 +47,7 @@ public class UserService {
         newUser.setPassword(hashedPassword);
         newUser.setFirstName(createDto.firstName());
         newUser.setLastName(createDto.lastName());
+        newUser.setRole(UserRole.ROLE_USER);
 
         User savedUser = userRepository.save(newUser);
 

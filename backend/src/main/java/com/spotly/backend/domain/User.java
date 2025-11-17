@@ -1,5 +1,6 @@
 package com.spotly.backend.domain;
 
+import com.spotly.backend.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,10 @@ public class User {
     private String password;
 
     private String avatarUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
 
     public String getFullName() {
         return firstName + " " + lastName;
