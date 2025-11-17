@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class EventServiceTest {
@@ -32,18 +33,12 @@ class EventServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
-    // 3. Створюємо "Пацієнта"
-    //    @InjectMocks каже: "Створи справжній 'EventService'
-    //    і "впровадь" у нього всі 'імітатори' (@Mock) вище".
     @InjectMocks
     private EventService eventService;
 
-    // 4. @Test - позначає, що це - тестовий метод
     @Test
     void testGetAllEvents_ShouldReturnPageOfEventDtos() {
-        // --- A. ARRANGE (Підготовка) ---
 
-        // 1. Створюємо "фальшиві" дані
         User fakeAuthor = new User();
         fakeAuthor.setFirstName("Тест");
         fakeAuthor.setLastName("Тестович");
@@ -56,42 +51,55 @@ class EventServiceTest {
         fakeEvent.setPrice(100.0);
         fakeEvent.setAddress("Вулиця 1");
 
-        // === ВАЖЛИВЕ ВИПРАВЛЕННЯ ===
-        // (Ми забули їх додати, що і спричинило NPE)
+
         fakeEvent.setStartDateTime(LocalDateTime.now());
         fakeEvent.setEndDateTime(LocalDateTime.now().plusHours(2));
 
-        // (Цей код потрібен, щоб 'getCategories()' не повернув null)
         fakeEvent.setCategories(new HashSet<>());
 
-        // 2. Створюємо "фальшиву" відповідь від бази
+
         Pageable pageable = PageRequest.of(0, 10);
         Page<Event> fakePage = new PageImpl<>(List.of(fakeEvent), pageable, 1);
 
-        // 3. "Навчаємо" Імітатора:
-        //    "КОЛИ (when) хтось викличе 'eventRepository.findAll(pageable)',
-        //     ТОДІ (then) ПОВЕРНИ (Return) 'fakePage'".
         Mockito.when(eventRepository.findAll(pageable)).thenReturn(fakePage);
 
-        // --- B. ACT (Дія) ---
-
-        // 4. Викликаємо справжній метод "пацієнта"
         Page<EventDto> resultPage = eventService.getAllEvents(pageable);
 
-        // --- C. ASSERT (Перевірка) ---
 
-        // 5. Перевіряємо, чи "пацієнт" спрацював правильно
-        Assertions.assertNotNull(resultPage); // Чи результат не 'null'?
-        Assertions.assertEquals(1, resultPage.getTotalElements()); // Чи там 1 елемент?
-        Assertions.assertEquals("Тестова Подія", resultPage.getContent().get(0).title()); // Чи назва правильна?
+        Assertions.assertNotNull(resultPage);
+        Assertions.assertEquals(1, resultPage.getTotalElements());
+        Assertions.assertEquals("Тестова Подія", resultPage.getContent().get(0).title());
 
-        // 6. (Бонус) Перевіряємо, чи "пацієнт"
-        //    взагалі "смикнув" нашого "імітатора"
         Mockito.verify(eventRepository).findAll(pageable);
     }
 
-    //
-    // Тут ми можемо додати @Test для 'getEventById'
-    // @Test для 'deleteEvent' (перевірка логіки "чи ти автор?")
-    //
+
+    @Test
+    void testGetEventById_ShouldReturnEvent_WhenFound() {
+
+        Long eventId = 1L;
+        User fakeAuthor = new User();
+        fakeAuthor.setFirstName("Тест");
+        fakeAuthor.setLastName("Тестович");
+
+        Event fakeEvent = new Event();
+        fakeEvent.setId(eventId);
+        fakeEvent.setTitle("Знайдена Подія");
+        fakeEvent.setAuthor(fakeAuthor);
+        fakeEvent.setCity("Київ");
+        fakeEvent.setPrice(100.0);
+        fakeEvent.setAddress("Вулиця 1");
+        fakeEvent.setStartDateTime(LocalDateTime.now());
+        fakeEvent.setEndDateTime(LocalDateTime.now().plusHours(2));
+        fakeEvent.setCategories(new HashSet<>());
+
+
+        Mockito.when(eventRepository.findById(eventId)).thenReturn(Optional.of(fakeEvent));
+
+        EventDto resultDto = eventService.getEventById(eventId);
+
+        Assertions.assertNotNull(resultDto);
+        Assertions.assertEquals("Знайдена Подія", resultDto.title());
+        Assertions.assertEquals(1L, resultDto.id());
+    }
 }
