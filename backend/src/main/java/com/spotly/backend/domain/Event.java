@@ -1,5 +1,6 @@
 package com.spotly.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,6 +59,7 @@ public class Event {
     )
     private Set<Category> categories = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "event")
     private Set<EventRsvp> rsvps = new HashSet<>();
 

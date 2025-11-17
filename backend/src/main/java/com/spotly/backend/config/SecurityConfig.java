@@ -37,8 +37,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/users/register", "/api/auth/login", "/login/oauth2/code/*",
-                                "/api/categories").permitAll()
+                        .requestMatchers(
+                                "/api/users/register",
+                                "/api/auth/login",
+                                "/login/oauth2/code/*",
+                                "/api/categories",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
