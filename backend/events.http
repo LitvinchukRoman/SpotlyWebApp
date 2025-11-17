@@ -171,3 +171,12 @@ Authorization: Bearer {{bearer_token}}
 ### 17. Отримати події, якими я "ЦІКАВЛЮСЬ"
 GET http://localhost:8080/api/events/interested
 Authorization: Bearer {{bearer_token}}
+
+### 18. "Roman" (id:2) скаржиться на подію "TestUser"-а (id:1)
+POST http://localhost:8080/api/events/1/report
+Authorization: Bearer {{bearer_token}}
+Content-Type: application/json
+
+{
+  "reason": "Це фейкова подія, організатор не відповідає!"
+}
