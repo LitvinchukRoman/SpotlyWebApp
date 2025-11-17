@@ -134,6 +134,16 @@ public class EventService {
         return eventPage.map(this::mapEventToDto);
     }
 
+    public Page<EventDto> getEventsForAuthor(Pageable pageable) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Set<User> authorSet = Set.of(currentUser);
+        Page<Event> eventPage = eventRepository.findByAuthorIn(authorSet, pageable);
+        return eventPage.map(this::mapEventToDto);
+    }
+
     public void deleteEvent(Long id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Event event = eventRepository.findById(id)

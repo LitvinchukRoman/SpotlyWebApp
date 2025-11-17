@@ -3,7 +3,7 @@
 ### ===================================================
 
 # Змінні для тестування
-@email = roma
+@email = admin@example.com
 @firstname = Roman
 @lastname = Petrenko
 @password = password123
@@ -187,4 +187,8 @@ Authorization: Bearer {{bearer_token}}
 
 ### 20. Адмін (TestUser) видаляє подію Юзера (roman)
 DELETE http://localhost:8080/api/admin/events/4
+Authorization: Bearer {{bearer_token}}
+
+### 21. Отримати події, які я створив (для 'TestUser')
+GET http://localhost:8080/api/events/my-events
 Authorization: Bearer {{bearer_token}}

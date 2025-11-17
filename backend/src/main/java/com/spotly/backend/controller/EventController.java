@@ -43,7 +43,11 @@ public class EventController {
         }
     }
 
-    // === ОНОВЛЕНО: Додано Pageable, повертає Page ===
+    @GetMapping("/my-events")
+    public Page<EventDto> getMyCreatedEvents(Pageable pageable) {
+        return eventService.getEventsForAuthor(pageable);
+    }
+
     @GetMapping("/recommendations")
     public Page<EventDto> getRecommendedEventsForUser(Pageable pageable) {
         return eventService.getRecommendedEvents(pageable);
