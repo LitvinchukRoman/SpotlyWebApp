@@ -70,6 +70,14 @@ public class GlobalExceptionHandler {
         return buildResponse(ex, HttpStatus.BAD_REQUEST, request, "Bad Request");
     }
 
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleSpringAccessDenied(
+            org.springframework.security.access.AccessDeniedException ex, WebRequest request
+    ) {
+        log.warn("Spring Security access denied: {}", ex.getMessage(), ex);
+        return buildResponse(ex, HttpStatus.FORBIDDEN, request, "Forbidden");
+    }
+
     private ResponseEntity<ErrorResponse> buildResponse(Exception ex, HttpStatus status, WebRequest request, String errorType) {
         String path = request.getDescription(false).replace("uri=", "");
         ErrorResponse errorResponse = new ErrorResponse(
