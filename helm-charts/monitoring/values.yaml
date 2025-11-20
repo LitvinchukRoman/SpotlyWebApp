@@ -1,0 +1,67 @@
+kube-prometheus-stack:
+  grafana:
+    enabled: true
+    adminPassword: admin
+    service:
+      type: LoadBalancer
+    persistence:
+      enabled: true
+      size: 5Gi
+    dashboards:
+      default:
+        kubernetes-overview: {}
+  prometheus:
+    prometheusSpec:
+      retention: 7d
+      serviceMonitorSelectorNilUsesHelmValues: false
+  alertmanager:
+    enabled: false
+
+#loki:
+#  enabled: true
+#  fullnameOverride: loki
+#  service:
+#    port: 3100
+#  persistence:
+#    enabled: false
+#  config:
+#    table_manager:
+#      retention_deletes_enabled: true
+#      retention_period: 168h # 7d
+
+#promtail:
+#  enabled: true
+#  config:
+#    clients:
+#      - url: http://loki:3100/loki/api/v1/push
+#    positions:
+#      filename: /tmp/positions.yaml
+#    scrape_configs:
+#      - job_name: kubernetes-pods-app
+#        kubernetes_sd_configs:
+#          - role: pod
+#        relabel_configs:
+#          - source_labels: [__meta_kubernetes_pod_label_app]
+#            action: keep
+#            regex: .+
+
+
+#alertmanager:
+#  enabled: true
+#  config:
+#    global: {}
+#    route:
+#      group_by: ['alertname']
+#      group_wait: 30s
+#      group_interval: 5m
+#      repeat_interval: 12h
+#      receiver: 'pager'
+#    receivers:
+#      - name: 'pager'
+#        email_configs:
+#          - to: 'oncall@example.org'
+#            from: 'alertmanager@example.org'
+#            smarthost: 'smtp.example.org:587'
+#            auth_username: 'alertmanager'
+#            auth_identity: 'alertmanager'
+
