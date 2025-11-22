@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(
                                 "/api/users/register",
+                                "/actuator/prometheus",
                                 "/api/auth/login",
                                 "/login/oauth2/code/*",
                                 "/api/categories",
