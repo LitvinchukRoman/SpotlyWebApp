@@ -1,8 +1,14 @@
 replicaCount: 2
+namespace: backend
 image:
   repository: litvinchukroman/spotly-backend
   pullPolicy: IfNotPresent
-  tag: "0.0.1"
+  tag: "0.0.2"
+port: 8080
+
+service:
+  port: 8080
+  metricsPath: /actuator/prometheus
 
 resources:
    limits:
@@ -10,16 +16,17 @@ resources:
      memory: 1024Mi
    requests:
      cpu: 100m
-   memory: 128Mi
+     memory: 128Mi
 
 livenessProbe:
+  initialDelaySeconds: 20
   httpGet:
-    path: /
-    port: http
+    path: /actuator/health/liveness
+
 readinessProbe:
+  initialDelaySeconds: 20
   httpGet:
-    path: /
-    port: http
+    path: /actuator/health/readiness
 
 autoscaling:
   enabled: true
@@ -29,13 +36,18 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 volumes: []
-# - name: foo
+# - name: spring
 #   secret:
 #     secretName: mysecret
 #     optional: false
 
-# Additional volumeMounts on the output Deployment definition.
 volumeMounts: []
 # - name: foo
-#   mountPath: "/etc/foo"
+#   mountPath: "/etc/spring"
 #   readOnly: true
+
+# Later to move AWS secrets in secret
+env:
+  SPRING_PROFILES_ACTIVE: dev
+  AWS_ACCESS_KEY_ID: "1352436243512"
+  AWS_SECRET_ACCESS_KEY: "123512324123"

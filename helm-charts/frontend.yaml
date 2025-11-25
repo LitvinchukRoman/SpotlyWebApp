@@ -1,8 +1,25 @@
 replicaCount: 2
+namespace: frontend
 image:
   repository: litvinchukroman/spotly-frontend
   pullPolicy: IfNotPresent
   tag: "0.0.1"
+
+sidecar:
+  enabled: true
+  image:
+    repository: nginx/nginx-prometheus-exporter
+    pullPolicy: IfNotPresent
+    tag: "1.5.0"
+  scrapeUri: "http://localhost/stub_status"
+
+service:
+  port: 9113
+  portName: metrics
+  metricsPath: /metrics
+
+serviceForFrontend:
+  enabled: true
 
 ingress:
   enabled: true
@@ -47,23 +64,4 @@ autoscaling:
 configMap:
   enabled: true
   serverName: spotly.mylabstep.com
-  backendUrl: http://backend-service:8080
-
-
-#configMap:
-#  enabled: true
-#  serverName: spotly.mylabstep.com
-#  backendUrl: http://backend-svc.backend:8080
-#
-#service:
-#  port: 9113
-#  targetPort: 9113
-#
-#sidecars:
-#  - name: nginx-exporter
-#    image: nginx/nginx-prometheus-exporter:0.11.0
-#    args:
-#      - "-nginx.scrape-uri=http://127.0.0.1:8080/stub_status"
-#    ports:
-#      - name: metrics
-#        containerPort: 9113
+  backendUrl: "http://backend-app.backend:8080"

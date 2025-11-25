@@ -7,11 +7,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "app.labels" . | nindent 4 }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ include "app.name" . }}
   namespaceSelector:
     matchNames:
-      - default
+      - {{ .Values.namespace }}
   endpoints:
     - port: {{ .Values.service.portName}}
+      path: {{ .Values.service.metricsPath }}
       interval: 30s
       scrapeTimeout: 10s

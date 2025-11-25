@@ -1,0 +1,16 @@
+replicas: 1
+minimumMasterNodes: 1
+clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+antiAffinity: "soft"
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 5Gi

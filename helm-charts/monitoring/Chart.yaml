@@ -1,6 +1,6 @@
 apiVersion: v2
-name: Spotly-stack
-description: SpotlyWebApp + Promstack + Loki
+name: Promstack
+description: Promstack
 type: application
 version: 0.1.0
 
@@ -9,12 +9,3 @@ dependencies:
     version: "65.*"
     repository: "https://prometheus-community.github.io/helm-charts"
 
-#  - name: loki
-#    version: "^4.0.0"
-#    repository: "https://grafana.github.io/helm-charts"
-#  - name: promtail
-#    version: "^4.0.0"
-#    repository: "https://grafana.github.io/helm-charts"
-#  - name: alertmanager
-#    version: "^23.0.0"
-#    repository: "https://prometheus-community.github.io/helm-charts"

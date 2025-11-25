@@ -1,16 +1,18 @@
+{{- if .Values.serviceForFrontend.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "app.fullname" . }}
+  name: {{ include "app.fullname" . }}-http
   labels:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/name: {{ include "app.name" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - port: 80
+      targetPort: 80
       protocol: TCP
-      name: {{ .Values.service.portName }}
+      name: http
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}
+{{- end }}
