@@ -13,6 +13,7 @@ import com.spotly.backend.repository.CategoryRepository;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,8 +30,8 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class EventService {
-
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
@@ -38,6 +39,8 @@ public class EventService {
 
     public Page<EventDto> getAllEvents(Pageable pageable) {
         Page<Event> eventPage = eventRepository.findAll(pageable);
+        log.info("Знайдено {} подій на сторінці {}",
+                eventPage.getNumberOfElements(), pageable.getPageNumber());
         return eventPage.map(this::mapEventToDto);
     }
 
@@ -49,6 +52,7 @@ public class EventService {
     }
 
     public EventDto createEvent(CreateEventDto createDto) {
+        log.info("Створення події: Title='{}', City='{}'", createDto.title(), createDto.city());
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User author = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -56,6 +60,7 @@ public class EventService {
         Set<Category> categories = new HashSet<>(
                 categoryRepository.findAllById(createDto.categoryIds())
         );
+        log.debug("Знайдено {} категорій для події", categories.size());
 
         Event newEvent = new Event();
         newEvent.setTitle(createDto.title());
@@ -78,11 +83,13 @@ public class EventService {
         }
 
         Event savedEvent = eventRepository.save(newEvent);
+        log.info("Подію успішно створено. ID: {}, Author: {}", savedEvent.getId(), email);
 
         return mapEventToDto(savedEvent);
     }
 
     public EventDto updateEvent(Long id, UpdateEventDto updateDto) {
+        log.info("Запит на оновлення події ID: {}", id);
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 
@@ -116,48 +123,56 @@ public class EventService {
 
         Event updatedEvent = eventRepository.save(eventToUpdate);
 
+        log.info("Подію ID: {} успішно оновлено", updatedEvent.getId());
+
         return mapEventToDto(updatedEvent);
     }
 
     public Page<EventDto> searchEventsByDescription(String searchText, Pageable pageable) {
         Page<Event> eventPage = eventRepository.findByDescriptionContainingIgnoreCase(searchText, pageable);
+        log.info("Пошук за описом '{}': знайдено {}", searchText, eventPage.getTotalElements());
         return eventPage.map(this::mapEventToDto);
     }
 
     public Page<EventDto> searchEventsByCity(String city, Pageable pageable) {
         Page<Event> eventPage = eventRepository.findByCityContainingIgnoreCase(city, pageable);
+        log.info("Пошук за містом '{}': знайдено {}", city, eventPage.getTotalElements());
         return eventPage.map(this::mapEventToDto);
     }
 
     public Page<EventDto> searchEventsByDescriptionAndCity(String searchText, String city, Pageable pageable) {
         Page<Event> eventPage = eventRepository.findByDescriptionContainingAndCityContaining(searchText, city, pageable);
+        log.info("Пошук за описом '{}', містом '{}': знайдено {}", searchText, city, eventPage.getTotalElements());
         return eventPage.map(this::mapEventToDto);
     }
 
     public Page<EventDto> getEventsForAuthor(Pageable pageable) {
-
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Set<User> authorSet = Set.of(currentUser);
         Page<Event> eventPage = eventRepository.findByAuthorIn(authorSet, pageable);
+        log.info("Події автора '{}': знайдено {}", email, eventPage.getTotalElements());
         return eventPage.map(this::mapEventToDto);
     }
 
     public void deleteEvent(Long id) {
+        log.info("Запит на видалення івенту з id={}", id);
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
-
         if (!event.getAuthor().getEmail().equals(email)) {
             throw new AccessDeniedException("You are not authorized to delete this event");
         }
+        log.info("Подію ID: {} ('{}') успішно видалено автором", id, event.getTitle());
         eventRepository.delete(event);
     }
 
     public void deleteEventAsAdmin(Long id) {
+        log.info("АДМІН-запит на видалення події ID: {}", id);
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
+        log.info("Подію ID: {} успішно видалено Адміном", id);
         eventRepository.delete(event);
 
     }
@@ -167,7 +182,7 @@ public class EventService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
+        log.debug("Запит рекомендованих подій для користувача '{}'", email);
         Set<Category> userInterests = user.getInterestedCategories();
 
         if (userInterests == null || userInterests.isEmpty()) {
@@ -175,6 +190,7 @@ public class EventService {
         }
 
         Page<Event> recommendedEventsPage = eventRepository.findDistinctByCategoriesIn(userInterests, pageable);
+        log.info("Список рекомендованих подій для користувача {} успішно знайдено", email);
         return recommendedEventsPage.map(this::mapEventToDto);
     }
 
@@ -182,7 +198,7 @@ public class EventService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
+        log.debug("Запит подій від користувачів, на яких підписаний {}", email);
         Set<User> followedUsers = user.getFollowing();
 
         if (followedUsers == null || followedUsers.isEmpty()) {
@@ -190,6 +206,8 @@ public class EventService {
         }
 
         Page<Event> eventFeedPage = eventRepository.findByAuthorIn(followedUsers, pageable);
+        log.info("Список подій користувачів" +
+                " на яких підписаний користувач {} успішно знайдено", email);
         return eventFeedPage.map(this::mapEventToDto);
     }
 
@@ -200,12 +218,13 @@ public class EventService {
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        log.debug("Запит на події за статусом {} для користувача {}",status, email);
         Page<Event> eventPage = eventRepository.findEventsByUserAndRsvpStatus(
                 currentUser,
                 status,
                 pageable
         );
-
+        log.info("Події для користувача {} за статусом {} успішно знайдено", email, status);
         return eventPage.map(this::mapEventToDto);
     }
 
