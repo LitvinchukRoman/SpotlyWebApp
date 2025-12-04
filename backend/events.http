@@ -84,6 +84,11 @@ Authorization: Bearer {{bearer_token}}
 GET http://localhost:8080/api/events?city=Київ&page=0&size=5&sort=title,desc
 Authorization: Bearer {{bearer_token}}
 
+
+###
+GET http://localhost:8080/api/events?city=Київ
+Authorization: Bearer {{bearer_token}}
+
 ### ------------------------------
 ### 5c. Пошук за текстом І містом (Випадок 4)
 GET http://localhost:8080/api/events?search=музика&city=Київ
@@ -192,3 +197,15 @@ Authorization: Bearer {{bearer_token}}
 ### 21. Отримати події, які я створив (для 'TestUser')
 GET http://localhost:8080/api/events/my-events
 Authorization: Bearer {{bearer_token}}
+
+### Перевірка метрик Prometheus
+GET http://localhost:8080/actuator/prometheus
+
+### Prometheus (Має бути 200 OK і стіна тексту)
+GET http://localhost:8080/actuator/prometheus
+
+### Liveness (Має бути 200 OK і {"status": "UP"})
+GET http://localhost:8080/actuator/health/liveness
+
+### Readiness (Має бути 200 OK і {"status": "UP"})
+GET http://localhost:8080/actuator/health/readiness

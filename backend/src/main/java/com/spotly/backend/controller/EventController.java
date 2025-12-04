@@ -6,6 +6,7 @@ import com.spotly.backend.dto.RsvpRequestDto;
 import com.spotly.backend.service.EventService;
 import com.spotly.backend.service.RsvpService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,12 @@ import org.springframework.http.HttpStatus;
 import com.spotly.backend.dto.CreateEventDto;
 import com.spotly.backend.dto.UpdateEventDto;
 
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/events")
 @CrossOrigin(origins = "${frontend.url}")
 @AllArgsConstructor
+@Slf4j
 public class EventController {
 
 
@@ -32,6 +32,7 @@ public class EventController {
             @RequestParam(required = false) String city,
             Pageable pageable
     ) {
+        log.info("Отримано запит на пошук подій. Search: '{}', City: '{}'", search, city);
         if (search != null && city != null) {
             return eventService.searchEventsByDescriptionAndCity(search, city, pageable);
         } else if (search != null) {
