@@ -12,6 +12,7 @@ import com.spotly.backend.exception.InvalidDataException;
 import com.spotly.backend.repository.CategoryRepository;
 import com.spotly.backend.repository.EventRepository;
 import com.spotly.backend.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -51,7 +52,7 @@ public class EventService {
         return mapEventToDto(eventFromDb);
     }
 
-    public EventDto createEvent(CreateEventDto createDto) {
+    public EventDto createEvent(@Valid CreateEventDto createDto) {
         log.info("Створення події: Title='{}', City='{}'", createDto.title(), createDto.city());
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User author = userRepository.findByEmail(email)
@@ -76,10 +77,21 @@ public class EventService {
         newEvent.setImageUrl(createDto.imageUrl());
 
         try {
-            newEvent.setStartDateTime(LocalDateTime.parse(createDto.startDateTime()));
-            newEvent.setEndDateTime(LocalDateTime.parse(createDto.endDateTime()));
+            LocalDateTime start = LocalDateTime.parse(createDto.startDateTime());
+            LocalDateTime end = LocalDateTime.parse(createDto.endDateTime());
+
+            if (end.isBefore(start)) {
+                throw new InvalidDataException("End date must be after start date");
+            }
+
+            if (start.isBefore(LocalDateTime.now())) {
+                throw new InvalidDataException("Event cannot start in the past");
+            }
+            newEvent.setStartDateTime(start);
+            newEvent.setEndDateTime(end);
+
         } catch (DateTimeParseException e) {
-            throw new InvalidDataException("Invalid date format. Use ISO format, e.g., '2025-10-26T19:00:00'");
+            throw new InvalidDataException("Invalid date format. Use ISO format (e.g., '2025-10-26T19:00:00')");
         }
 
         Event savedEvent = eventRepository.save(newEvent);

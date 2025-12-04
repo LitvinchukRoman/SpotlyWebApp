@@ -5,6 +5,7 @@ import com.spotly.backend.dto.EventDto;
 import com.spotly.backend.dto.RsvpRequestDto;
 import com.spotly.backend.service.EventService;
 import com.spotly.backend.service.RsvpService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -57,7 +58,7 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EventDto createNewEvent(@RequestBody CreateEventDto createDto) {
+    public EventDto createNewEvent(@RequestBody @Valid CreateEventDto createDto) {
 
         return eventService.createEvent(createDto);
     }
@@ -73,7 +74,7 @@ public class EventController {
     @PutMapping("/{id}")
     public EventDto updateEvent(
             @PathVariable Long id,
-            @RequestBody UpdateEventDto updateDto
+            @Valid @RequestBody UpdateEventDto updateDto
     ) {
         return eventService.updateEvent(id, updateDto);
     }

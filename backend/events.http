@@ -105,12 +105,17 @@ Authorization: Bearer {{bearer_token}}
   "description": "Мій токен працює!",
   "city": "Київ",
   "latitude": 50.4501,
-  "longitude": 30.5234
+  "longitude": 30.5234,
+  "address": "Поштова площа 3",
+  "price": 50.0,
+  "categoryIds": [1,2],
+  "startDateTime": "2025-12-10T12:00:00",
+  "endDateTime": "2025-12-10T14:00:00"
 }
 
 ### ------------------------------
 ### 7. Отримати ОДНУ подію (GET by ID)
-GET http://localhost:8080/api/events/7
+GET http://localhost:8080/api/events/2
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
@@ -125,7 +130,8 @@ Authorization: Bearer {{bearer_token}}
   "description": "Опис теж оновився!",
   "city": "Київ",
   "latitude": 50.4505,
-  "longitude": 30.5235
+  "longitude": 30.5235,
+
 }
 
 ### ------------------------------
