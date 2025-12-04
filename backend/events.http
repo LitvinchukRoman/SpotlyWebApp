@@ -110,7 +110,7 @@ Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------
 ### 7. Отримати ОДНУ подію (GET by ID)
-GET http://localhost:8080/api/events/3
+GET http://localhost:8080/api/events/7
 Authorization: Bearer {{bearer_token}}
 
 ### ------------------------------

@@ -50,12 +50,4 @@ public class LoggingAspect {
             throw e;
         }
     }
-
-    @AfterThrowing(pointcut = "applicationPackagePointcut()", throwing = "e")
-    public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        log.error("Виняток у: {}.{}() з повідомленням: {}",
-                joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(),
-                e.getMessage() != null ? e.getMessage() : "NULL", e);
-    }
 }
