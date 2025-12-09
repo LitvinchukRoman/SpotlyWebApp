@@ -180,7 +180,7 @@ class EventServiceTest {
                 0.0,
                 "2025-01-01T10:00:00",
                 "2025-01-01T12:00:00",
-                100,
+                "100",
                 "http://example.com/image.jpg"
         );
 
